@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="160" viewBox="0 0 820 160">
+  <defs>
+    <style>
+      .brand-gold{fill:#b9995f}
+      .brand-blue{fill:#0f172a}
+      .tagline{fill:#475569; font-family: Inter, system-ui, -apple-system, sans-serif; font-size:14px}
+      .word-open{font-family: Inter, system-ui, -apple-system, sans-serif; font-weight:700; font-size:36px}
+      .word-ways{font-family: Inter, system-ui, -apple-system, sans-serif; font-weight:800; font-size:48px; letter-spacing:0.02em}
+    </style>
+  </defs>
+
+  <!-- symbol -->
+  <g transform="translate(12,8)">
+    <path d="M40 104 C40 58 92 20 150 20" stroke="#b9995f" stroke-width="14" stroke-linecap="round" fill="none" />
+    <path d="M26 104 C26 66 78 34 136 34" stroke="#b9995f" stroke-width="10" stroke-linecap="round" fill="none" />
+    <path d="M40 104 C40 74 92 46 140 46" stroke="#ffffff" stroke-width="10" stroke-linecap="round" fill="none" />
+    <rect x="180" y="8" width="2" height="120" fill="#e6e6e6" opacity="0.9" />
+  </g>
+
+  <!-- text -->
+  <g transform="translate(210,18)">
+    <text class="word-open brand-gold">OPEN</text>
+    <text x="0" y="52" class="word-ways brand-blue">WAYS</text>
+    <text x="0" y="92" class="tagline">ייעוץ עסקי | ייעוץ משכנתאות | גיוס אשראי עסקי</text>
+  </g>
+</svg>
