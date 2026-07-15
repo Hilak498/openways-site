@@ -1,50 +1,24 @@
-import { MetadataRoute } from "next";
+import type { MetadataRoute } from "next";
+import { services, site } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://openways.co.il";
+  const now = new Date();
 
   return [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/services/business-advisory`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
+    { url: site.url, lastModified: now, changeFrequency: "monthly", priority: 1 },
+    ...services.map((s) => ({
+      url: `${site.url}/services/${s.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
       priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/services/mortgage-advisory`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/services/business-credit`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/privacy-policy`,
-      lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/cookies`,
-      lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/terms`,
-      lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.5,
-    },
+    })),
+    ...["/privacy-policy", "/terms", "/cookies", "/accessibility-statement"].map(
+      (path) => ({
+        url: `${site.url}${path}`,
+        lastModified: now,
+        changeFrequency: "yearly" as const,
+        priority: 0.4,
+      }),
+    ),
   ];
 }

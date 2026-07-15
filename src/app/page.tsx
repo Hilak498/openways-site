@@ -1,188 +1,206 @@
 import Link from "next/link";
-import { AnimatedSection } from "@/components/animated-section";
-import { AnimatedItem } from "@/components/animated-item";
-import Image from "next/image";
-import { ParallaxImage } from "@/components/parallax-image";
-import { SiteLogo } from "@/components/site-logo";
+import { Hero } from "@/components/hero";
+import { Reveal } from "@/components/reveal";
+import { SectionHeading } from "@/components/section-heading";
+import { ServiceIcon } from "@/components/service-icon";
 import { ContactForm } from "@/components/contact-form";
-import { ServiceCard } from "@/components/service-card";
+import { JsonLd } from "@/components/json-ld";
+import { organizationSchema } from "@/lib/schema";
+import { services, site, testimonials, whyUs } from "@/lib/site";
 
-const services = [
-  {
-    title: "ייעוץ עסקי",
-    description:
-      "אסטרטגיה, תכנון צמיחה, שיפור התנהלות, בניית תהליכים וייעוץ תפעולי שמסייע לעסקים לפעול בצורה חכמה יותר.",
-    image: "/images/service-1.svg",
-    bullets: ["ניתוח צרכים עסקיים", "תכנון צמיחה", "הנגשת פתרונות מעשיים"],
-  },
-  {
-    title: "ייעוץ משכנתאות ליועצי משכנתאות",
-    description:
-      "תמיכה מקצועית ליועצי משכנתאות, שילוב של שוק, לוגיסטיקה, תהליכים וכולים שמחזקים את הייעוץ המסחרי והטכני.",
-    image: "/images/service-2.svg",
-    bullets: ["הכוונה מקצועית", "שיפור תהליכי עבודה", "הבנה מעמיקה של השוק"],
-  },
-  {
-    title: "גיוס אשראי עסקי",
-    description:
-      "הכוונה למתן מענה פיננסי לעסקים, עם גישה ממוקדת למציאת מסלולי מימון, תיאום ציפיות ויצירת תשתית החלטה נכונה.",
-    image: "/images/service-3.svg",
-    bullets: ["זיהוי צרכים פיננסיים", "הצעת מסלולי מימון", "תיאום והכוונה"],
-  },
-];
-
-const steps = [
-  "הבנה מעמיקה של המצב העסקי והיעדים",
-  "בניית תוכנית פעולה מותאמת",
-  "הטמעת פתרונות והנגשת כלים מעשיים",
-  "מעקב, התאמות ושיפור מתמשך",
-];
-
-export default function Home() {
+export default function HomePage() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-white to-slate-50">
-      <header className="border-b border-transparent bg-white/60 backdrop-blur-sm">
-        <div className="container mx-auto flex items-center justify-between py-5">
-          <SiteLogo />
-          <nav className="hidden items-center gap-8 text-sm font-medium text-slate-700 md:flex">
-            <a href="#services" className="transition hover:text-slate-900">השירותים</a>
-            <a href="#about" className="transition hover:text-slate-900">מי אנחנו</a>
-            <a href="#contact" className="btn-outline">צור קשר</a>
-          </nav>
-        </div>
-      </header>
+    <>
+      <JsonLd data={organizationSchema()} />
 
-      <section id="top" className="container mx-auto py-16">
-        <div className="hero-primary container mx-auto rounded-xl p-8 lg:p-12 grid lg:grid-cols-12 gap-8 items-center">
-          <div className="lg:col-span-7">
-            <AnimatedSection stagger delay={0} forceMotion>
-              <AnimatedItem>
-                <p className="inline-flex items-center gap-3 rounded-full bg-amber-50/10 px-4 py-1 text-sm font-medium text-amber-300 w-fit">ייעוץ מקצועי, שקוף ופרקטי</p>
-              </AnimatedItem>
+      <Hero />
 
-              <AnimatedItem>
-                <h1 className="mt-6 text-4xl leading-tight sm:text-5xl lg:text-6xl font-extrabold">Open Ways – החלטות פיננסיות מושכלות לעסקים ולמנחים במשכנתאות</h1>
-              </AnimatedItem>
+      {/* Services overview */}
+      <section id="services" className="scroll-mt-24 bg-sand-50 py-24">
+        <div className="container-site">
+          <SectionHeading
+            eyebrow="השירותים שלנו"
+            title="שלוש דרכים, יעד אחד: הצלחה פיננסית"
+            description="כל שירות עומד בפני עצמו — וביחד הם מכסים את כל הצמתים הפיננסיים של העסק ושל המשפחה."
+          />
 
-              <AnimatedItem>
-                <p className="mt-6 max-w-2xl text-lg leading-8">אנחנו מאחדים שלוש זרועות מומחיות כדי לספק לכם מסלולים ברורים, מנותחים ומותאמים לשוק הישראלי.</p>
-              </AnimatedItem>
-
-              <AnimatedItem>
-                <div className="mt-8 flex gap-4">
-                  <a href="#contact" className="btn-cta">לקביעת פגישה</a>
-                  <a href="#services" className="btn-outline">להכיר את השירותים</a>
-                </div>
-              </AnimatedItem>
-            </AnimatedSection>
-          </div>
-
-          <div className="lg:col-span-5 hero-illustration">
-            <AnimatedSection variant="revealLeft" delay={0.06} className="flex flex-col gap-6" forceMotion>
-              <AnimatedItem>
-                  <ParallaxImage src="/logo-light.svg" alt="Open Ways" className="mx-auto max-w-[360px]" intensity={6} />
-                </AnimatedItem>
-
-                <AnimatedItem>
-                  <div className="card p-8">
-                  <h3 className="text-lg font-semibold">מה מקבלים בבדיקה ראשונית</h3>
-                  <ul className="mt-4 space-y-3 text-sm text-slate-700">
-                    <li>• מפגש אבחון מקצועי</li>
-                    <li>• מפת דרכים לפעולה</li>
-                    <li>• הערכת שוק ומענה פיננסי ממוקד</li>
-                  </ul>
-                    <a href="#contact" className="mt-6 inline-block btn-primary">פנייה ראשונית</a>
-                </div>
-              </AnimatedItem>
-            </AnimatedSection>
+          <div className="mt-14 grid gap-6 lg:grid-cols-3">
+            {services.map((service, i) => (
+              <Reveal key={service.slug} delay={i * 0.1} className="h-full">
+                <article className="card group flex h-full flex-col p-8 transition duration-300 hover:-translate-y-1.5 hover:shadow-soft">
+                  <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gold-500/15 text-gold-700 transition group-hover:bg-gold-500/25">
+                    <ServiceIcon icon={service.icon} />
+                  </span>
+                  <h3 className="mt-6 text-xl font-bold text-navy-800">
+                    {service.name}
+                  </h3>
+                  <p className="mt-1 text-sm font-semibold text-gold-700">
+                    {service.tagline}
+                  </p>
+                  <p className="mt-4 flex-1 leading-7 text-navy-600">
+                    {service.summary}
+                  </p>
+                  <Link
+                    href={`/services/${service.slug}`}
+                    className="mt-6 inline-flex items-center gap-2 font-bold text-navy-800 transition group-hover:text-gold-700"
+                    aria-label={`למידע נוסף על ${service.name}`}
+                  >
+                    למידע נוסף
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                      className="-scale-x-100 transition-transform group-hover:-translate-x-1"
+                    >
+                      <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </Link>
+                </article>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
 
-        {/* Hero illustration below the fold for visual interest */}
-        <section className="container mx-auto -mt-8 mb-12">
-          <div className="container mx-auto">
-            <AnimatedSection stagger className="flex justify-center" forceMotion>
-              <AnimatedItem>
-                <div className="w-full max-w-[900px] mx-auto">
-                  <Image
-                    src="/images/hero-optimized.svg"
-                    alt="Hero illustration"
-                    width={1200}
-                    height={320}
-                    className="w-full h-auto mx-auto rounded-lg shadow-lg"
-                    placeholder="blur"
-                    blurDataURL={require("@/lib/blurData").heroBlurDataURL}
-                    priority
-                  />
-                </div>
-              </AnimatedItem>
-            </AnimatedSection>
-          </div>
-        </section>
-
-      <section id="services" className="container mx-auto py-12">
-        <div className="mb-8 flex items-end justify-between">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-amber-700">השירותים שלנו</p>
-            <h2 className="mt-2 text-3xl font-semibold text-slate-900">פתרונות מקצועיים לכל שלב</h2>
-          </div>
-          <p className="max-w-2xl text-sm leading-7 text-slate-600">כל שירות נבנה מתוך הבנה של הצורך העסקי האמיתי, עם גישה מעשית ופרקטית.</p>
-        </div>
-
-        <AnimatedSection stagger className="grid gap-6 lg:grid-cols-3" forceMotion>
-          {services.map((service) => (
-            <ServiceCard
-              key={service.title}
-              title={service.title}
-              description={service.description}
-              bullets={service.bullets}
-              image={service.image}
-              href={service.title === "ייעוץ עסקי" ? "/services/business-advisory" : service.title === "ייעוץ משכנתאות ליועצי משכנתאות" ? "/services/mortgage-advisory" : "/services/business-credit"}
-            />
-          ))}
-        </AnimatedSection>
-      </section>
-
-      <section id="about" className="container mx-auto py-12">
-        <AnimatedSection stagger className="grid gap-8 lg:grid-cols-2" forceMotion>
-          <AnimatedItem>
-            <h2 className="text-3xl font-semibold text-slate-900">מבט רחב, מענה מדויק</h2>
-            <p className="mt-4 text-sm leading-7 text-slate-600">Open Ways נותנת מענה מקצועי שמחבר בין ההיבטים העסקיים, הפיננסיים והפרקטיים – בצורה שקופה וממוקדת תוצאה.</p>
-          </AnimatedItem>
-
-          <AnimatedItem>
-            <div className="rounded-2xl bg-amber-50 p-6">
-              <h3 className="font-semibold">גישה מותאמת אישית</h3>
-              <p className="mt-2 text-sm text-slate-700">אנחנו מבצעים אבחון מעמיק ומציעים פתרונות הניתנים ליישום בזמן אמת.</p>
+      {/* Why us */}
+      <section id="why-us" className="on-dark scroll-mt-24 bg-navy-900 py-24 text-white">
+        <div className="container-site">
+          <div className="grid items-start gap-14 lg:grid-cols-2">
+            <div className="lg:sticky lg:top-28">
+              <SectionHeading
+                align="start"
+                onDark
+                eyebrow="למה Open Ways"
+                title="שותף אחד לכל ההחלטות הפיננסיות"
+                description="אנחנו לא עוד יועצים. אנחנו שותפים לדרך — עם מתודולוגיה סדורה, מחויבות לתוצאה ואפס אותיות קטנות."
+              />
+              <Reveal delay={0.15}>
+                <Link href="/#contact" className="btn-primary mt-9">
+                  בואו נדבר
+                </Link>
+              </Reveal>
             </div>
-          </AnimatedItem>
-        </AnimatedSection>
-      </section>
 
-      <section id="contact" className="container mx-auto py-16">
-        <AnimatedSection stagger className="grid gap-8 lg:grid-cols-2" forceMotion>
-          <AnimatedItem>
-            <h2 className="text-3xl font-semibold text-slate-900">נשמח להכיר אתכם ולעזור לבחור את הדרך הנכונה</h2>
-            <p className="mt-4 text-sm leading-7 text-slate-600">מוזמנים לפנות אלינו לשיחה ראשונית ללא התחייבות.</p>
-          </AnimatedItem>
-
-          <AnimatedItem>
-            <div className="max-w-md"><ContactForm /></div>
-          </AnimatedItem>
-        </AnimatedSection>
-      </section>
-
-      <footer className="border-t border-slate-100 bg-white">
-        <div className="container mx-auto flex flex-col gap-4 py-8 text-sm text-slate-600 lg:flex-row lg:items-center lg:justify-between">
-          <p>© 2026 Open Ways. כל הזכויות שמורות.</p>
-          <div className="flex flex-wrap gap-4">
-            <Link href="/privacy-policy" className="transition hover:text-slate-900">מדיניות פרטיות</Link>
-            <Link href="/cookies" className="transition hover:text-slate-900">מדיניות עוגיות</Link>
-            <Link href="/terms" className="transition hover:text-slate-900">תנאים והגבלות</Link>
+            <ul className="grid gap-5 sm:grid-cols-2">
+              {whyUs.map((item, i) => (
+                <Reveal key={item.title} as="li" delay={i * 0.08}>
+                  <div className="glass-dark h-full p-6">
+                    <span
+                      className="text-2xl font-extrabold text-gold-400"
+                      aria-hidden="true"
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <h3 className="mt-3 text-lg font-bold">{item.title}</h3>
+                    <p className="mt-2 text-sm leading-7 text-white/70">
+                      {item.description}
+                    </p>
+                  </div>
+                </Reveal>
+              ))}
+            </ul>
           </div>
         </div>
-      </footer>
-    </main>
+      </section>
+
+      {/* Testimonials */}
+      <section id="testimonials" className="scroll-mt-24 py-24">
+        <div className="container-site">
+          <SectionHeading
+            eyebrow="לקוחות מספרים"
+            title="התוצאות מדברות בעד עצמן"
+          />
+          <div className="mt-14 grid gap-6 lg:grid-cols-3">
+            {testimonials.map((t, i) => (
+              <Reveal key={t.name} delay={i * 0.1} className="h-full">
+                <figure className="card flex h-full flex-col p-8">
+                  <svg
+                    width="32"
+                    height="24"
+                    viewBox="0 0 32 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                    className="text-gold-400"
+                  >
+                    <path d="M0 24V14.4C0 6.5 4.8 1.2 12.8 0l1.6 3.8c-4.3 1.3-6.6 3.7-6.9 7h6.1V24H0Zm18.4 0V14.4c0-7.9 4.8-13.2 12.8-14.4l1.6 3.8c-4.3 1.3-6.6 3.7-6.9 7H32V24H18.4Z" />
+                  </svg>
+                  <blockquote className="mt-5 flex-1 leading-8 text-navy-700">
+                    {t.quote}
+                  </blockquote>
+                  <figcaption className="mt-6 border-t border-navy-800/10 pt-4">
+                    <span className="block font-bold text-navy-800">{t.name}</span>
+                    <span className="text-sm text-navy-600">{t.role}</span>
+                  </figcaption>
+                </figure>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" className="scroll-mt-24 bg-sand-50 py-24">
+        <div className="container-site">
+          <div className="grid gap-12 lg:grid-cols-5">
+            <div className="lg:col-span-2">
+              <SectionHeading
+                align="start"
+                eyebrow="יצירת קשר"
+                title="נתחיל בשיחה אחת טובה"
+                description="השאירו פרטים ונחזור אליכם בתוך יום עסקים לשיחת היכרות ראשונית — ללא עלות וללא התחייבות."
+              />
+              <Reveal delay={0.1}>
+                <ul className="mt-8 space-y-4 text-navy-700">
+                  <li className="flex items-center gap-3">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold-500/15 text-gold-700">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.13.96.36 1.9.7 2.8a2 2 0 0 1-.45 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.27a2 2 0 0 1 2.1-.45c.9.34 1.84.57 2.8.7a2 2 0 0 1 1.7 2Z" />
+                      </svg>
+                    </span>
+                    <a href={`tel:${site.phone}`} className="font-semibold hover:text-gold-700" dir="ltr">
+                      {site.phoneDisplay}
+                    </a>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold-500/15 text-gold-700">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <rect x="2" y="4" width="20" height="16" rx="2" />
+                        <path d="m22 7-10 6L2 7" />
+                      </svg>
+                    </span>
+                    <a href={`mailto:${site.email}`} className="font-semibold hover:text-gold-700" dir="ltr">
+                      {site.email}
+                    </a>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold-500/15 text-gold-700">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z" />
+                        <circle cx="12" cy="10" r="3" />
+                      </svg>
+                    </span>
+                    <span>
+                      {site.address.street}, {site.address.city}
+                    </span>
+                  </li>
+                </ul>
+              </Reveal>
+            </div>
+
+            <Reveal delay={0.15} className="lg:col-span-3">
+              <div className="card p-8 sm:p-10">
+                <ContactForm />
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

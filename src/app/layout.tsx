@@ -1,54 +1,75 @@
-import type { Metadata } from "next";
-import { Assistant, Inter } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Heebo } from "next/font/google";
+import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
+import { CookieConsent } from "@/components/cookie-consent";
+import { AccessibilityWidget } from "@/components/accessibility-widget";
 import { Analytics } from "@/components/analytics";
-import { CookieBanner } from "@/components/cookie-banner";
+import { site } from "@/lib/site";
 import "./globals.css";
 
-const assistant = Assistant({
-  variable: "--font-assistant",
+const heebo = Heebo({
+  variable: "--font-heebo",
   subsets: ["hebrew", "latin"],
-  weight: ["400", "600", "700"],
-  display: "swap",
-});
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
+  weight: ["300", "400", "500", "600", "700", "800"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Open Ways | ייעוץ עסקי, משכנתאות ואשראי עסקי",
-  description:
-    "Open Ways מספקת ייעוץ עסקי, ייעוץ משכנתאות ליועצי משכנתאות וגיוס אשראי עסקי – בצורה מקצועית, שקופה ויעילה.",
-  metadataBase: new URL("https://openways.co.il"),
-  alternates: {
-    canonical: "/",
+  metadataBase: new URL(site.url),
+  title: {
+    default: `${site.name} | ייעוץ עסקי, גיוס אשראי עסקי וייעוץ משכנתאות`,
+    template: `%s | ${site.name}`,
   },
+  description: site.description,
+  keywords: [
+    "ייעוץ עסקי",
+    "גיוס אשראי עסקי",
+    "ייעוץ משכנתאות",
+    "מימון לעסקים",
+    "מחזור משכנתא",
+  ],
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "Open Ways",
-    description: "ייעוץ עסקי, משכנתאות ואשראי עסקי",
     type: "website",
+    locale: "he_IL",
+    siteName: site.name,
+    title: `${site.name} | ייעוץ עסקי, גיוס אשראי עסקי וייעוץ משכנתאות`,
+    description: site.description,
+    url: site.url,
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: site.name }],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: site.name,
+    description: site.description,
+  },
+  robots: { index: true, follow: true },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0b1220",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="he"
-      dir="rtl"
-      className={`${assistant.variable} ${inter.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">
-        <a href="#main" className="skip-link sr-only focus:not-sr-only">דלג לתוכן</a>
-        {children}
+    <html lang="he" dir="rtl" className={`${heebo.variable} font-sans`}>
+      <body className="flex min-h-svh flex-col">
+        <a href="#main" className="skip-link">
+          דילוג לתוכן המרכזי
+        </a>
+        <Navbar />
+        <main id="main" className="flex-1">
+          {children}
+        </main>
+        <Footer />
+        <AccessibilityWidget />
+        <CookieConsent />
         <Analytics />
-        <CookieBanner />
       </body>
     </html>
   );

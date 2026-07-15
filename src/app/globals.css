@@ -1,144 +1,164 @@
 @import "tailwindcss";
 
-:root {
-  --brand-primary: #0f172a; /* dark navy */
-  --accent: #b9995f; /* gold */
-  --accent-600: #a9834a;
-  --surface: #ffffff; /* white */
-  --muted: #475569; /* slate-ish for body copy */
-  --glass: rgba(255,255,255,0.06);
-  --bg: linear-gradient(180deg, #ffffff 0%, #f8fafc 60%);
-  --card-shadow: 0 8px 30px rgba(15,23,42,0.08);
-  --text-on-surface: var(--brand-primary);
-  /* Typographic scale */
-  --type-h1: clamp(2.25rem, 1.6rem + 3.2vw, 3.5rem); /* ~36-56px */
-  --type-h2: clamp(1.5rem, 1.2rem + 2.2vw, 2.25rem); /* ~24-36px */
-  --type-h3: clamp(1.125rem, 1rem + 1.2vw, 1.5rem); /* ~18-24px */
-  --type-lead: clamp(1.125rem, 1rem + 0.8vw, 1.25rem); /* lead paragraph */
-  --type-base: 1rem; /* 16px */
-  --type-sm: 0.875rem;
-  --lh-heading: 1.06;
-  --lh-tight: 1.08;
-  --lh-body: 1.55;
+@theme {
+  /* Palette derived from the Open Ways logo: brand gold + deep navy */
+  --color-navy-950: #080e1c;
+  --color-navy-900: #0b1220;
+  --color-navy-800: #0f172a;
+  --color-navy-700: #1e293b;
+  --color-navy-600: #334155;
+
+  --color-gold-300: #d9c294;
+  --color-gold-400: #c9ab72;
+  --color-gold-500: #b9995f;
+  --color-gold-600: #a9834a;
+  --color-gold-700: #8a6a39;
+  --color-gold-800: #6f5530;
+
+  --color-sand-50: #faf8f4;
+  --color-sand-100: #f4efe6;
+
+  --font-sans: var(--font-heebo), system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+
+  --shadow-soft: 0 10px 40px -12px rgb(15 23 42 / 0.12);
+  --shadow-card: 0 4px 24px -6px rgb(15 23 42 / 0.08);
+
+  --animate-slow-spin: slow-spin 40s linear infinite;
 }
 
 @layer base {
-  html, body, #root {
-    height: 100%;
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
   }
+
   body {
-    margin: 0;
-    font-family: var(--font-assistant), var(--font-inter), system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background: var(--bg);
-    color: var(--text-on-surface);
+    @apply bg-white text-navy-800 antialiased;
+    font-feature-settings: "kern";
   }
 
-  h1 { font-weight: 800; letter-spacing: -0.02em; }
-  h2 { font-weight: 700 }
-  /* Headings and textual elements */
-  h1,h2,h3,h4,h5 { color: var(--brand-primary); margin: 0 0 0.6rem 0 }
-
-  h1 {
-    font-family: var(--font-assistant), var(--font-inter);
-    font-size: var(--type-h1);
-    line-height: var(--lh-heading);
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    margin-top: 0;
+  ::selection {
+    background: var(--color-gold-500);
+    color: var(--color-navy-900);
   }
 
-  h2 {
-    font-family: var(--font-assistant), var(--font-inter);
-    font-size: var(--type-h2);
-    line-height: var(--lh-heading);
-    font-weight: 700;
-    margin-top: 0;
+  /* WCAG 2.0 AA — visible focus everywhere, keyboard-friendly */
+  :focus-visible {
+    outline: 3px solid var(--color-gold-600);
+    outline-offset: 3px;
+    border-radius: 4px;
   }
 
-  h3 {
-    font-family: var(--font-assistant), var(--font-inter);
-    font-size: var(--type-h3);
-    line-height: 1.18;
-    font-weight: 600;
-  }
-
-  p { color: var(--muted); line-height: var(--lh-body); margin: 0 0 1rem 0 }
-
-  .lead {
-    font-size: var(--type-lead);
-    font-weight: 600;
-    color: #0f172a;
-    line-height: 1.4;
-    margin-bottom: 1rem;
-  }
-
-  .subtitle {
-    font-size: calc(var(--type-h3) - 0.06rem);
-    color: var(--muted);
-    font-weight: 600;
-    margin-bottom: 0.5rem;
+  .on-dark :focus-visible {
+    outline-color: var(--color-gold-300);
   }
 }
 
-/* Container helper */
-.container { max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 1.25rem; padding-right: 1.25rem }
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
 
-/* Elevated card */
-  .card { border-radius: 1.25rem; background: var(--surface); box-shadow: var(--card-shadow); border: 1px solid rgba(15,23,42,0.04) }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-gold-500 px-7 py-3 text-base font-semibold text-navy-900 shadow-soft transition hover:bg-gold-400 focus-visible:outline-gold-700 active:scale-[0.98];
+  }
 
-/* Accent button */
-.btn-primary { background: linear-gradient(90deg,var(--accent),var(--accent-600)); color: white; padding: 0.75rem 1.25rem; border-radius: 9999px; font-weight: 600 }
-.btn-outline { border: 1px solid rgba(15,23,42,0.06); padding: 0.7rem 1.15rem; border-radius: 9999px }
+  .btn-dark {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-navy-800 px-7 py-3 text-base font-semibold text-white shadow-soft transition hover:bg-navy-700 active:scale-[0.98];
+  }
 
-/* Micro-interactions: subtle hover lifts and focus */
-.card { transition: transform 220ms cubic-bezier(.2,.9,.3,1), box-shadow 220ms ease, border-color 220ms ease; cursor: default }
-.card:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 18px 40px rgba(15,23,42,0.12); border-color: rgba(15,23,42,0.06) }
+  .btn-ghost-dark {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/25 px-7 py-3 text-base font-semibold text-white backdrop-blur-sm transition hover:border-gold-400 hover:text-gold-300 active:scale-[0.98];
+  }
 
-.btn-primary { transition: transform 160ms cubic-bezier(.2,.9,.3,1), box-shadow 160ms ease; cursor: pointer }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(185,153,95,0.16) }
-.btn-primary:active { transform: translateY(0) scale(0.996) }
+  .card {
+    @apply rounded-2xl border border-navy-800/5 bg-white shadow-card;
+  }
 
-.btn-outline { transition: background-color 160ms ease, transform 160ms cubic-bezier(.2,.9,.3,1); cursor: pointer }
-.btn-outline:hover { background-color: rgba(15,23,42,0.02); transform: translateY(-1px) }
+  .glass-dark {
+    @apply rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md;
+  }
 
-/* CTA variants */
-.btn-cta { background: var(--brand-primary); color: var(--accent); padding: 0.85rem 1.4rem; border-radius: 9999px; font-weight: 700; box-shadow: 0 8px 20px rgba(15,23,42,0.12); border: none }
-.btn-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(15,23,42,0.18) }
+  .eyebrow {
+    @apply text-sm font-semibold tracking-widest text-gold-700;
+  }
 
-/* Hero styles for brand-first presentation */
-.hero-primary { background: linear-gradient(180deg, var(--brand-primary) 0%, #0b1420 100%); color: var(--surface); padding: 3.5rem 1.25rem; border-radius: 1rem }
-.hero-primary .lead { color: rgba(255,255,255,0.92) }
-.hero-primary h1 { color: var(--surface); letter-spacing: -0.01em }
-.hero-primary p { color: rgba(255,255,255,0.85) }
-.hero-illustration { display:flex; align-items:center; justify-content:center }
+  .prose-legal {
+    @apply text-base leading-8 text-navy-700;
+  }
+  .prose-legal h2 {
+    @apply mt-10 mb-3 text-2xl font-bold text-navy-800;
+  }
+  .prose-legal h3 {
+    @apply mt-6 mb-2 text-lg font-bold text-navy-800;
+  }
+  .prose-legal p {
+    @apply mb-4;
+  }
+  .prose-legal ul {
+    @apply mb-4 list-disc pr-6 space-y-1;
+  }
+  .prose-legal a {
+    @apply font-semibold text-gold-700 underline underline-offset-4 hover:text-gold-600;
+  }
 
-/* Service card variant for brand look */
-.service-card { border-radius: 1rem; background: linear-gradient(180deg, #ffffff 0%, #fcfcfd 100%); padding: 1.25rem; border: 1px solid rgba(15,23,42,0.04) }
-.service-card .title { color: var(--brand-primary); font-weight:700 }
-.service-card .desc { color: var(--muted) }
-.service-card .icon-wrap { width:48px; height:48px; display:flex; align-items:center; justify-content:center; border-radius:10px; background: linear-gradient(180deg, rgba(185,153,95,0.08), rgba(185,153,95,0.04)) }
+  .skip-link {
+    @apply fixed top-3 right-3 z-[100] -translate-y-24 rounded-lg bg-navy-800 px-4 py-2 font-semibold text-white transition focus:translate-y-0;
+  }
+}
 
-/* Parallax helper */
-.parallax-root { display: block; touch-action: none }
-.parallax-root .will-change-transform { will-change: transform }
+@keyframes slow-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 
-/* Utility for subtle watermark background using logo */
-.hero-watermark { background-image: url('/logo.svg'); background-repeat: no-repeat; background-position: right top; background-size: 420px; opacity: 0.08 }
+/* ---------------------------------------------------------------------------
+   Accessibility widget modes (toggled on <html> by <AccessibilityWidget/>)
+--------------------------------------------------------------------------- */
+html.a11y-large-text {
+  font-size: 118%;
+}
 
-/* Accessibility focus */
-:focus { outline: 3px solid rgba(185, 153, 95, 0.14); outline-offset: 2px }
+html.a11y-larger-text {
+  font-size: 136%;
+}
 
-/* Focus visible improvements */
-*:focus-visible { outline: 3px solid rgba(185,153,95,0.18); outline-offset: 3px }
+html.a11y-underline-links a {
+  text-decoration: underline !important;
+  text-underline-offset: 3px;
+}
 
-/* Skip link */
-.skip-link { position: absolute; left: 1rem; top: 0.75rem; background: var(--brand-primary); color: var(--surface); padding: 0.5rem 0.75rem; border-radius: 6px; z-index: 60 }
-.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0 }
-.skip-link.focus\:not-sr-only, .skip-link:focus { position: fixed }
+html.a11y-high-contrast {
+  filter: contrast(1.25);
+}
 
-/* Respect reduced motion preference */
+html.a11y-grayscale {
+  filter: grayscale(1);
+}
+
+html.a11y-reduce-motion *,
+html.a11y-reduce-motion *::before,
+html.a11y-reduce-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Respect OS-level reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  * { scroll-behavior: auto !important }
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
