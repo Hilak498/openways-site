@@ -9,7 +9,7 @@ export function organizationSchema() {
     name: site.name,
     legalName: site.legalName,
     url: site.url,
-    logo: `${site.url}/logo.svg`,
+    logo: `${site.url}/logo-light-bg.png`,
     image: `${site.url}/og.png`,
     description: site.description,
     telephone: site.phone,

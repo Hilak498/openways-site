@@ -1,84 +1,66 @@
+import Image from "next/image";
 import Link from "next/link";
 
-/** The logo's path symbol (three "open ways" arcs) as a crisp inline SVG. */
+/**
+ * Brand assets extracted from the official Logo.ai:
+ * - /logo-light-bg.png  — navy+gold lockup for light backgrounds
+ * - /logo-dark-bg.png   — white+gold lockup for dark backgrounds
+ * - /logo-mark-*.png    — standalone mark
+ * Source vector lives in brand-assets/Logo.ai.
+ */
+
+const LOCKUP = { width: 1066, height: 302 };
+const MARK = { width: 257, height: 302 };
+
 export function LogoMark({
-  className = "h-9 w-auto",
-  title,
+  variant = "dark-text",
+  className = "h-10 w-auto",
 }: {
+  variant?: "dark-text" | "light-text";
   className?: string;
-  title?: string;
 }) {
   return (
-    <svg
-      viewBox="0 0 170 128"
+    <Image
+      src={variant === "light-text" ? "/logo-mark-dark-bg.png" : "/logo-mark-light-bg.png"}
+      alt="הסמל של Open Ways Group"
+      width={MARK.width}
+      height={MARK.height}
       className={className}
-      role={title ? "img" : "presentation"}
-      aria-hidden={title ? undefined : true}
-      focusable="false"
-    >
-      {title ? <title>{title}</title> : null}
-      <path
-        d="M40 104 C40 58 92 20 150 20"
-        stroke="#b9995f"
-        strokeWidth="14"
-        strokeLinecap="round"
-        fill="none"
-      />
-      <path
-        d="M26 104 C26 66 78 34 136 34"
-        stroke="#a9834a"
-        strokeWidth="10"
-        strokeLinecap="round"
-        fill="none"
-      />
-      <path
-        d="M40 104 C40 74 92 46 140 46"
-        stroke="currentColor"
-        strokeWidth="10"
-        strokeLinecap="round"
-        fill="none"
-      />
-    </svg>
+    />
   );
 }
 
-/**
- * Full logo lockup: mark + wordmark. `variant` switches between usage on
- * light backgrounds (navbar) and dark backgrounds (hero, footer).
- */
+/** Full lockup. `variant` matches the background: dark-text → light bg. */
 export function Logo({
   variant = "dark-text",
   withTagline = false,
   className = "",
+  priority = false,
 }: {
   variant?: "dark-text" | "light-text";
   withTagline?: boolean;
   className?: string;
+  priority?: boolean;
 }) {
-  const wordColor = variant === "light-text" ? "text-white" : "text-navy-800";
-  const markColor = variant === "light-text" ? "text-white" : "text-navy-800";
-
   return (
-    <span className={`inline-flex items-center gap-3 ${className}`}>
-      <LogoMark className={`h-9 w-auto shrink-0 ${markColor}`} />
-      <span className="flex flex-col leading-none" dir="ltr">
-        <span className={`text-[0.95rem] font-bold tracking-[0.18em] text-gold-600`}>
-          OPEN
+    <span className={`inline-flex flex-col gap-1.5 ${className}`}>
+      <Image
+        src={variant === "light-text" ? "/logo-dark-bg.png" : "/logo-light-bg.png"}
+        alt="Open Ways Group"
+        width={LOCKUP.width}
+        height={LOCKUP.height}
+        priority={priority}
+        className="h-10 w-auto"
+      />
+      {withTagline ? (
+        <span
+          className={`text-xs font-medium ${
+            variant === "light-text" ? "text-white/70" : "text-navy-600"
+          }`}
+        >
+          ייעוץ עסקי · גיוס אשראי עסקי · ייעוץ משכנתאות
         </span>
-        <span className={`text-[1.35rem] font-extrabold tracking-wide ${wordColor}`}>
-          WAYS
-        </span>
-        {withTagline ? (
-          <span
-            dir="rtl"
-            className={`mt-1.5 text-xs font-medium ${
-              variant === "light-text" ? "text-white/70" : "text-navy-600"
-            }`}
-          >
-            ייעוץ עסקי · אשראי עסקי · משכנתאות
-          </span>
-        ) : null}
-      </span>
+      ) : null}
     </span>
   );
 }
@@ -94,9 +76,9 @@ export function LogoLink({
     <Link
       href="/"
       className={`rounded-lg ${className}`}
-      aria-label="Open Ways – לעמוד הבית"
+      aria-label="Open Ways Group – לעמוד הבית"
     >
-      <Logo variant={variant} />
+      <Logo variant={variant} priority />
     </Link>
   );
 }

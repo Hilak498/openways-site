@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Logo, LogoMark } from "@/components/logo";
+import Image from "next/image";
+import { LogoMark } from "@/components/logo";
 
 /**
  * Animated logo for the hero.
@@ -83,13 +84,19 @@ export function LogoVideo({ className = "" }: { className?: string }) {
     >
       {/* Static logo — always present; the LCP element and reduced-motion fallback */}
       <div
-        className={`flex flex-col items-center gap-4 transition-opacity duration-700 ${
+        className={`flex flex-col items-center gap-6 transition-opacity duration-700 ${
           ready && !failed ? "opacity-0" : "opacity-100"
         }`}
         aria-hidden={ready && !failed}
       >
-        <LogoMark className="h-28 w-auto text-white sm:h-36" title="Open Ways" />
-        <Logo variant="light-text" className="scale-125" />
+        <LogoMark variant="light-text" className="h-32 w-auto sm:h-40" />
+        <Image
+          src="/logo-dark-bg.png"
+          alt=""
+          width={1066}
+          height={302}
+          className="h-10 w-auto sm:h-12"
+        />
       </div>
 
       {shouldLoad && !failed ? (

@@ -46,10 +46,10 @@ export default async function ServicePage({
       <JsonLd data={faqSchema(service)} />
 
       {/* Secondary hero */}
-      <section className="on-dark relative isolate overflow-hidden bg-navy-900 text-white">
+      <section className="on-dark hero-navy relative isolate overflow-hidden text-white">
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-[radial-gradient(900px_420px_at_85%_-10%,rgba(185,153,95,0.16),transparent)]"
+          className="pointer-events-none absolute -top-24 -left-12 h-[400px] w-[400px] rounded-full bg-gold-300/10 blur-[100px]"
         />
         <div className="container-site relative pt-36 pb-20">
           <nav aria-label="פירורי לחם" className="text-sm text-white/60">
@@ -75,20 +75,20 @@ export default async function ServicePage({
           <div className="mt-10 grid items-center gap-10 lg:grid-cols-12">
             <div className="lg:col-span-8">
               <Reveal>
-                <span className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gold-500/15 text-gold-300">
+                <span className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-navy-800 text-gold-300 shadow-sm ring-1 ring-white/10">
                   <ServiceIcon icon={service.icon} className="h-8 w-8" />
                 </span>
-                <h1 className="mt-6 max-w-2xl text-4xl leading-[1.15] font-extrabold sm:text-5xl">
+                <h1 className="mt-6 max-w-2xl text-4xl leading-[1.2] font-bold tracking-tight sm:text-5xl">
                   {service.hero.title}
                 </h1>
-                <p className="mt-6 max-w-2xl text-lg leading-8 text-white/75">
+                <p className="mt-6 max-w-2xl text-lg leading-8 text-white/90">
                   {service.hero.subtitle}
                 </p>
                 <div className="mt-9 flex flex-wrap gap-4">
-                  <Link href="/#contact" className="btn-primary">
+                  <Link href="/#contact" className="btn-primary !px-8 !py-4">
                     לתיאום פגישת ייעוץ
                   </Link>
-                  <a href="#process" className="btn-ghost-dark">
+                  <a href="#process" className="btn-ghost-dark !px-8 !py-4">
                     איך זה עובד?
                   </a>
                 </div>
@@ -119,7 +119,7 @@ export default async function ServicePage({
 
           {/* Who it's for */}
           <Reveal delay={0.15} className="lg:col-span-5">
-            <aside className="card sticky top-28 bg-sand-50 p-8">
+            <aside className="card sticky top-28 bg-sand-100 p-8">
               <h2 className="text-xl font-bold text-navy-800">
                 {service.audience.title}
               </h2>
@@ -146,24 +146,32 @@ export default async function ServicePage({
         </div>
       </section>
 
-      {/* Process */}
-      <section id="process" className="on-dark scroll-mt-24 bg-navy-900 py-24 text-white">
+      {/* Process — numbered circles with a vertical connector, per the design */}
+      <section id="process" className="scroll-mt-24 bg-sand-50 py-24">
         <div className="container-site">
-          <SectionHeading onDark eyebrow="תהליך העבודה" title={service.process.title} />
-          <ol className="mx-auto mt-14 grid max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <SectionHeading eyebrow="תהליך העבודה" title={service.process.title} />
+          <ol className="relative mx-auto mt-14 max-w-2xl space-y-12">
+            <div
+              aria-hidden="true"
+              className="absolute top-4 bottom-4 right-[27px] w-1 rounded-full bg-sand-300"
+            />
             {service.process.steps.map((step, i) => (
-              <Reveal key={step.title} as="li" delay={i * 0.1} className="h-full">
-                <div className="glass-dark relative h-full p-6 pt-8">
+              <Reveal key={step.title} as="li" delay={i * 0.08}>
+                <div className="group relative flex items-start gap-6 pr-20">
                   <span
-                    className="absolute -top-4 right-6 flex h-9 w-9 items-center justify-center rounded-full bg-gold-500 text-sm font-extrabold text-navy-900"
+                    className={`absolute top-0 right-0 z-10 flex h-14 w-14 items-center justify-center rounded-full font-display text-lg font-bold shadow-soft transition-transform group-hover:scale-110 ${
+                      i % 2 === 0
+                        ? "bg-navy-900 text-white"
+                        : "bg-gold-400 text-gold-ink"
+                    }`}
                     aria-hidden="true"
                   >
                     {i + 1}
                   </span>
-                  <h3 className="text-lg font-bold">{step.title}</h3>
-                  <p className="mt-2 text-sm leading-7 text-white/70">
-                    {step.description}
-                  </p>
+                  <div>
+                    <h3 className="text-xl font-bold text-navy-800">{step.title}</h3>
+                    <p className="mt-2 leading-7 text-navy-600">{step.description}</p>
+                  </div>
                 </div>
               </Reveal>
             ))}
@@ -172,7 +180,7 @@ export default async function ServicePage({
       </section>
 
       {/* FAQ */}
-      <section className="bg-sand-50 py-24">
+      <section className="bg-sand-100 py-24">
         <div className="container-site">
           <SectionHeading
             eyebrow="שאלות נפוצות"
@@ -188,20 +196,18 @@ export default async function ServicePage({
       <section className="py-24">
         <div className="container-site">
           <Reveal>
-            <div className="on-dark relative overflow-hidden rounded-3xl bg-navy-900 px-8 py-14 text-center text-white sm:px-14">
+            <div className="on-dark hero-navy relative overflow-hidden rounded-[2.5rem] px-8 py-14 text-center text-white sm:px-14">
               <div
                 aria-hidden="true"
-                className="absolute inset-0 bg-[radial-gradient(600px_300px_at_50%_120%,rgba(185,153,95,0.25),transparent)]"
+                className="pointer-events-none absolute -bottom-24 left-1/2 h-[300px] w-[600px] -translate-x-1/2 rounded-full bg-gold-400/15 blur-[100px]"
               />
               <div className="relative">
-                <h2 className="text-3xl font-extrabold sm:text-4xl">
-                  מוכנים לצעד הראשון?
-                </h2>
-                <p className="mx-auto mt-4 max-w-xl text-lg leading-8 text-white/75">
+                <h2 className="text-3xl font-bold sm:text-4xl">מוכנים לצעד הראשון?</h2>
+                <p className="mx-auto mt-4 max-w-xl text-lg leading-8 text-white/90">
                   פגישת היכרות ראשונית — ללא עלות וללא התחייבות. נבין את הצורך,
                   נציג את הדרך ותחליטו בנחת.
                 </p>
-                <Link href="/#contact" className="btn-primary mt-8">
+                <Link href="/#contact" className="btn-primary mt-8 !px-8 !py-4">
                   לתיאום פגישת ייעוץ
                 </Link>
               </div>

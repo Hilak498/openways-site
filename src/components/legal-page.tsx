@@ -12,7 +12,7 @@ export function LegalPage({
 }) {
   return (
     <>
-      <section className="on-dark bg-navy-900 text-white">
+      <section className="on-dark hero-navy text-white">
         <div className="container-site pt-36 pb-14">
           <h1 className="text-4xl font-extrabold">{title}</h1>
           <p className="mt-3 text-sm text-white/60">עדכון אחרון: {updated}</p>

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Heebo } from "next/font/google";
+import { Heebo, Inter, Montserrat } from "next/font/google";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { CookieConsent } from "@/components/cookie-consent";
@@ -11,7 +11,23 @@ import "./globals.css";
 const heebo = Heebo({
   variable: "--font-heebo",
   subsets: ["hebrew", "latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+});
+
+// Latin display/body faces from the approved design; Hebrew glyphs fall back
+// to Heebo via the CSS font stacks in globals.css.
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
+  subsets: ["latin"],
+  weight: ["600", "700", "800"],
+  display: "swap",
+});
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 
@@ -57,7 +73,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="he" dir="rtl" className={`${heebo.variable} font-sans`}>
+    <html
+      lang="he"
+      dir="rtl"
+      className={`${heebo.variable} ${montserrat.variable} ${inter.variable} font-sans`}
+    >
       <body className="flex min-h-svh flex-col">
         <a href="#main" className="skip-link">
           דילוג לתוכן המרכזי

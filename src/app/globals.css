@@ -1,29 +1,39 @@
 @import "tailwindcss";
 
 @theme {
-  /* Palette derived from the Open Ways logo: brand gold + deep navy */
-  --color-navy-950: #080e1c;
-  --color-navy-900: #0b1220;
-  --color-navy-800: #0f172a;
-  --color-navy-700: #1e293b;
-  --color-navy-600: #334155;
+  /*
+   * Palette from the approved Stitch design:
+   * deep navy #0a192f + gold gradient (#ffe088 → #fed65b), light surfaces.
+   */
+  --color-navy-950: #060f1f;
+  --color-navy-900: #0a192f;
+  --color-navy-800: #0d1c32;
+  --color-navy-700: #152542;
+  --color-navy-600: #44474d;
 
-  --color-gold-300: #d9c294;
-  --color-gold-400: #c9ab72;
-  --color-gold-500: #b9995f;
-  --color-gold-600: #a9834a;
-  --color-gold-700: #8a6a39;
-  --color-gold-800: #6f5530;
+  --color-gold-300: #ffe088;
+  --color-gold-400: #fed65b;
+  --color-gold-500: #e9c349;
+  --color-gold-600: #8f7500;
+  --color-gold-700: #735c00;
+  --color-gold-800: #574500;
 
-  --color-sand-50: #faf8f4;
-  --color-sand-100: #f4efe6;
+  --color-gold-ink: #241a00; /* on-secondary-fixed — text on gold */
 
-  --font-sans: var(--font-heebo), system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --color-sand-50: #fbf9fb; /* surface */
+  --color-sand-100: #f5f3f5; /* surface-container-low */
+  --color-sand-200: #efedef; /* surface-container */
+  --color-sand-300: #e4e2e4; /* surface-container-highest */
 
-  --shadow-soft: 0 10px 40px -12px rgb(15 23 42 / 0.12);
-  --shadow-card: 0 4px 24px -6px rgb(15 23 42 / 0.08);
+  --font-sans: var(--font-inter), var(--font-heebo), system-ui, -apple-system,
+    "Segoe UI", Arial, sans-serif;
+  --font-display: var(--font-montserrat), var(--font-heebo), system-ui,
+    -apple-system, "Segoe UI", Arial, sans-serif;
 
-  --animate-slow-spin: slow-spin 40s linear infinite;
+  --shadow-soft: 0 10px 30px -10px rgb(0 0 0 / 0.1);
+  --shadow-card: 0 8px 32px 0 rgb(10 25 47 / 0.08);
+  --shadow-lift: 0 20px 40px -15px rgb(0 0 0 / 0.15);
+  --shadow-gold: 0 8px 20px -5px rgb(254 214 91 / 0.5);
 }
 
 @layer base {
@@ -33,12 +43,19 @@
   }
 
   body {
-    @apply bg-white text-navy-800 antialiased;
+    @apply bg-sand-50 text-navy-800 antialiased;
     font-feature-settings: "kern";
   }
 
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+  }
+
   ::selection {
-    background: var(--color-gold-500);
+    background: var(--color-gold-400);
     color: var(--color-navy-900);
   }
 
@@ -59,28 +76,48 @@
     @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
   }
 
+  /* Gold gradient CTA (btn-gold in the design) */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full bg-gold-500 px-7 py-3 text-base font-semibold text-navy-900 shadow-soft transition hover:bg-gold-400 focus-visible:outline-gold-700 active:scale-[0.98];
+    background: linear-gradient(135deg, var(--color-gold-300) 0%, var(--color-gold-400) 100%);
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-7 py-3 text-base font-bold text-gold-ink shadow-soft transition duration-300 hover:-translate-y-0.5 hover:shadow-gold focus-visible:outline-gold-700 active:scale-[0.98];
+  }
+  .btn-primary:hover {
+    background: linear-gradient(135deg, var(--color-gold-400) 0%, var(--color-gold-500) 100%);
   }
 
   .btn-dark {
-    @apply inline-flex items-center justify-center gap-2 rounded-full bg-navy-800 px-7 py-3 text-base font-semibold text-white shadow-soft transition hover:bg-navy-700 active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-navy-900 px-7 py-3 text-base font-bold text-white shadow-soft transition hover:bg-navy-700 active:scale-[0.98];
   }
 
   .btn-ghost-dark {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/25 px-7 py-3 text-base font-semibold text-white backdrop-blur-sm transition hover:border-gold-400 hover:text-gold-300 active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border-2 border-white/40 px-7 py-3 text-base font-bold text-white backdrop-blur-sm transition hover:border-white hover:bg-white/10 active:scale-[0.98];
   }
 
+  /* Light glass card (glass-card in the design) */
   .card {
-    @apply rounded-2xl border border-navy-800/5 bg-white shadow-card;
+    @apply rounded-2xl border border-navy-900/5 bg-white shadow-card transition duration-300;
+  }
+  .card-hover:hover {
+    @apply -translate-y-1 shadow-lift;
   }
 
+  /* Glass card over navy (hero-glass-card in the design) */
   .glass-dark {
-    @apply rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md;
+    @apply rounded-2xl border border-white/15 bg-white/[0.08] backdrop-blur-xl;
+  }
+
+  /* Navy hero backdrop with radial glow */
+  .hero-navy {
+    background: radial-gradient(circle at 70% 30%, #152542 0%, #0a192f 100%);
   }
 
   .eyebrow {
     @apply text-sm font-semibold tracking-widest text-gold-700;
+  }
+
+  /* Gold underline bar beneath section headings */
+  .heading-bar {
+    @apply mt-5 h-1 w-20 rounded-full bg-gold-500;
   }
 
   .prose-legal {
@@ -103,16 +140,7 @@
   }
 
   .skip-link {
-    @apply fixed top-3 right-3 z-[100] -translate-y-24 rounded-lg bg-navy-800 px-4 py-2 font-semibold text-white transition focus:translate-y-0;
-  }
-}
-
-@keyframes slow-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+    @apply fixed top-3 right-3 z-[100] -translate-y-24 rounded-lg bg-navy-900 px-4 py-2 font-semibold text-white transition focus:translate-y-0;
   }
 }
 
