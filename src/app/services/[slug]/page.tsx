@@ -1,5 +1,8 @@
+import { existsSync } from "node:fs";
+import path from "node:path";
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
@@ -40,6 +43,13 @@ export default async function ServicePage({
   const service = getService(slug);
   if (!service) notFound();
 
+  // Optional per-service hero photo: public/images/service-<slug>.jpg is
+  // composited under a navy overlay when present (see README).
+  const heroBg = `/images/service-${service.slug}.jpg`;
+  const heroBgExists = existsSync(
+    path.join(process.cwd(), "public", "images", `service-${service.slug}.jpg`),
+  );
+
   return (
     <>
       <JsonLd data={serviceSchema(service)} />
@@ -47,6 +57,20 @@ export default async function ServicePage({
 
       {/* Secondary hero */}
       <section className="on-dark hero-navy relative isolate overflow-hidden text-white">
+        {heroBgExists ? (
+          <>
+            <Image
+              src={heroBg}
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
+              aria-hidden="true"
+            />
+            <div aria-hidden="true" className="absolute inset-0 bg-navy-900/85" />
+          </>
+        ) : null}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -top-24 -left-12 h-[400px] w-[400px] rounded-full bg-gold-300/10 blur-[100px]"

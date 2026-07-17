@@ -1,7 +1,19 @@
+import { existsSync } from "node:fs";
+import path from "node:path";
 import Link from "next/link";
+import Image from "next/image";
 import { Hero3D } from "@/components/hero-3d";
 import { LogoVideo } from "@/components/logo-video";
 import { Reveal } from "@/components/reveal";
+
+/**
+ * Optional photo backdrop (per the approved design): drop a file at
+ * public/images/hero-bg.jpg and it is composited under a navy overlay
+ * automatically at the next build. Without the file, the radial navy
+ * gradient stands alone.
+ */
+const HERO_BG = "/images/hero-bg.jpg";
+const heroBgExists = existsSync(path.join(process.cwd(), "public", "images", "hero-bg.jpg"));
 
 const stats = [
   { value: "‏15+", label: "שנות ניסיון" }, // TODO: נתון אמיתי
@@ -12,6 +24,21 @@ const stats = [
 export function Hero() {
   return (
     <section className="on-dark hero-navy relative isolate overflow-hidden text-white">
+      {heroBgExists ? (
+        <>
+          <Image
+            src={HERO_BG}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+            aria-hidden="true"
+          />
+          {/* Navy overlay keeps the text AA-readable over the photo */}
+          <div aria-hidden="true" className="absolute inset-0 bg-navy-900/85" />
+        </>
+      ) : null}
       {/* Ambient glow blobs */}
       <div
         aria-hidden="true"
