@@ -8,14 +8,14 @@ import { LogoMark } from "@/components/logo";
  * Animated logo for the hero.
  *
  * Layering strategy (keeps LCP fast and degrades gracefully):
- * 1. A static logo lockup renders immediately — this is the LCP element.
+ * 1. A static logo lockup renders immediately - this is the LCP element.
  * 2. The <video> is created only after the section is near the viewport
  *    (IntersectionObserver) and only when the user does NOT prefer reduced
  *    motion. It starts with preload="none" + poster, so only the poster
  *    image is fetched up front.
  * 3. When the video can actually play, it fades in above the static logo.
  *    If the files are missing or the codec is unsupported, the static logo
- *    simply stays — no broken UI.
+ *    simply stays - no broken UI.
  *
  * Sources (see README for the exact ffmpeg commands):
  * - /video/logo-animation.mov   HEVC with alpha (Safari)
@@ -59,7 +59,7 @@ export function LogoVideo({ className = "" }: { className?: string }) {
     video.load();
     const tryPlay = () => {
       video.play().catch(() => {
-        /* Autoplay blocked — poster/static logo remains visible. */
+        /* Autoplay blocked - poster/static logo remains visible. */
       });
     };
     const onCanPlay = () => {
@@ -82,7 +82,7 @@ export function LogoVideo({ className = "" }: { className?: string }) {
       ref={containerRef}
       className={`relative flex items-center justify-center ${className}`}
     >
-      {/* Static logo — always present; the LCP element and reduced-motion fallback */}
+      {/* Static logo - always present; the LCP element and reduced-motion fallback */}
       <div
         className={`flex flex-col items-center gap-6 transition-opacity duration-700 ${
           ready && !failed ? "opacity-0" : "opacity-100"
@@ -115,9 +115,9 @@ export function LogoVideo({ className = "" }: { className?: string }) {
           tabIndex={-1}
           onError={() => setFailed(true)}
         >
-          {/* Safari — HEVC with alpha channel */}
+          {/* Safari - HEVC with alpha channel */}
           <source src="/video/logo-animation.mov" type='video/mp4; codecs="hvc1"' />
-          {/* Chrome / Firefox / Edge — VP9 with alpha channel */}
+          {/* Chrome / Firefox / Edge - VP9 with alpha channel */}
           <source src="/video/logo-animation.webm" type="video/webm" />
         </video>
       ) : null}

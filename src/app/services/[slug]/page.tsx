@@ -170,36 +170,64 @@ export default async function ServicePage({
         </div>
       </section>
 
-      {/* Process — numbered circles with a vertical connector, per the design */}
+      {/* Process - numbered circles with a vertical connector, per the design */}
       <section id="process" className="scroll-mt-24 bg-sand-50 py-24">
         <div className="container-site">
-          <SectionHeading eyebrow="תהליך העבודה" title={service.process.title} />
-          <ol className="relative mx-auto mt-14 max-w-2xl space-y-12">
-            <div
-              aria-hidden="true"
-              className="absolute top-4 bottom-4 right-[27px] w-1 rounded-full bg-sand-300"
-            />
-            {service.process.steps.map((step, i) => (
-              <Reveal key={step.title} as="li" delay={i * 0.08}>
-                <div className="group relative flex items-start gap-6 pr-20">
-                  <span
-                    className={`absolute top-0 right-0 z-10 flex h-14 w-14 items-center justify-center rounded-full font-display text-lg font-bold shadow-soft transition-transform group-hover:scale-110 ${
-                      i % 2 === 0
-                        ? "bg-navy-900 text-white"
-                        : "bg-gold-400 text-gold-ink"
-                    }`}
+          <div className="flex flex-col items-center justify-between gap-16 md:flex-row">
+            {/* Steps */}
+            <div className="w-full md:w-1/2">
+              <SectionHeading align="start" eyebrow="תהליך העבודה" title={service.process.title} />
+              <ol className="relative mt-12 space-y-12">
+                <div
+                  aria-hidden="true"
+                  className="absolute top-4 bottom-4 right-[27px] w-1 rounded-full bg-sand-300"
+                />
+                {service.process.steps.map((step, i) => (
+                  <Reveal key={step.title} as="li" delay={i * 0.08}>
+                    <div className="group relative flex items-start gap-6 pr-20">
+                      <span
+                        className={`absolute top-0 right-0 z-10 flex h-14 w-14 items-center justify-center rounded-full font-display text-lg font-bold shadow-soft transition-transform group-hover:scale-110 ${
+                          i % 2 === 0
+                            ? "bg-navy-900 text-white"
+                            : "bg-gold-400 text-gold-ink"
+                        }`}
+                        aria-hidden="true"
+                      >
+                        {i + 1}
+                      </span>
+                      <div>
+                        <h3 className="text-xl font-bold text-navy-800">{step.title}</h3>
+                        <p className="mt-2 leading-7 text-navy-600">{step.description}</p>
+                      </div>
+                    </div>
+                  </Reveal>
+                ))}
+              </ol>
+            </div>
+
+            {/* Photo card (per the design) */}
+            {heroBgExists ? (
+              <Reveal delay={0.2} className="hidden w-full md:block md:w-1/2">
+                <div className="group relative">
+                  <div
                     aria-hidden="true"
-                  >
-                    {i + 1}
-                  </span>
-                  <div>
-                    <h3 className="text-xl font-bold text-navy-800">{step.title}</h3>
-                    <p className="mt-2 leading-7 text-navy-600">{step.description}</p>
+                    className="absolute -inset-4 rounded-[3rem] bg-gold-700/15 blur-2xl transition group-hover:bg-gold-700/25"
+                  />
+                  <div className="card relative overflow-hidden !rounded-[2.5rem] p-2 shadow-lift">
+                    <div className="relative h-[480px] w-full overflow-hidden rounded-[2rem]">
+                      <Image
+                        src={heroBg}
+                        alt=""
+                        fill
+                        sizes="(min-width: 768px) 45vw, 100vw"
+                        className="object-cover"
+                      />
+                    </div>
                   </div>
                 </div>
               </Reveal>
-            ))}
-          </ol>
+            ) : null}
+          </div>
         </div>
       </section>
 
@@ -228,7 +256,7 @@ export default async function ServicePage({
               <div className="relative">
                 <h2 className="text-3xl font-bold sm:text-4xl">מוכנים לצעד הראשון?</h2>
                 <p className="mx-auto mt-4 max-w-xl text-lg leading-8 text-white/90">
-                  פגישת היכרות ראשונית — ללא עלות וללא התחייבות. נבין את הצורך,
+                  פגישת היכרות ראשונית - ללא עלות וללא התחייבות. נבין את הצורך,
                   נציג את הדרך ותחליטו בנחת.
                 </p>
                 <Link href="/#contact" className="btn-primary mt-8 !px-8 !py-4">

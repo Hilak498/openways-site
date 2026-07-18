@@ -18,7 +18,7 @@
   --color-gold-700: #735c00;
   --color-gold-800: #574500;
 
-  --color-gold-ink: #241a00; /* on-secondary-fixed — text on gold */
+  --color-gold-ink: #241a00; /* on-secondary-fixed - text on gold */
 
   --color-sand-50: #fbf9fb; /* surface */
   --color-sand-100: #f5f3f5; /* surface-container-low */
@@ -59,7 +59,7 @@
     color: var(--color-navy-900);
   }
 
-  /* WCAG 2.0 AA — visible focus everywhere, keyboard-friendly */
+  /* WCAG 2.0 AA - visible focus everywhere, keyboard-friendly */
   :focus-visible {
     outline: 3px solid var(--color-gold-600);
     outline-offset: 3px;
@@ -115,9 +115,9 @@
     @apply text-sm font-semibold tracking-widest text-gold-700;
   }
 
-  /* Gold underline bar beneath section headings */
+  /* Gold underline bar beneath section headings (bg-secondary in the design) */
   .heading-bar {
-    @apply mt-5 h-1 w-20 rounded-full bg-gold-500;
+    @apply mt-5 h-1 w-20 rounded-full bg-gold-700;
   }
 
   .prose-legal {

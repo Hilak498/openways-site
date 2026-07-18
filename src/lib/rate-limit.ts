@@ -2,7 +2,7 @@
  * Simple in-memory sliding-window rate limiter.
  *
  * Good enough for a single-instance deployment / serverless warm instances.
- * For production scale, swap the store for Redis/Upstash (same interface) —
+ * For production scale, swap the store for Redis/Upstash (same interface) -
  * see README.
  */
 

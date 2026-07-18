@@ -53,7 +53,7 @@ export function AccessibilityWidget() {
         applyState(saved);
       }
     } catch {
-      /* corrupt storage — keep defaults */
+      /* corrupt storage - keep defaults */
     }
   }, []);
 

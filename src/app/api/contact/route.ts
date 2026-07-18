@@ -9,7 +9,7 @@ import { site } from "@/lib/site";
  * talks to this route.
  *
  * Protections:
- * - Same-origin check (CSRF) — Origin header must match the request host
+ * - Same-origin check (CSRF) - Origin header must match the request host
  * - Rate limiting per IP (5 requests / 10 minutes)
  * - Honeypot field + minimum-fill-time trap
  * - Zod validation + input sanitization
@@ -29,7 +29,7 @@ function sanitize(value: string): string {
 
 async function verifyRecaptcha(token: string | undefined): Promise<boolean> {
   const secret = process.env.RECAPTCHA_SECRET_KEY;
-  if (!secret) return true; // Not configured — skip (honeypot + rate limit still apply)
+  if (!secret) return true; // Not configured - skip (honeypot + rate limit still apply)
   if (!token) return false;
   try {
     const res = await fetch("https://www.google.com/recaptcha/api/siteverify", {

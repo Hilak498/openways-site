@@ -6,7 +6,7 @@ import { readConsent, writeConsent, type ConsentState } from "@/lib/consent";
 
 /**
  * Cookie banner + preferences manager.
- * No tracking script loads before the user gives explicit consent — the
+ * No tracking script loads before the user gives explicit consent - the
  * <Analytics/> component listens for the consent event and only then injects
  * anything.
  */

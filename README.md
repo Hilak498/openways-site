@@ -4,7 +4,7 @@
 **גיוס אשראי עסקי** ו**ייעוץ משכנתאות**.
 
 - Next.js 16 (App Router) · TypeScript · Tailwind CSS v4
-- React Three Fiber + Drei — אלמנט תלת־ממדי בהירו (מושבת במובייל וב־reduced motion)
+- עיצוב לפי סקיצת Stitch: הירו עם תמונת רקע וכרטיס תמונה מוטה, כפתורי גרדיאנט זהב
 - Framer Motion — חשיפות גלילה עדינות
 - פונט Heebo (Google Fonts, self-hosted דרך `next/font`)
 - נגישות לפי ת"י 5568 / WCAG 2.0 AA, כולל רכיב נגישות והצהרת נגישות
@@ -100,7 +100,7 @@ src/
     privacy-policy/ terms/ cookies/ accessibility-statement/
     api/contact/route.ts        # קליטת טופס — ולידציה, rate limit, CSRF, honeypot
     sitemap.ts robots.ts not-found.tsx
-  components/                   # רכיבים (ניווט, הירו, וידאו לוגו, 3D, טופס, עוגיות, נגישות...)
+  components/                   # רכיבים (ניווט, הירו, וידאו לוגו, טופס, עוגיות, נגישות...)
   lib/
     site.ts                     # ⚙️ כל התוכן והפרטים העסקיים — נקודת עריכה מרכזית
     contact-schema.ts schema.ts consent.ts rate-limit.ts
@@ -132,7 +132,7 @@ public/
 - **CSRF** — אכיפת Same-Origin על `POST /api/contact` + `form-action 'self'` ב־CSP.
 - **Rate limiting** — 5 פניות / 10 דקות לכל IP (in-memory; לסקייל — Upstash Redis).
 - **בוטים** — honeypot + מלכודת זמן מילוי + reCAPTCHA v3 אופציונלי (מופעל אוטומטית כשמוגדר `RECAPTCHA_SECRET_KEY`).
-- **כותרות אבטחה** (`next.config.ts`) — CSP (מתיר וידאו ו־3D), HSTS, X-Frame-Options,
+- **כותרות אבטחה** (`next.config.ts`) — CSP (מתיר גם את וידאו הלוגו), HSTS, X-Frame-Options,
   X-Content-Type-Options, Referrer-Policy, Permissions-Policy.
 - **סודות** — בצד שרת בלבד, דרך `.env` (ראו `.env.example`). אין מפתחות בצד לקוח.
 - הערה: ל־CSP מבוסס nonce (ללא `'unsafe-inline'`) יש להוסיף `proxy.ts` לפי

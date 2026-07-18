@@ -25,9 +25,9 @@ export const contactSchema = z.object({
     .max(2000, "ההודעה ארוכה מדי (עד 2000 תווים)"),
   /** Explicit opt-in for marketing (Communications Law §30A). Default off. */
   marketingConsent: z.boolean().default(false),
-  /** Honeypot — humans leave it empty; the server pretends success if filled. */
+  /** Honeypot - humans leave it empty; the server pretends success if filled. */
   company: z.string().max(200).optional(),
-  /** Anti-bot time trap — when the form was rendered. */
+  /** Anti-bot time trap - when the form was rendered. */
   renderedAt: z.number(),
 });
 

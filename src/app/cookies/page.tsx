@@ -22,16 +22,16 @@ export default function CookiesPage() {
       <h3>עוגיות הכרחיות</h3>
       <ul>
         <li>
-          <strong>ow-cookie-consent</strong> — שמירת בחירת ההסכמה שלכם (12 חודשים).
+          <strong>ow-cookie-consent</strong> - שמירת בחירת ההסכמה שלכם (12 חודשים).
         </li>
         <li>
-          <strong>ow-a11y-preferences</strong> — שמירת הגדרות הנגישות שבחרתם.
+          <strong>ow-a11y-preferences</strong> - שמירת הגדרות הנגישות שבחרתם.
         </li>
       </ul>
       <h3>עוגיות סטטיסטיקה (בהסכמה בלבד)</h3>
       <ul>
         <li>
-          <strong>Google Analytics (‎_ga, _gid)</strong> — מדידת שימוש אנונימית
+          <strong>Google Analytics (‎_ga, _gid)</strong> - מדידת שימוש אנונימית
           לשיפור האתר. נטענות רק אם אישרתם עוגיות סטטיסטיקה.
         </li>
       </ul>

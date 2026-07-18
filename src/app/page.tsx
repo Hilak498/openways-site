@@ -21,13 +21,17 @@ export default function HomePage() {
           <SectionHeading
             eyebrow="השירותים שלנו"
             title="שלוש דרכים, יעד אחד: הצלחה פיננסית"
-            description="כל שירות עומד בפני עצמו — וביחד הם מכסים את כל הצמתים הפיננסיים של העסק ושל המשפחה."
+            description="כל שירות עומד בפני עצמו - וביחד הם מכסים את כל הצמתים הפיננסיים של העסק ושל המשפחה."
           />
 
           <div className="mt-14 grid gap-8 lg:grid-cols-3">
             {services.map((service, i) => (
               <Reveal key={service.slug} delay={i * 0.1} className="h-full">
-                <article className="card card-hover group flex h-full flex-col p-10 text-right">
+                <article
+                  className={`card card-hover group flex h-full flex-col p-10 text-right ${
+                    i === 1 ? "border-t-4 border-t-gold-700" : ""
+                  }`}
+                >
                   <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-navy-800 text-gold-300 shadow-sm transition-transform group-hover:scale-110">
                     <ServiceIcon icon={service.icon} className="h-8 w-8" />
                   </span>
@@ -77,7 +81,7 @@ export default function HomePage() {
                 align="start"
                 eyebrow="למה Open Ways"
                 title="שותף אחד לכל ההחלטות הפיננסיות"
-                description="אנחנו לא עוד יועצים. אנחנו שותפים לדרך — עם מתודולוגיה סדורה, מחויבות לתוצאה ואפס אותיות קטנות."
+                description="אנחנו לא עוד יועצים. אנחנו שותפים לדרך - עם מתודולוגיה סדורה, מחויבות לתוצאה ואפס אותיות קטנות."
               />
               <Reveal delay={0.15}>
                 <Link href="/#contact" className="btn-primary mt-9 !px-8 !py-4">
@@ -110,7 +114,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Testimonials — navy band with glass cards */}
+      {/* Testimonials - navy band with glass cards */}
       <section
         id="testimonials"
         className="on-dark hero-navy scroll-mt-24 py-24 text-white"
@@ -149,73 +153,46 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Contact */}
-      <section id="contact" className="scroll-mt-24 bg-sand-100 py-24">
-        <div className="container-site">
+      {/* Contact - navy glass form per the approved design */}
+      <section id="contact" className="on-dark hero-navy scroll-mt-24 relative overflow-hidden py-24 text-white">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute top-1/2 left-0 h-[600px] w-[600px] -translate-y-1/2 rounded-full bg-gold-300/10 blur-[120px]"
+        />
+        <div className="container-site relative">
           <SectionHeading
+            onDark
             eyebrow="יצירת קשר"
             title="בואו נפתח דרך חדשה יחד"
-            description="השאירו פרטים ונחזור אליכם בתוך יום עסקים לשיחת היכרות ראשונית — ללא עלות וללא התחייבות."
+            description="השאירו פרטים ונחזור אליכם בתוך יום עסקים לשיחת היכרות ראשונית - ללא עלות וללא התחייבות."
           />
 
-          <div className="mt-14 grid gap-8 lg:grid-cols-12">
-            {/* Contact details */}
-            <Reveal delay={0.1} className="lg:col-span-5">
-              <div className="card card-hover p-8">
-                <ul className="space-y-6 text-navy-700">
-                  <li className="flex items-center gap-4">
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-navy-900 text-white shadow-sm">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                        <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.13.96.36 1.9.7 2.8a2 2 0 0 1-.45 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.27a2 2 0 0 1 2.1-.45c.9.34 1.84.57 2.8.7a2 2 0 0 1 1.7 2Z" />
-                      </svg>
-                    </span>
-                    <div>
-                      <p className="text-sm text-navy-600">טלפון</p>
-                      <a href={`tel:${site.phone}`} className="font-display text-lg font-bold text-navy-800 hover:text-gold-700" dir="ltr">
-                        {site.phoneDisplay}
-                      </a>
-                    </div>
-                  </li>
-                  <li className="flex items-center gap-4">
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gold-700 text-white shadow-sm">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                        <rect x="2" y="4" width="20" height="16" rx="2" />
-                        <path d="m22 7-10 6L2 7" />
-                      </svg>
-                    </span>
-                    <div>
-                      <p className="text-sm text-navy-600">דוא&quot;ל</p>
-                      <a href={`mailto:${site.email}`} className="font-display text-lg font-bold text-navy-800 hover:text-gold-700" dir="ltr">
-                        {site.email}
-                      </a>
-                    </div>
-                  </li>
-                  <li className="flex items-center gap-4">
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-navy-700 text-white shadow-sm">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                        <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z" />
-                        <circle cx="12" cy="10" r="3" />
-                      </svg>
-                    </span>
-                    <div>
-                      <p className="text-sm text-navy-600">כתובת</p>
-                      <p className="text-lg font-bold text-navy-800">
-                        {site.address.street}, {site.address.city}
-                      </p>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </Reveal>
+          <Reveal delay={0.1}>
+            <div className="glass-dark mx-auto mt-14 max-w-3xl !rounded-[2.5rem] border-white/25 p-8 shadow-lift md:p-12">
+              <ContactForm variant="dark" />
+            </div>
+          </Reveal>
 
-            <Reveal delay={0.15} className="lg:col-span-7">
-              <div className="card !rounded-3xl p-8 sm:p-10">
-                <ContactForm />
-              </div>
-            </Reveal>
-          </div>
+          <Reveal delay={0.15}>
+            <ul className="mx-auto mt-10 flex max-w-3xl flex-wrap items-center justify-center gap-x-10 gap-y-3 text-sm text-white/85">
+              <li>
+                <a href={`tel:${site.phone}`} className="font-semibold transition hover:text-gold-300" dir="ltr">
+                  {site.phoneDisplay}
+                </a>
+              </li>
+              <li>
+                <a href={`mailto:${site.email}`} className="font-semibold transition hover:text-gold-300" dir="ltr">
+                  {site.email}
+                </a>
+              </li>
+              <li>
+                {site.address.street}, {site.address.city}
+              </li>
+            </ul>
+          </Reveal>
         </div>
       </section>
+
     </>
   );
 }
