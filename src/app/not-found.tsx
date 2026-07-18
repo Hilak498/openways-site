@@ -9,7 +9,7 @@ export default function NotFound() {
         <p className="mt-8 text-sm font-bold tracking-widest text-gold-400">404</p>
         <h1 className="mt-3 text-4xl font-extrabold">הדרך הזאת עוד לא נסללה</h1>
         <p className="mx-auto mt-4 max-w-md text-lg text-white/70">
-          העמוד שחיפשתם לא נמצא. אולי הקישור השתנה — או שפשוט נפתחה דרך חדשה.
+          העמוד שחיפשתם לא נמצא. אולי הקישור השתנה - או שפשוט נפתחה דרך חדשה.
         </p>
         <Link href="/" className="btn-primary mt-9">
           חזרה לעמוד הבית

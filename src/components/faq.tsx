@@ -1,7 +1,7 @@
 import { Reveal } from "@/components/reveal";
 
 /**
- * Accessible FAQ accordion built on native <details>/<summary> —
+ * Accessible FAQ accordion built on native <details>/<summary> -
  * keyboard-operable and screen-reader-friendly out of the box.
  */
 export function Faq({

@@ -11,10 +11,40 @@ type Status =
   | { state: "success" }
   | { state: "error"; message: string };
 
-const inputClass =
-  "w-full rounded-xl border border-navy-800/15 bg-white px-4 py-3 text-navy-800 placeholder:text-navy-600/50 transition focus:border-gold-600 focus:outline-none focus:ring-2 focus:ring-gold-500/40";
+/** Styles per variant: light card, or glass-on-navy per the approved design. */
+const styles = {
+  light: {
+    label: "mb-1.5 block text-sm font-semibold text-navy-800",
+    input:
+      "w-full rounded-xl border border-navy-800/15 bg-white px-4 py-3 text-navy-800 placeholder:text-navy-600/50 transition focus:border-gold-600 focus:outline-none focus:ring-2 focus:ring-gold-500/40",
+    consent: "text-sm leading-6 text-navy-700",
+    privacy: "text-xs leading-5 text-navy-600",
+    privacyLink: "font-semibold text-gold-700 underline underline-offset-2",
+    error: "mt-1 text-sm font-medium text-red-700",
+    errorBox: "rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-700",
+    successBox:
+      "rounded-xl bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-800",
+    submit: "btn-dark disabled:cursor-not-allowed disabled:opacity-60",
+  },
+  dark: {
+    label: "mb-1.5 block text-sm font-semibold text-white",
+    input:
+      "w-full rounded-xl border border-white/30 bg-white/15 px-4 py-3.5 text-white placeholder:text-white/50 transition focus:border-gold-300 focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-gold-300/50",
+    consent: "text-sm leading-6 text-white/85",
+    privacy: "text-xs leading-5 text-white/70",
+    privacyLink: "font-semibold text-gold-300 underline underline-offset-2",
+    error: "mt-1 text-sm font-medium text-red-300",
+    errorBox:
+      "rounded-xl bg-red-500/20 px-4 py-3 text-sm font-semibold text-red-200",
+    successBox:
+      "rounded-xl bg-emerald-500/20 px-4 py-3 text-sm font-semibold text-emerald-200",
+    submit:
+      "btn-primary w-full !py-4 disabled:cursor-not-allowed disabled:opacity-60",
+  },
+} as const;
 
-export function ContactForm() {
+export function ContactForm({ variant = "light" }: { variant?: "light" | "dark" }) {
+  const s = styles[variant];
   const [status, setStatus] = useState<Status>({ state: "idle" });
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   // Anti-bot time trap: bots submit instantly, humans don't
@@ -83,8 +113,8 @@ export function ContactForm() {
     <form onSubmit={onSubmit} noValidate className="space-y-5">
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="contact-name" className="mb-1.5 block text-sm font-semibold">
-            שם מלא <span aria-hidden="true" className="text-gold-700">*</span>
+          <label htmlFor="contact-name" className={s.label}>
+            שם מלא <span aria-hidden="true">*</span>
           </label>
           <input
             id="contact-name"
@@ -95,19 +125,19 @@ export function ContactForm() {
             aria-required="true"
             aria-invalid={Boolean(fieldErrors.name)}
             aria-describedby={fieldErrors.name ? "contact-name-error" : undefined}
-            className={inputClass}
+            className={s.input}
             placeholder="ישראל ישראלי"
           />
           {fieldErrors.name ? (
-            <p id="contact-name-error" className="mt-1 text-sm font-medium text-red-700">
+            <p id="contact-name-error" className={s.error}>
               {fieldErrors.name}
             </p>
           ) : null}
         </div>
 
         <div>
-          <label htmlFor="contact-phone" className="mb-1.5 block text-sm font-semibold">
-            טלפון <span aria-hidden="true" className="text-gold-700">*</span>
+          <label htmlFor="contact-phone" className={s.label}>
+            טלפון <span aria-hidden="true">*</span>
           </label>
           <input
             id="contact-phone"
@@ -119,59 +149,65 @@ export function ContactForm() {
             aria-required="true"
             aria-invalid={Boolean(fieldErrors.phone)}
             aria-describedby={fieldErrors.phone ? "contact-phone-error" : undefined}
-            className={`${inputClass} text-left`}
+            className={`${s.input} text-left`}
             placeholder="050-1234567"
           />
           {fieldErrors.phone ? (
-            <p id="contact-phone-error" className="mt-1 text-sm font-medium text-red-700">
+            <p id="contact-phone-error" className={s.error}>
               {fieldErrors.phone}
             </p>
           ) : null}
         </div>
       </div>
 
-      <div>
-        <label htmlFor="contact-email" className="mb-1.5 block text-sm font-semibold">
-          אימייל <span aria-hidden="true" className="text-gold-700">*</span>
-        </label>
-        <input
-          id="contact-email"
-          name="email"
-          type="email"
-          dir="ltr"
-          autoComplete="email"
-          required
-          aria-required="true"
-          aria-invalid={Boolean(fieldErrors.email)}
-          aria-describedby={fieldErrors.email ? "contact-email-error" : undefined}
-          className={`${inputClass} text-left`}
-          placeholder="name@example.com"
-        />
-        {fieldErrors.email ? (
-          <p id="contact-email-error" className="mt-1 text-sm font-medium text-red-700">
-            {fieldErrors.email}
-          </p>
-        ) : null}
-      </div>
+      <div className="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label htmlFor="contact-email" className={s.label}>
+            אימייל <span aria-hidden="true">*</span>
+          </label>
+          <input
+            id="contact-email"
+            name="email"
+            type="email"
+            dir="ltr"
+            autoComplete="email"
+            required
+            aria-required="true"
+            aria-invalid={Boolean(fieldErrors.email)}
+            aria-describedby={fieldErrors.email ? "contact-email-error" : undefined}
+            className={`${s.input} text-left`}
+            placeholder="name@example.com"
+          />
+          {fieldErrors.email ? (
+            <p id="contact-email-error" className={s.error}>
+              {fieldErrors.email}
+            </p>
+          ) : null}
+        </div>
 
-      <div>
-        <label htmlFor="contact-service" className="mb-1.5 block text-sm font-semibold">
-          תחום הפנייה
-        </label>
-        <select id="contact-service" name="service" className={inputClass} defaultValue="">
-          <option value="">בחרו תחום (לא חובה)</option>
-          {services.map((s) => (
-            <option key={s.slug} value={s.slug}>
-              {s.name}
+        <div>
+          <label htmlFor="contact-service" className={s.label}>
+            תחום הפנייה
+          </label>
+          <select id="contact-service" name="service" className={s.input} defaultValue="">
+            <option value="" className="text-navy-800">
+              בחרו תחום (לא חובה)
             </option>
-          ))}
-          <option value="other">אחר</option>
-        </select>
+            {services.map((sv) => (
+              <option key={sv.slug} value={sv.slug} className="text-navy-800">
+                {sv.name}
+              </option>
+            ))}
+            <option value="other" className="text-navy-800">
+              אחר
+            </option>
+          </select>
+        </div>
       </div>
 
       <div>
-        <label htmlFor="contact-message" className="mb-1.5 block text-sm font-semibold">
-          במה נוכל לעזור? <span aria-hidden="true" className="text-gold-700">*</span>
+        <label htmlFor="contact-message" className={s.label}>
+          במה נוכל לעזור? <span aria-hidden="true">*</span>
         </label>
         <textarea
           id="contact-message"
@@ -181,17 +217,17 @@ export function ContactForm() {
           aria-required="true"
           aria-invalid={Boolean(fieldErrors.message)}
           aria-describedby={fieldErrors.message ? "contact-message-error" : undefined}
-          className={inputClass}
+          className={s.input}
           placeholder="ספרו לנו בקצרה על העסק או על הצורך שלכם"
         />
         {fieldErrors.message ? (
-          <p id="contact-message-error" className="mt-1 text-sm font-medium text-red-700">
+          <p id="contact-message-error" className={s.error}>
             {fieldErrors.message}
           </p>
         ) : null}
       </div>
 
-      {/* Honeypot — visually hidden, ignored by humans, filled by bots */}
+      {/* Honeypot - visually hidden, ignored by humans, filled by bots */}
       <div className="absolute -z-10 h-0 w-0 overflow-hidden" aria-hidden="true">
         <label htmlFor="contact-company">חברה (להשאיר ריק)</label>
         <input
@@ -203,7 +239,7 @@ export function ContactForm() {
         />
       </div>
 
-      {/* Explicit marketing opt-in — unchecked by default (Communications Law §30A) */}
+      {/* Explicit marketing opt-in - unchecked by default (Communications Law §30A) */}
       <div className="flex items-start gap-3">
         <input
           id="contact-marketing"
@@ -211,23 +247,23 @@ export function ContactForm() {
           type="checkbox"
           className="mt-1 h-5 w-5 shrink-0 accent-gold-600"
         />
-        <label htmlFor="contact-marketing" className="text-sm leading-6 text-navy-700">
-          אני מאשר/ת קבלת עדכונים ותוכן שיווקי מ־Open Ways באימייל וב־SMS. ניתן
+        <label htmlFor="contact-marketing" className={s.consent}>
+          אני מאשר/ת קבלת עדכונים ותוכן שיווקי מ-Open Ways באימייל וב-SMS. ניתן
           להסיר את ההסכמה בכל עת באמצעות קישור ההסרה שבכל הודעה או בפנייה אלינו.
         </label>
       </div>
 
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="space-y-3">
         <button
           type="submit"
           disabled={status.state === "sending"}
-          className="btn-dark disabled:cursor-not-allowed disabled:opacity-60"
+          className={s.submit}
         >
           {status.state === "sending" ? "שולח…" : "שליחת פנייה"}
         </button>
-        <p className="text-xs leading-5 text-navy-600">
+        <p className={s.privacy}>
           שליחת הטופס כפופה ל
-          <Link href="/privacy-policy" className="font-semibold text-gold-700 underline underline-offset-2">
+          <Link href="/privacy-policy" className={s.privacyLink}>
             מדיניות הפרטיות
           </Link>{" "}
           שלנו. הפרטים ישמשו למענה לפנייתכם בלבד.
@@ -236,14 +272,10 @@ export function ContactForm() {
 
       <div aria-live="polite" role="status">
         {status.state === "success" ? (
-          <p className="rounded-xl bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-800">
-            תודה על פנייתכם! נחזור אליכם בתוך יום עסקים אחד.
-          </p>
+          <p className={s.successBox}>תודה על פנייתכם! נחזור אליכם בתוך יום עסקים אחד.</p>
         ) : null}
         {status.state === "error" ? (
-          <p className="rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
-            {status.message}
-          </p>
+          <p className={s.errorBox}>{status.message}</p>
         ) : null}
       </div>
     </form>

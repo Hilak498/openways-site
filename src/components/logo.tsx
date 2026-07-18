@@ -3,9 +3,9 @@ import Link from "next/link";
 
 /**
  * Brand assets extracted from the official Logo.ai:
- * - /logo-light-bg.png  — navy+gold lockup for light backgrounds
- * - /logo-dark-bg.png   — white+gold lockup for dark backgrounds
- * - /logo-mark-*.png    — standalone mark
+ * - /logo-light-bg.png  - navy+gold lockup for light backgrounds
+ * - /logo-dark-bg.png   - white+gold lockup for dark backgrounds
+ * - /logo-mark-*.png    - standalone mark
  * Source vector lives in brand-assets/Logo.ai.
  */
 
@@ -76,7 +76,7 @@ export function LogoLink({
     <Link
       href="/"
       className={`rounded-lg ${className}`}
-      aria-label="Open Ways Group – לעמוד הבית"
+      aria-label="Open Ways Group - לעמוד הבית"
     >
       <Logo variant={variant} priority />
     </Link>
