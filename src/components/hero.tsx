@@ -127,7 +127,7 @@ export function Hero() {
           <div className="glass-dark absolute -top-6 -right-4 z-20 !rounded-2xl border-white/30 p-5 shadow-lift backdrop-blur-xl">
             <div className="flex items-center gap-4">
               <div>
-                <p className="font-display text-xl font-bold text-gold-300">‏15+</p>
+                <p className="font-display text-xl font-bold text-gold-300">‏18+</p>
                 <p className="text-sm text-white/90">שנות ניסיון פיננסי</p>
               </div>
               <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gold-300/25 text-gold-300">
