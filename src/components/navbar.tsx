@@ -41,7 +41,7 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 border-b border-navy-900/10 bg-sand-50/70 backdrop-blur-xl transition-shadow duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 border-b border-navy-900/10 bg-sand-50/95 backdrop-blur-xl transition-shadow duration-300 ${
         scrolled || open ? "shadow-card" : "shadow-sm"
       }`}
     >
