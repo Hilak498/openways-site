@@ -90,6 +90,49 @@ export function Hero() {
               </Link>
             </div>
           </Reveal>
+
+          {/* Ordered proof-points row (TODO: נתונים אמיתיים) */}
+          <Reveal delay={0.32}>
+            <dl className="grid max-w-xl grid-cols-1 gap-x-6 gap-y-5 border-t border-white/15 pt-7 sm:grid-cols-3">
+              <div className="flex items-center gap-3">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gold-300/20 text-gold-300" aria-hidden="true">
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="8" r="6" />
+                    <path d="M15.5 13 17 22l-5-3-5 3 1.5-9" />
+                  </svg>
+                </span>
+                <div className="flex flex-col-reverse">
+                  <dt className="text-sm text-white/70">שנות ניסיון פיננסי</dt>
+                  <dd className="font-display text-xl font-bold text-gold-300">‏18+</dd>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gold-300/20 text-gold-300" aria-hidden="true">
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+                  </svg>
+                </span>
+                <div className="flex flex-col-reverse">
+                  <dt className="text-sm text-white/70">עסקים ומשפחות בליווי</dt>
+                  <dd className="font-display text-xl font-bold text-gold-300">‏350+</dd>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gold-300/20 text-gold-300" aria-hidden="true">
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M12 7v5l3 2" />
+                  </svg>
+                </span>
+                <div className="flex flex-col-reverse">
+                  <dt className="text-sm text-white/70">מענה ראשוני מהיר</dt>
+                  <dd className="font-display text-xl font-bold text-gold-300">‏24 שעות</dd>
+                </div>
+              </div>
+            </dl>
+          </Reveal>
         </div>
 
         {/* Tilted glass photo card with floating stat (per the design),
@@ -108,7 +151,7 @@ export function Hero() {
               />
             </div>
           </div>
-          {/* Floating stat cards around the photo (TODO: נתונים אמיתיים) */}
+          {/* Single floating stat on the photo, per the design (TODO: נתון אמיתי) */}
           <div className="glass-dark absolute -bottom-6 -left-6 z-20 !rounded-2xl border-white/30 p-5 shadow-lift backdrop-blur-xl">
             <div className="flex items-center gap-4">
               <div>
@@ -122,48 +165,6 @@ export function Hero() {
                 </svg>
               </span>
             </div>
-          </div>
-
-          <div className="glass-dark absolute -top-6 -right-4 z-20 !rounded-2xl border-white/30 p-5 shadow-lift backdrop-blur-xl">
-            <div className="flex items-center gap-4">
-              <div>
-                <p className="font-display text-xl font-bold text-gold-300">‏18+</p>
-                <p className="text-sm text-white/90">שנות ניסיון פיננסי</p>
-              </div>
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gold-300/25 text-gold-300">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <circle cx="12" cy="8" r="6" />
-                  <path d="M15.5 13 17 22l-5-3-5 3 1.5-9" />
-                </svg>
-              </span>
-            </div>
-          </div>
-
-          <div className="glass-dark absolute bottom-[14%] -right-8 z-20 hidden !rounded-2xl border-white/30 p-5 shadow-lift backdrop-blur-xl lg:block">
-            <div className="flex items-center gap-4">
-              <div>
-                <p className="font-display text-xl font-bold text-gold-300">‏350+</p>
-                <p className="text-sm text-white/90">עסקים ומשפחות בליווי</p>
-              </div>
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gold-300/25 text-gold-300">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                  <circle cx="9" cy="7" r="4" />
-                  <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-                </svg>
-              </span>
-            </div>
-          </div>
-
-          <div className="glass-dark absolute bottom-[30%] -left-8 z-20 hidden !rounded-2xl border-white/30 px-4 py-3 shadow-lift backdrop-blur-xl lg:block">
-            <p className="flex items-center gap-2 text-sm font-semibold text-white">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-gold-400 text-gold-ink" aria-hidden="true">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M20 6 9 17l-5-5" />
-                </svg>
-              </span>
-              מענה ראשוני בתוך 24 שעות
-            </p>
           </div>
         </Reveal>
       </div>
