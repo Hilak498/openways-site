@@ -3,6 +3,7 @@ import path from "node:path";
 import Link from "next/link";
 import Image from "next/image";
 import { Reveal } from "@/components/reveal";
+import { Hero3D } from "@/components/hero-3d";
 
 /**
  * Hero per the approved Stitch design: photo backdrop under a navy overlay,
@@ -91,8 +92,10 @@ export function Hero() {
           </Reveal>
         </div>
 
-        {/* Tilted glass photo card with floating stat (per the design) */}
+        {/* Tilted glass photo card with floating stat (per the design),
+            over the 3D golden-ribbons layer */}
         <Reveal delay={0.2} className="relative z-10 hidden md:block">
+          <Hero3D className="absolute -inset-20 -z-10" />
           <div className="glass-dark relative rotate-2 !rounded-[2.5rem] p-4 shadow-lift transition-transform duration-500 hover:rotate-0">
             <div className="relative h-[440px] w-full overflow-hidden rounded-[2rem] lg:h-[520px]">
               <Image

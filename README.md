@@ -5,6 +5,7 @@
 
 - Next.js 16 (App Router) · TypeScript · Tailwind CSS v4
 - עיצוב לפי סקיצת Stitch: הירו עם תמונת רקע וכרטיס תמונה מוטה, כפתורי גרדיאנט זהב
+- React Three Fiber + Drei - קשתות זהב תלת־ממדיות בהירו (מושבת במובייל וב-reduced motion)
 - Framer Motion — חשיפות גלילה עדינות
 - פונט Heebo (Google Fonts, self-hosted דרך `next/font`)
 - נגישות לפי ת"י 5568 / WCAG 2.0 AA, כולל רכיב נגישות והצהרת נגישות
