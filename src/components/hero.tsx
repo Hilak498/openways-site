@@ -10,9 +10,9 @@ import { Hero3D } from "@/components/hero-3d";
  * copy on the right, and a tilted glass photo card with a floating stat
  * overlay on the left. public/images/hero-bg.jpg powers both layers.
  */
-const HERO_BG = "/images/hero-bg.jpg";
+const HERO_BG = "/images/hero-sunset.jpg";
 const heroBgExists = existsSync(
-  path.join(process.cwd(), "public", "images", "hero-bg.jpg"),
+  path.join(process.cwd(), "public", "images", "hero-sunset.jpg"),
 );
 
 export function Hero() {
