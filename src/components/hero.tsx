@@ -93,8 +93,18 @@ export function Hero() {
 
           {/* Proof-point cards - same glass window as the ₪120M card (TODO: נתונים אמיתיים) */}
           <Reveal delay={0.32}>
-            <dl className="grid max-w-2xl grid-cols-1 gap-4 pt-2 sm:grid-cols-3">
+            <dl className="grid max-w-xl grid-cols-1 gap-4 pt-2 sm:grid-cols-2">
               {[
+                {
+                  value: "‏₪120M+",
+                  label: "אשראי שגויס ללקוחותינו",
+                  icon: (
+                    <>
+                      <path d="m22 7-8.5 8.5-5-5L2 17" />
+                      <path d="M16 7h6v6" />
+                    </>
+                  ),
+                },
                 {
                   value: "‏18+",
                   label: "שנות ניסיון",
@@ -174,21 +184,6 @@ export function Hero() {
                 sizes="(min-width: 768px) 45vw, 100vw"
                 className={heroBgExists ? "object-cover" : "object-contain p-10"}
               />
-            </div>
-          </div>
-          {/* Single floating stat on the photo, per the design (TODO: נתון אמיתי) */}
-          <div className="glass-dark absolute -bottom-6 -left-6 z-20 !rounded-2xl border-white/30 p-5 shadow-lift backdrop-blur-xl">
-            <div className="flex items-center gap-4">
-              <div>
-                <p className="font-display text-xl font-bold text-gold-300">‏₪120M+</p>
-                <p className="text-sm text-white/90">אשראי שגויס ללקוחותינו</p>
-              </div>
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gold-300/25 text-gold-300">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="m22 7-8.5 8.5-5-5L2 17" />
-                  <path d="M16 7h6v6" />
-                </svg>
-              </span>
             </div>
           </div>
         </Reveal>
