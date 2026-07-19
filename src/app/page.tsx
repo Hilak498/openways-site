@@ -28,7 +28,7 @@ export default function HomePage() {
             {services.map((service, i) => (
               <Reveal key={service.slug} delay={i * 0.1} className="h-full">
                 <article
-                  className={`card card-hover group flex h-full flex-col p-10 text-right ${
+                  className={`card card-hover group relative flex h-full cursor-pointer flex-col p-10 text-right ${
                     i === 1 ? "border-t-4 border-t-gold-700" : ""
                   }`}
                 >
@@ -44,9 +44,10 @@ export default function HomePage() {
                   <p className="mt-4 flex-1 leading-7 text-navy-600">
                     {service.summary}
                   </p>
+                  {/* Stretched link: the whole card is one click target */}
                   <Link
                     href={`/services/${service.slug}`}
-                    className="mt-8 inline-flex items-center gap-2 font-bold text-gold-700 transition-all hover:gap-4"
+                    className="mt-8 inline-flex items-center gap-2 font-bold text-gold-700 transition-all after:absolute after:inset-0 after:content-[''] hover:gap-4"
                     aria-label={`למידע נוסף על ${service.name}`}
                   >
                     למידע נוסף
