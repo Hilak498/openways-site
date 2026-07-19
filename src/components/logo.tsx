@@ -35,11 +35,13 @@ export function Logo({
   variant = "dark-text",
   withTagline = false,
   className = "",
+  imgClassName = "h-10 w-auto",
   priority = false,
 }: {
   variant?: "dark-text" | "light-text";
   withTagline?: boolean;
   className?: string;
+  imgClassName?: string;
   priority?: boolean;
 }) {
   return (
@@ -50,7 +52,7 @@ export function Logo({
         width={LOCKUP.width}
         height={LOCKUP.height}
         priority={priority}
-        className="h-10 w-auto"
+        className={imgClassName}
       />
       {withTagline ? (
         <span
@@ -68,9 +70,11 @@ export function Logo({
 export function LogoLink({
   variant = "dark-text",
   className = "",
+  imgClassName,
 }: {
   variant?: "dark-text" | "light-text";
   className?: string;
+  imgClassName?: string;
 }) {
   return (
     <Link
@@ -78,7 +82,7 @@ export function LogoLink({
       className={`rounded-lg ${className}`}
       aria-label="Open Ways Group - לעמוד הבית"
     >
-      <Logo variant={variant} priority />
+      <Logo variant={variant} imgClassName={imgClassName} priority />
     </Link>
   );
 }

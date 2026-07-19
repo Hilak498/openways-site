@@ -41,13 +41,13 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 border-b border-navy-900/10 bg-sand-50/95 backdrop-blur-xl transition-shadow duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 border-b border-navy-900/10 bg-sand-50/70 backdrop-blur-xl transition-shadow duration-300 ${
         scrolled || open ? "shadow-card" : "shadow-sm"
       }`}
     >
       <nav aria-label="ניווט ראשי" className="container-site">
-        <div className="flex h-18 items-center justify-between py-3">
-          <LogoLink variant="dark-text" />
+        <div className="flex h-20 items-center justify-between py-3">
+          <LogoLink variant="dark-text" imgClassName="h-13 w-auto" />
 
           {/* Desktop links */}
           <ul className="hidden items-center gap-8 lg:flex">
@@ -58,10 +58,10 @@ export function Navbar() {
                   <Link
                     href={link.href}
                     aria-current={active ? "page" : undefined}
-                    className={`rounded-md text-[0.95rem] font-medium transition-colors ${
+                    className={`rounded-md text-[0.95rem] font-medium underline-offset-8 transition-all duration-200 ${
                       active
                         ? "border-b-2 border-gold-700 pb-1 text-gold-700"
-                        : "text-navy-600 hover:text-navy-900"
+                        : "text-navy-600 hover:font-semibold hover:text-gold-700 hover:underline hover:decoration-gold-500 hover:decoration-2"
                     }`}
                   >
                     {link.label}
@@ -126,7 +126,7 @@ export function Navbar() {
                   href={link.href}
                   aria-current={pathname === link.href ? "page" : undefined}
                   onClick={() => setOpen(false)}
-                  className={`block rounded-xl px-3 py-3 text-lg font-medium transition hover:bg-sand-100 ${
+                  className={`block rounded-xl px-3 py-3 text-lg font-medium transition hover:bg-gold-400/15 hover:text-gold-700 ${
                     pathname === link.href ? "text-gold-700" : "text-navy-800"
                   }`}
                 >
