@@ -19,9 +19,9 @@ export default function HomePage() {
       <section id="services" className="scroll-mt-24 bg-sand-100 py-24">
         <div className="container-site">
           <SectionHeading
-            eyebrow="השירותים שלנו"
-            title="שלוש דרכים, יעד אחד: הצלחה פיננסית"
-            description="כל שירות עומד בפני עצמו - וביחד הם מכסים את כל הצמתים הפיננסיים של העסק ושל המשפחה."
+            eyebrow="האפשרויות אצלנו"
+            title="שלוש מחלקות, מגוון דרכים ואפשרויות לצמיחה"
+            description="כל מחלקה מאפשרת מגוון פתרונות ושירותים בפני עצמה. ניתן לשלב וליצור סינרגיה בין המחלקות בהתאם לצורך."
           />
 
           <div className="mt-14 grid gap-8 lg:grid-cols-3">
@@ -81,7 +81,8 @@ export default function HomePage() {
               <SectionHeading
                 align="start"
                 eyebrow="למה Open Ways"
-                title="שותף אחד לכל ההחלטות הפיננסיות"
+                eyebrowClassName="!text-lg"
+                title="שותף אחד מקצועי לכל ההחלטות העסקיות והפיננסיות"
                 description="אנחנו לא עוד יועצים. אנחנו שותפים לדרך - עם מתודולוגיה סדורה, מחויבות לתוצאה ואפס אותיות קטנות."
               />
               <Reveal delay={0.15}>
@@ -123,7 +124,7 @@ export default function HomePage() {
         <div className="container-site">
           <SectionHeading
             onDark
-            eyebrow="לקוחות מספרים"
+            eyebrow="מה לקוחות מספרים עלינו"
             title="התוצאות מדברות בעד עצמן"
           />
           <div className="mt-14 grid gap-8 lg:grid-cols-3">
@@ -187,7 +188,7 @@ export default function HomePage() {
                 </a>
               </li>
               <li>
-                {site.address.street}, {site.address.city}
+                {site.address.street} {site.address.zip}
               </li>
             </ul>
           </Reveal>

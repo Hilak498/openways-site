@@ -6,7 +6,10 @@ import { usePathname } from "next/navigation";
 import { LogoLink } from "@/components/logo";
 import { services } from "@/lib/site";
 
+// סדר הקישורים לפי הלוגו: נעים להכיר → ייעוץ עסקי → ייעוץ משכנתאות →
+// גיוס אשראי עסקי → למה אנחנו (סדר השירותים נגזר מ-lib/site.ts)
 const navLinks = [
+  { href: "/", label: "נעים להכיר" },
   ...services.map((s) => ({ href: `/services/${s.slug}`, label: s.name })),
   { href: "/#why-us", label: "למה אנחנו" },
 ];
