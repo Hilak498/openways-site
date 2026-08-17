@@ -278,7 +278,7 @@ export default async function ServicePage({
               title={service.advisorTrack.title}
               description={service.advisorTrack.subtitle}
             />
-            <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {service.advisorTrack.items.map((item, i) => (
                 <Reveal key={item.title} as="li" delay={i * 0.06} className="h-full">
                   <div className="glass-dark h-full !rounded-3xl p-7 transition-colors duration-300 hover:border-gold-400/60">
@@ -290,6 +290,62 @@ export default async function ServicePage({
                 </Reveal>
               ))}
             </ul>
+
+            {service.advisorTrack.audience || service.advisorTrack.steps ? (
+              <div className="mt-14 grid gap-8 lg:grid-cols-2">
+                {service.advisorTrack.audience ? (
+                  <Reveal className="h-full">
+                    <div className="glass-dark h-full !rounded-3xl p-8">
+                      <h3 className="text-xl font-bold text-white">
+                        {service.advisorTrack.audience.title}
+                      </h3>
+                      <ul className="mt-5 space-y-4">
+                        {service.advisorTrack.audience.items.map((item) => (
+                          <li key={item} className="flex items-start gap-3">
+                            <span
+                              aria-hidden="true"
+                              className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gold-400/25 text-gold-300"
+                            >
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M20 6 9 17l-5-5" />
+                              </svg>
+                            </span>
+                            <span className="leading-7 text-white/90">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </Reveal>
+                ) : null}
+
+                {service.advisorTrack.steps ? (
+                  <Reveal delay={0.1} className="h-full">
+                    <div className="glass-dark h-full !rounded-3xl p-8">
+                      <h3 className="text-xl font-bold text-white">איך מצטרפים</h3>
+                      <ol className="mt-5 space-y-5">
+                        {service.advisorTrack.steps.map((step, i) => (
+                          <li key={step.title} className="flex items-start gap-4">
+                            <span
+                              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gold-400 font-display text-sm font-bold text-gold-ink"
+                              aria-hidden="true"
+                            >
+                              {i + 1}
+                            </span>
+                            <div>
+                              <h4 className="font-bold text-white">{step.title}</h4>
+                              <p className="mt-1 text-sm leading-6 text-white/85">
+                                {step.description}
+                              </p>
+                            </div>
+                          </li>
+                        ))}
+                      </ol>
+                    </div>
+                  </Reveal>
+                ) : null}
+              </div>
+            ) : null}
+
             <Reveal delay={0.2} className="mt-12 text-center">
               <Link href="/#contact" className="btn-primary !px-8 !py-4">
                 לשיחת היכרות ליועצים
