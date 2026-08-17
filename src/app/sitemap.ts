@@ -18,6 +18,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.9,
     })),
+    {
+      url: `${site.url}/services/mortgage-advisory/advisors`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
     ...["/calculators/mortgage", "/calculators/business-credit"].map((path) => ({
       url: `${site.url}${path}`,
       lastModified: now,

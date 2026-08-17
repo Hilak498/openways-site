@@ -122,11 +122,8 @@ export default async function ServicePage({
         </div>
       </section>
 
-      {/* Explanation (בעמוד המשכנתאות זהו מסלול הפרטיים - עוגן #private) */}
-      <section
-        id={service.slug === "mortgage-advisory" ? "private" : undefined}
-        className="scroll-mt-24 py-24"
-      >
+      {/* Explanation */}
+      <section className="py-24">
         <div className="container-site grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-7">
             <Reveal>
@@ -265,91 +262,28 @@ export default async function ServicePage({
         </section>
       ) : null}
 
-      {/* Advisor track (mortgage page - anchor #advisors) */}
-      {service.advisorTrack ? (
-        <section
-          id="advisors"
-          className="on-dark hero-navy scroll-mt-24 py-24 text-white"
-        >
+      {/* Cross-link to the advisors page (mortgage page only) */}
+      {service.slug === "mortgage-advisory" ? (
+        <section className="on-dark hero-navy py-16 text-white">
           <div className="container-site">
-            <SectionHeading
-              onDark
-              eyebrow="ליועצי משכנתאות"
-              title={service.advisorTrack.title}
-              description={service.advisorTrack.subtitle}
-            />
-            <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {service.advisorTrack.items.map((item, i) => (
-                <Reveal key={item.title} as="li" delay={i * 0.06} className="h-full">
-                  <div className="glass-dark h-full !rounded-3xl p-7 transition-colors duration-300 hover:border-gold-400/60">
-                    <h3 className="text-lg font-bold text-gold-300">{item.title}</h3>
-                    <p className="mt-2 text-sm leading-7 text-white/85">
-                      {item.description}
-                    </p>
-                  </div>
-                </Reveal>
-              ))}
-            </ul>
-
-            {service.advisorTrack.audience || service.advisorTrack.steps ? (
-              <div className="mt-14 grid gap-8 lg:grid-cols-2">
-                {service.advisorTrack.audience ? (
-                  <Reveal className="h-full">
-                    <div className="glass-dark h-full !rounded-3xl p-8">
-                      <h3 className="text-xl font-bold text-white">
-                        {service.advisorTrack.audience.title}
-                      </h3>
-                      <ul className="mt-5 space-y-4">
-                        {service.advisorTrack.audience.items.map((item) => (
-                          <li key={item} className="flex items-start gap-3">
-                            <span
-                              aria-hidden="true"
-                              className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gold-400/25 text-gold-300"
-                            >
-                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M20 6 9 17l-5-5" />
-                              </svg>
-                            </span>
-                            <span className="leading-7 text-white/90">{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </Reveal>
-                ) : null}
-
-                {service.advisorTrack.steps ? (
-                  <Reveal delay={0.1} className="h-full">
-                    <div className="glass-dark h-full !rounded-3xl p-8">
-                      <h3 className="text-xl font-bold text-white">איך מצטרפים</h3>
-                      <ol className="mt-5 space-y-5">
-                        {service.advisorTrack.steps.map((step, i) => (
-                          <li key={step.title} className="flex items-start gap-4">
-                            <span
-                              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gold-400 font-display text-sm font-bold text-gold-ink"
-                              aria-hidden="true"
-                            >
-                              {i + 1}
-                            </span>
-                            <div>
-                              <h4 className="font-bold text-white">{step.title}</h4>
-                              <p className="mt-1 text-sm leading-6 text-white/85">
-                                {step.description}
-                              </p>
-                            </div>
-                          </li>
-                        ))}
-                      </ol>
-                    </div>
-                  </Reveal>
-                ) : null}
+            <Reveal>
+              <div className="flex flex-col items-center justify-between gap-6 text-center md:flex-row md:text-right">
+                <div>
+                  <h2 className="text-2xl font-bold sm:text-3xl">
+                    יועצי משכנתאות? יש לנו מעטפת בשבילכם
+                  </h2>
+                  <p className="mt-2 max-w-2xl text-lg leading-8 text-white/85">
+                    גיבוי מקצועי בתיקים, כלים, שיווק וקהילה - כל מה שצריך כדי
+                    לבנות עסק ייעוץ מצליח.
+                  </p>
+                </div>
+                <Link
+                  href="/services/mortgage-advisory/advisors"
+                  className="btn-primary shrink-0 !px-8 !py-4"
+                >
+                  לייעוץ ליועצים
+                </Link>
               </div>
-            ) : null}
-
-            <Reveal delay={0.2} className="mt-12 text-center">
-              <Link href="/#contact" className="btn-primary !px-8 !py-4">
-                לשיחת היכרות ליועצים
-              </Link>
             </Reveal>
           </div>
         </section>
