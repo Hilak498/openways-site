@@ -6,11 +6,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     { url: site.url, lastModified: now, changeFrequency: "monthly", priority: 1 },
+    {
+      url: `${site.url}/about`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
     ...services.map((s) => ({
       url: `${site.url}/services/${s.slug}`,
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.9,
+    })),
+    ...["/calculators/mortgage", "/calculators/business-credit"].map((path) => ({
+      url: `${site.url}${path}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
     })),
     ...["/privacy-policy", "/terms", "/cookies", "/accessibility-statement"].map(
       (path) => ({

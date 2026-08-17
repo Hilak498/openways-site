@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/logo";
-import { services, site, socials } from "@/lib/site";
+import { mortgageTracks, services, site, socials } from "@/lib/site";
 
 const legalLinks = [
   { href: "/privacy-policy", label: "מדיניות פרטיות" },
@@ -40,22 +40,16 @@ export function Footer() {
                 {s.slug === "mortgage-advisory" ? (
                   /* Hover reveals the two mortgage tracks (focus-within keeps it keyboard-accessible) */
                   <ul className="hidden space-y-2 pt-2 pr-4 text-sm group-focus-within:block group-hover:block">
-                    <li>
-                      <Link
-                        href="/services/mortgage-advisory"
-                        className="text-navy-600 transition hover:text-gold-700"
-                      >
-                        ייעוץ לפרטיים ומשקי בית
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="/services/mortgage-advisory"
-                        className="text-navy-600 transition hover:text-gold-700"
-                      >
-                        ייעוץ ליועצים (מנטורינג)
-                      </Link>
-                    </li>
+                    {mortgageTracks.map((track) => (
+                      <li key={track.href}>
+                        <Link
+                          href={track.href}
+                          className="text-navy-600 transition hover:text-gold-700"
+                        >
+                          {track.label}
+                        </Link>
+                      </li>
+                    ))}
                   </ul>
                 ) : null}
               </li>

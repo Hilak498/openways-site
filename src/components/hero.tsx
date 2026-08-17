@@ -51,7 +51,8 @@ export function Hero() {
           </Reveal>
 
           <Reveal delay={0.08}>
-            <h1 className="max-w-2xl text-4xl leading-[1.2] font-bold tracking-tight sm:text-5xl lg:text-[3.4rem]">
+            {/* tracking-normal: באות עברית ריווח שלילי גורם לאותיות "להידבק" */}
+            <h1 className="max-w-2xl text-4xl leading-[1.2] font-bold tracking-normal sm:text-5xl lg:text-[3.4rem]">
               יוצרים אפשרויות בדרך
               <br />
               <span className="text-gold-300">להחלטות עסקיות ופיננסיות נכונות</span>

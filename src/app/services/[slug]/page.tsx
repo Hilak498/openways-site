@@ -102,7 +102,7 @@ export default async function ServicePage({
                 <span className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-navy-800 text-gold-300 shadow-sm ring-1 ring-white/10">
                   <ServiceIcon icon={service.icon} className="h-8 w-8" />
                 </span>
-                <h1 className="mt-6 max-w-2xl text-4xl leading-[1.2] font-bold tracking-tight sm:text-5xl">
+                <h1 className="mt-6 max-w-2xl text-4xl leading-[1.2] font-bold tracking-normal sm:text-5xl">
                   {service.hero.title}
                 </h1>
                 <p className="mt-6 max-w-2xl text-lg leading-8 text-white/90">
@@ -122,8 +122,11 @@ export default async function ServicePage({
         </div>
       </section>
 
-      {/* Explanation */}
-      <section className="py-24">
+      {/* Explanation (בעמוד המשכנתאות זהו מסלול הפרטיים - עוגן #private) */}
+      <section
+        id={service.slug === "mortgage-advisory" ? "private" : undefined}
+        className="scroll-mt-24 py-24"
+      >
         <div className="container-site grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-7">
             <Reveal>
@@ -230,6 +233,92 @@ export default async function ServicePage({
           </div>
         </div>
       </section>
+
+      {/* Methodology (7 BRICKS on the business-advisory page) */}
+      {service.methodology ? (
+        <section id="methodology" className="scroll-mt-24 py-24">
+          <div className="container-site">
+            <SectionHeading
+              eyebrow="המתודולוגיה שלנו"
+              title={service.methodology.title}
+              description={service.methodology.subtitle}
+            />
+            <ol className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {service.methodology.items.map((item, i) => (
+                <Reveal key={item.title} as="li" delay={i * 0.06} className="h-full">
+                  <div className="card card-hover h-full p-7">
+                    <span
+                      className="flex h-12 w-12 items-center justify-center rounded-xl bg-navy-800 font-display text-lg font-bold text-gold-300"
+                      aria-hidden="true"
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <h3 className="mt-5 text-lg font-bold text-navy-800">{item.title}</h3>
+                    <p className="mt-2 text-sm leading-7 text-navy-600">
+                      {item.description}
+                    </p>
+                  </div>
+                </Reveal>
+              ))}
+            </ol>
+          </div>
+        </section>
+      ) : null}
+
+      {/* Advisor track (mortgage page - anchor #advisors) */}
+      {service.advisorTrack ? (
+        <section
+          id="advisors"
+          className="on-dark hero-navy scroll-mt-24 py-24 text-white"
+        >
+          <div className="container-site">
+            <SectionHeading
+              onDark
+              eyebrow="ליועצי משכנתאות"
+              title={service.advisorTrack.title}
+              description={service.advisorTrack.subtitle}
+            />
+            <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {service.advisorTrack.items.map((item, i) => (
+                <Reveal key={item.title} as="li" delay={i * 0.06} className="h-full">
+                  <div className="glass-dark h-full !rounded-3xl p-7 transition-colors duration-300 hover:border-gold-400/60">
+                    <h3 className="text-lg font-bold text-gold-300">{item.title}</h3>
+                    <p className="mt-2 text-sm leading-7 text-white/85">
+                      {item.description}
+                    </p>
+                  </div>
+                </Reveal>
+              ))}
+            </ul>
+            <Reveal delay={0.2} className="mt-12 text-center">
+              <Link href="/#contact" className="btn-primary !px-8 !py-4">
+                לשיחת היכרות ליועצים
+              </Link>
+            </Reveal>
+          </div>
+        </section>
+      ) : null}
+
+      {/* Glossary (mortgage page) */}
+      {service.glossary ? (
+        <section id="glossary" className="scroll-mt-24 py-24">
+          <div className="container-site">
+            <SectionHeading
+              eyebrow="מילון מונחים"
+              title="מדברים משכנתאות בגובה העיניים"
+              description="המונחים שתפגשו בדרך למשכנתא - מוסברים פשוט וברור."
+            />
+            <div className="mt-12">
+              <Faq
+                items={service.glossary.map((g) => ({
+                  question: g.term,
+                  answer: g.definition,
+                }))}
+              />
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       {/* FAQ */}
       <section className="bg-sand-100 py-24">
