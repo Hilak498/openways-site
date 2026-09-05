@@ -329,6 +329,86 @@ export default async function ServicePage({
         </section>
       ) : null}
 
+      {/* Alone-vs-us comparison table (mortgage page) */}
+      {service.comparison ? (
+        <section className="bg-sand-100 py-24">
+          <div className="container-site">
+            <SectionHeading
+              eyebrow="למה עם יועץ"
+              title={service.comparison.title}
+              description={service.comparison.description}
+            />
+            <Reveal delay={0.1}>
+              <div className="mx-auto mt-14 max-w-2xl overflow-x-auto">
+                <table className="w-full border-separate border-spacing-0 text-right">
+                  <thead>
+                    <tr>
+                      <th scope="col" className="sr-only">
+                        מה מקבלים
+                      </th>
+                      <th
+                        scope="col"
+                        className="rounded-t-2xl bg-navy-800 px-6 py-4 text-center font-display text-sm font-bold text-gold-300"
+                      >
+                        עם Open Ways
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-4 text-center text-sm font-semibold text-navy-600"
+                      >
+                        לבד
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {service.comparison.rows.map((row, i) => {
+                      const last = i === service.comparison!.rows.length - 1;
+                      return (
+                        <tr key={row}>
+                          <th
+                            scope="row"
+                            className={`border-t border-navy-800/10 py-4 pl-4 font-semibold text-navy-800 ${
+                              last ? "border-b" : ""
+                            }`}
+                          >
+                            {row}
+                          </th>
+                          <td
+                            className={`border-x border-gold-500/40 bg-white px-6 py-4 text-center ${
+                              last ? "rounded-b-2xl border-b" : ""
+                            }`}
+                          >
+                            <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-gold-500/20 text-gold-700">
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                                <path d="M20 6 9 17l-5-5" />
+                              </svg>
+                              <span className="sr-only">כלול</span>
+                            </span>
+                          </td>
+                          <td
+                            className={`border-t border-navy-800/10 px-6 py-4 text-center text-navy-800/30 ${
+                              last ? "border-b" : ""
+                            }`}
+                          >
+                            <span aria-hidden="true">—</span>
+                            <span className="sr-only">לא כלול</span>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </Reveal>
+            <Reveal delay={0.15} className="mt-10 text-center">
+              <Link href="/#contact" className="btn-dark !px-8 !py-4">
+                לשיחת ייעוץ ללא עלות
+              </Link>
+            </Reveal>
+          </div>
+        </section>
+      ) : null}
+
       {/* Common mistakes - educational dark band (mortgage page) */}
       {service.mistakes ? (
         <section className="on-dark hero-navy py-24 text-white">
