@@ -45,7 +45,8 @@ export function Logo({
   priority?: boolean;
 }) {
   return (
-    <span className={`inline-flex flex-col gap-1.5 ${className}`}>
+    // items-start keeps the lockup at its natural width even when the tagline line is wider
+    <span className={`inline-flex flex-col items-start gap-1.5 ${className}`}>
       <Image
         src={variant === "light-text" ? "/logo-dark-bg.png" : "/logo-light-bg.png"}
         alt="Open Ways Group"
@@ -60,7 +61,7 @@ export function Logo({
             variant === "light-text" ? "text-white/70" : "text-navy-600"
           }`}
         >
-          ייעוץ עסקי · גיוס אשראי עסקי · ייעוץ משכנתאות
+          ייעוץ עסקי · ייעוץ משכנתאות · גיוס אשראי עסקי
         </span>
       ) : null}
     </span>

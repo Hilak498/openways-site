@@ -10,7 +10,7 @@ import { ServiceIcon } from "@/components/service-icon";
 import { Faq } from "@/components/faq";
 import { JsonLd } from "@/components/json-ld";
 import { faqSchema, serviceSchema } from "@/lib/schema";
-import { getService, services } from "@/lib/site";
+import { banks, getService, services } from "@/lib/site";
 
 export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
@@ -102,7 +102,7 @@ export default async function ServicePage({
                 <span className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-navy-800 text-gold-300 shadow-sm ring-1 ring-white/10">
                   <ServiceIcon icon={service.icon} className="h-8 w-8" />
                 </span>
-                <h1 className="mt-6 max-w-2xl text-4xl leading-[1.2] font-bold tracking-tight sm:text-5xl">
+                <h1 className="mt-6 max-w-2xl text-4xl leading-[1.2] font-bold tracking-normal sm:text-5xl">
                   {service.hero.title}
                 </h1>
                 <p className="mt-6 max-w-2xl text-lg leading-8 text-white/90">
@@ -170,6 +170,47 @@ export default async function ServicePage({
         </div>
       </section>
 
+      {/* Solutions / audience cards (mortgage page) */}
+      {service.solutions ? (
+        <section id="solutions" className="scroll-mt-24 bg-sand-100 py-24">
+          <div className="container-site">
+            <SectionHeading
+              eyebrow="הפתרונות שלנו"
+              title="לכל שלב בחיים יש משכנתא משלו"
+              description="מדירה ראשונה ועד תיקים מורכבים - מוצאים עבורכם את הפתרון המדויק."
+            />
+            <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {service.solutions.map((solution, i) => (
+                <Reveal key={solution.title} as="li" delay={i * 0.05} className="h-full">
+                  <article className="card card-hover relative flex h-full flex-col p-7">
+                    <span className="inline-flex w-fit items-center rounded-full bg-gold-500/15 px-3 py-1 text-xs font-bold text-gold-700">
+                      {solution.badge}
+                    </span>
+                    <h3 className="mt-4 text-lg font-bold text-navy-800">
+                      {solution.title}
+                    </h3>
+                    <p className="mt-2 flex-1 text-sm leading-7 text-navy-600">
+                      {solution.description}
+                    </p>
+                    {/* Stretched link - the whole card leads to the contact form */}
+                    <Link
+                      href="/#contact"
+                      className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-gold-700 transition-all after:absolute after:inset-0 after:content-[''] hover:gap-3"
+                      aria-label={`לפרטים על ${solution.title}`}
+                    >
+                      לפרטים
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="-scale-x-100">
+                        <path d="M5 12h14M13 6l6 6-6 6" />
+                      </svg>
+                    </Link>
+                  </article>
+                </Reveal>
+              ))}
+            </ul>
+          </div>
+        </section>
+      ) : null}
+
       {/* Process - numbered circles with a vertical connector, per the design */}
       <section id="process" className="scroll-mt-24 bg-sand-50 py-24">
         <div className="container-site">
@@ -230,6 +271,150 @@ export default async function ServicePage({
           </div>
         </div>
       </section>
+
+      {/* Methodology (7 BRICKS on the business-advisory page) */}
+      {service.methodology ? (
+        <section id="methodology" className="scroll-mt-24 py-24">
+          <div className="container-site">
+            <SectionHeading
+              eyebrow="המתודולוגיה שלנו"
+              title={service.methodology.title}
+              description={service.methodology.subtitle}
+            />
+            <ol className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {service.methodology.items.map((item, i) => (
+                <Reveal key={item.title} as="li" delay={i * 0.06} className="h-full">
+                  <div className="card card-hover h-full p-7">
+                    <span
+                      className="flex h-12 w-12 items-center justify-center rounded-xl bg-navy-800 font-display text-lg font-bold text-gold-300"
+                      aria-hidden="true"
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <h3 className="mt-5 text-lg font-bold text-navy-800">{item.title}</h3>
+                    <p className="mt-2 text-sm leading-7 text-navy-600">
+                      {item.description}
+                    </p>
+                  </div>
+                </Reveal>
+              ))}
+            </ol>
+          </div>
+        </section>
+      ) : null}
+
+      {/* Banks strip (mortgage + business credit) */}
+      {service.slug === "mortgage-advisory" || service.slug === "business-credit" ? (
+        <section className="py-20">
+          <div className="container-site text-center">
+            <Reveal>
+              <p className="eyebrow">מחוברים לכל הבנקים</p>
+              <h2 className="mt-3 text-2xl font-bold text-navy-800 sm:text-3xl">
+                עובדים מול כל הבנקים וגופי המימון בישראל
+              </h2>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <ul className="mx-auto mt-8 flex max-w-3xl flex-wrap items-center justify-center gap-3">
+                {banks.map((bank) => (
+                  <li
+                    key={bank}
+                    className="rounded-full border border-navy-800/10 bg-sand-100 px-5 py-2 text-sm font-semibold text-navy-700"
+                  >
+                    {bank}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          </div>
+        </section>
+      ) : null}
+
+      {/* Common mistakes - educational dark band (mortgage page) */}
+      {service.mistakes ? (
+        <section className="on-dark hero-navy py-24 text-white">
+          <div className="container-site">
+            <SectionHeading
+              onDark
+              eyebrow="כדאי לדעת"
+              title={`${service.mistakes.length} טעויות שעולות ללווים מאות אלפי שקלים`}
+              description="הטעויות הנפוצות ביותר שאנחנו פוגשים בשטח - ואיך נמנעים מהן מראש."
+            />
+            <ol className="mx-auto mt-14 max-w-3xl space-y-5">
+              {service.mistakes.map((mistake, i) => (
+                <Reveal key={mistake.title} as="li" delay={i * 0.06}>
+                  <div className="glass-dark flex items-start gap-5 !rounded-3xl p-6 transition-colors duration-300 hover:border-gold-400/60 sm:p-7">
+                    <span
+                      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gold-400 font-display text-lg font-bold text-gold-ink"
+                      aria-hidden="true"
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <div>
+                      <h3 className="text-lg font-bold text-gold-300">{mistake.title}</h3>
+                      <p className="mt-1.5 text-sm leading-7 text-white/85">
+                        {mistake.description}
+                      </p>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </ol>
+            <Reveal delay={0.2} className="mt-12 text-center">
+              <Link href="/#contact" className="btn-primary !px-8 !py-4">
+                רוצים להימנע מהטעויות? דברו איתנו
+              </Link>
+            </Reveal>
+          </div>
+        </section>
+      ) : null}
+
+      {/* Glossary (mortgage page) */}
+      {service.glossary ? (
+        <section id="glossary" className="scroll-mt-24 py-24">
+          <div className="container-site">
+            <SectionHeading
+              eyebrow="מילון מונחים"
+              title="מדברים משכנתאות בגובה העיניים"
+              description="המונחים שתפגשו בדרך למשכנתא - מוסברים פשוט וברור."
+            />
+            <div className="mt-12">
+              <Faq
+                items={service.glossary.map((g) => ({
+                  question: g.term,
+                  answer: g.definition,
+                }))}
+              />
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {/* Cross-link to the advisors page (mortgage page only) */}
+      {service.slug === "mortgage-advisory" ? (
+        <section className="on-dark hero-navy py-16 text-white">
+          <div className="container-site">
+            <Reveal>
+              <div className="flex flex-col items-center justify-between gap-6 text-center md:flex-row md:text-right">
+                <div>
+                  <h2 className="text-2xl font-bold sm:text-3xl">
+                    יועצי משכנתאות? יש לנו מעטפת בשבילכם
+                  </h2>
+                  <p className="mt-2 max-w-2xl text-lg leading-8 text-white/85">
+                    גיבוי מקצועי בתיקים, כלים, שיווק וקהילה - כל מה שצריך כדי
+                    לבנות עסק ייעוץ מצליח.
+                  </p>
+                </div>
+                <Link
+                  href="/services/mortgage-advisory/advisors"
+                  className="btn-primary shrink-0 !px-8 !py-4"
+                >
+                  לייעוץ ליועצים
+                </Link>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      ) : null}
 
       {/* FAQ */}
       <section className="bg-sand-100 py-24">
