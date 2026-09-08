@@ -107,7 +107,7 @@ export default function MortgageAdvisorsPage() {
         <div className="container-site">
           <SectionHeading
             eyebrow="מה כוללת המעטפת"
-            title="כל הרכיבים לעסק ייעוץ מצליח"
+            title="גב מקצועי, כלים לעבודה ודרך קדימה"
           />
           <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {page.items.map((item, i) => (

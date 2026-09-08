@@ -175,9 +175,9 @@ export default async function ServicePage({
         <section id="solutions" className="scroll-mt-24 bg-sand-100 py-24">
           <div className="container-site">
             <SectionHeading
-              eyebrow="הפתרונות שלנו"
+              eyebrow="במה נוכל לעזור"
               title="לכל שלב בחיים יש משכנתא משלו"
-              description="מדירה ראשונה ועד תיקים מורכבים - מוצאים עבורכם את הפתרון המדויק."
+              description="מדירה ראשונה ועד תיקים מורכבים - מוצאים עבורכם את הדרך המדויקת."
             />
             <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {service.solutions.map((solution, i) => (
@@ -308,9 +308,9 @@ export default async function ServicePage({
         <section className="py-20">
           <div className="container-site text-center">
             <Reveal>
-              <p className="eyebrow">מחוברים לכל הבנקים</p>
+              <p className="eyebrow">כל הדלתות פתוחות</p>
               <h2 className="mt-3 text-2xl font-bold text-navy-800 sm:text-3xl">
-                עובדים מול כל הבנקים וגופי המימון בישראל
+                הדרך שלכם פתוחה בכל בנק ובכל גוף מימון
               </h2>
             </Reveal>
             <Reveal delay={0.1}>
@@ -334,7 +334,7 @@ export default async function ServicePage({
         <section className="bg-sand-100 py-24">
           <div className="container-site">
             <SectionHeading
-              eyebrow="למה עם יועץ"
+              eyebrow="מה מקבלים איתנו"
               title={service.comparison.title}
               description={service.comparison.description}
             />
@@ -402,7 +402,7 @@ export default async function ServicePage({
             </Reveal>
             <Reveal delay={0.15} className="mt-10 text-center">
               <Link href="/#contact" className="btn-dark !px-8 !py-4">
-                לשיחת ייעוץ ללא עלות
+                לתיאום פגישת ייעוץ
               </Link>
             </Reveal>
           </div>
@@ -416,8 +416,8 @@ export default async function ServicePage({
             <SectionHeading
               onDark
               eyebrow="כדאי לדעת"
-              title={`${service.mistakes.length} טעויות שעולות ללווים מאות אלפי שקלים`}
-              description="הטעויות הנפוצות ביותר שאנחנו פוגשים בשטח - ואיך נמנעים מהן מראש."
+              title="הטעויות שמתגלות רק אחרי החתימה"
+              description="חמישה דפוסים שאנחנו פוגשים שוב ושוב אצל לווים - וכך נמנעים מהם עוד לפני שניגשים לבנק."
             />
             <ol className="mx-auto mt-14 max-w-3xl space-y-5">
               {service.mistakes.map((mistake, i) => (
