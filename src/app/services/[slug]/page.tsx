@@ -176,11 +176,11 @@ export default async function ServicePage({
           <div className="container-site">
             <SectionHeading
               eyebrow="במה נוכל לעזור"
-              title="לכל שלב בחיים יש משכנתא משלו"
-              description="מדירה ראשונה ועד תיקים מורכבים - מוצאים עבורכם את הדרך המדויקת."
+              title={service.solutions.title}
+              description={service.solutions.description}
             />
             <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {service.solutions.map((solution, i) => (
+              {service.solutions.items.map((solution, i) => (
                 <Reveal key={solution.title} as="li" delay={i * 0.05} className="h-full">
                   <article className="card card-hover relative flex h-full flex-col p-7">
                     <span className="inline-flex w-fit items-center rounded-full bg-gold-500/15 px-3 py-1 text-xs font-bold text-gold-700">
@@ -416,11 +416,11 @@ export default async function ServicePage({
             <SectionHeading
               onDark
               eyebrow="כדאי לדעת"
-              title="הטעויות שמתגלות רק אחרי החתימה"
-              description="חמישה דפוסים שאנחנו פוגשים שוב ושוב אצל לווים - וכך נמנעים מהם עוד לפני שניגשים לבנק."
+              title={service.mistakes.title}
+              description={service.mistakes.description}
             />
             <ol className="mx-auto mt-14 max-w-3xl space-y-5">
-              {service.mistakes.map((mistake, i) => (
+              {service.mistakes.items.map((mistake, i) => (
                 <Reveal key={mistake.title} as="li" delay={i * 0.06}>
                   <div className="glass-dark flex items-start gap-5 !rounded-3xl p-6 transition-colors duration-300 hover:border-gold-400/60 sm:p-7">
                     <span
