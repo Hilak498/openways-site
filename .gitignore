@@ -56,3 +56,8 @@ next-env.d.ts
 
 .vercel
 .env*
+
+# Open Ways quoting agent - business data stays out of this PUBLIC repo
+/.claude/skills/quote/services.json
+/.claude/skills/quote/out/
+/.claude/skills/quote/tracking.csv
