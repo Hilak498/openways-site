@@ -4,11 +4,26 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LogoLink } from "@/components/logo";
-import { services } from "@/lib/site";
+import { calculatorLinks, mortgageTracks, services } from "@/lib/site";
 
-const navLinks = [
-  ...services.map((s) => ({ href: `/services/${s.slug}`, label: s.name })),
+interface NavLink {
+  href: string;
+  label: string;
+  /** תת-קישורים הנפתחים במעבר עכבר (דסקטופ) ומוצגים מוזחים בתפריט הנייד */
+  children?: readonly { href: string; label: string }[];
+}
+
+// סדר הקישורים לפי הלוגו: נעים להכיר → ייעוץ עסקי → ייעוץ משכנתאות →
+// גיוס אשראי עסקי → למה אנחנו → מחשבונים (סדר השירותים נגזר מ-lib/site.ts)
+const navLinks: NavLink[] = [
+  { href: "/about", label: "נעים להכיר" },
+  ...services.map((s) => ({
+    href: `/services/${s.slug}`,
+    label: s.name,
+    children: s.slug === "mortgage-advisory" ? mortgageTracks : undefined,
+  })),
   { href: "/#why-us", label: "למה אנחנו" },
+  { href: calculatorLinks[0].href, label: "מחשבונים", children: calculatorLinks },
 ];
 
 export function Navbar() {
@@ -52,9 +67,12 @@ export function Navbar() {
           {/* Desktop links */}
           <ul className="hidden items-center gap-8 lg:flex">
             {navLinks.map((link) => {
-              const active = pathname === link.href;
+              const active =
+                pathname === link.href ||
+                (link.children?.some((c) => pathname === c.href.split("#")[0]) ??
+                  false);
               return (
-                <li key={link.href}>
+                <li key={link.label} className="group relative">
                   <Link
                     href={link.href}
                     aria-current={active ? "page" : undefined}
@@ -66,6 +84,23 @@ export function Navbar() {
                   >
                     {link.label}
                   </Link>
+                  {link.children ? (
+                    /* נפתח במעבר עכבר או בפוקוס מקלדת; pt יוצר גשר רציף להעברת העכבר */
+                    <div className="invisible absolute top-full right-0 z-50 pt-4 opacity-0 transition duration-200 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+                      <ul className="w-72 rounded-2xl border border-navy-900/10 bg-sand-50 p-3 shadow-card">
+                        {link.children.map((child) => (
+                          <li key={child.href}>
+                            <Link
+                              href={child.href}
+                              className="block rounded-xl px-4 py-2.5 text-sm font-medium text-navy-700 transition hover:bg-gold-400/15 hover:text-gold-700"
+                            >
+                              {child.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
                 </li>
               );
             })}
@@ -121,7 +156,7 @@ export function Navbar() {
         >
           <ul className="flex flex-col gap-1 pt-4">
             {navLinks.map((link) => (
-              <li key={link.href}>
+              <li key={link.label}>
                 <Link
                   href={link.href}
                   aria-current={pathname === link.href ? "page" : undefined}
@@ -132,6 +167,21 @@ export function Navbar() {
                 >
                   {link.label}
                 </Link>
+                {link.children ? (
+                  <ul className="mr-4 flex flex-col gap-1">
+                    {link.children.map((child) => (
+                      <li key={child.href}>
+                        <Link
+                          href={child.href}
+                          onClick={() => setOpen(false)}
+                          className="block rounded-xl px-3 py-2 text-base font-medium text-navy-600 transition hover:bg-gold-400/15 hover:text-gold-700"
+                        >
+                          {child.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
               </li>
             ))}
             <li className="mt-3 px-3">

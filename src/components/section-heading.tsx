@@ -2,12 +2,14 @@ import { Reveal } from "@/components/reveal";
 
 export function SectionHeading({
   eyebrow,
+  eyebrowClassName = "",
   title,
   description,
   align = "center",
   onDark = false,
 }: {
   eyebrow?: string;
+  eyebrowClassName?: string;
   title: string;
   description?: string;
   align?: "center" | "start";
@@ -17,7 +19,9 @@ export function SectionHeading({
   return (
     <Reveal className={`max-w-2xl ${centered ? "mx-auto text-center" : ""}`}>
       {eyebrow ? (
-        <p className={`eyebrow ${onDark ? "!text-gold-300" : ""}`}>{eyebrow}</p>
+        <p className={`eyebrow ${onDark ? "!text-gold-300" : ""} ${eyebrowClassName}`}>
+          {eyebrow}
+        </p>
       ) : null}
       <h2
         className={`mt-3 text-3xl font-bold sm:text-4xl ${

@@ -5,6 +5,7 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { CookieConsent } from "@/components/cookie-consent";
 import { AccessibilityWidget } from "@/components/accessibility-widget";
+import { WhatsAppButton } from "@/components/whatsapp-button";
 import { Analytics } from "@/components/analytics";
 import { site } from "@/lib/site";
 import "./globals.css";
@@ -98,6 +99,7 @@ export default function RootLayout({
             <path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.8-.9L3 21l2-5.2a8.4 8.4 0 1 1 16-4.3Z" />
           </svg>
         </Link>
+        <WhatsAppButton />
         <AccessibilityWidget />
         <CookieConsent />
         <Analytics />
