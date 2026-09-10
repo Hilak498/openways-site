@@ -140,33 +140,33 @@ body{margin:0;background:var(--sand-300);color:var(--navy-800);font-family:var(-
 .title .who{font-size:14px;font-weight:700;margin:9px 0 0}
 .title .meta{font-size:11.5px;color:var(--navy-600);margin:3px 0 0}
 
-.letter{margin-top:20px;padding:18px 22px;border-radius:18px;color:#fff;
+.letter{margin-top:18px;padding:15px 20px;border-radius:18px;color:#fff;
         background:radial-gradient(circle at 80% 20%,#152542 0%,#0a192f 100%)}
-.letter p{margin:0 0 7px;font-size:12.8px;line-height:1.85;color:rgb(255 255 255/.92)}
+.letter p{margin:0 0 6px;font-size:12.4px;line-height:1.75;color:rgb(255 255 255/.92)}
 .letter p:last-child{margin-bottom:0}
 .letter b{color:var(--gold-300);font-weight:700}
 
-.hero{display:flex;gap:20px;align-items:flex-start;margin-top:20px}
-.hero .photo{flex:none;width:118px;height:142px;border-radius:16px;overflow:hidden;
+.hero{display:flex;gap:18px;align-items:flex-start;margin-top:18px}
+.hero .photo{flex:none;width:108px;height:130px;border-radius:16px;overflow:hidden;
              background:var(--sand-100);border:1px solid rgb(10 25 47/.1);
              display:grid;place-items:center;color:var(--navy-600);font-size:10.5px}
 .hero .photo img{width:100%;height:100%;object-fit:cover;display:block}
 .hero .greet{font-size:12px;font-weight:600;letter-spacing:.1em;color:var(--gold-700);margin:0}
 .hero h2{font-size:17px;font-weight:800;margin:3px 0 0}
 .hero h2 small{display:block;font-size:12px;font-weight:600;color:var(--gold-700);margin-top:2px}
-.hero p{font-size:12.3px;line-height:1.8;color:var(--navy-600);margin:8px 0 0}
+.hero p{font-size:12px;line-height:1.75;color:var(--navy-600);margin:7px 0 0}
 .hero .credo{margin-top:9px;font-size:12.5px;font-weight:700;color:var(--navy-800)}
 .hero .credo::before{content:"";display:inline-block;width:22px;height:2px;border-radius:2px;
                      background:var(--gold-500);vertical-align:middle;margin-inline-end:8px}
 
-h2.sec{font-size:19px;font-weight:800;margin:24px 0 0}
+h2.sec{font-size:19px;font-weight:800;margin:20px 0 0}
 h2.sec span{color:var(--gold-700)}
 .bar{width:46px;height:3px;border-radius:999px;background:var(--gold-700);margin:7px 0 12px}
-.lead{font-size:12.5px;line-height:1.85;color:var(--navy-600);margin:0 0 10px}
+.lead{font-size:12.4px;line-height:1.8;color:var(--navy-600);margin:0 0 9px}
 .lead b{color:var(--navy-800)}
 
 ul.focus{margin:0;padding:0;list-style:none}
-ul.focus li{position:relative;padding:9px 34px 9px 14px;margin-bottom:8px;border-radius:14px;
+ul.focus li{position:relative;padding:8px 32px 8px 13px;margin-bottom:7px;border-radius:14px;
             background:var(--sand-100);border:1px solid rgb(10 25 47/.06);
             font-size:12.2px;line-height:1.7;break-inside:avoid}
 ul.focus li::before{content:"";position:absolute;inset-inline-start:14px;top:16px;width:9px;height:9px;
@@ -204,6 +204,30 @@ ul.focus b{color:var(--navy-800)}
            background:linear-gradient(180deg,rgb(254 214 91/.18),rgb(254 214 91/.06));
            border:1px solid rgb(115 92 0/.18);font-size:11.5px;line-height:1.6;color:var(--navy-700)}
 .track-fit b{display:block;font-size:10.5px;letter-spacing:.1em;color:var(--gold-700);margin-bottom:3px}
+
+/* ---------- עמוד 3 בגרסת שירות יחיד: שכר טרחה ---------- */
+.fee{border:1px solid rgb(115 92 0/.25);border-radius:18px;overflow:hidden;margin-top:4px;
+     background:linear-gradient(180deg,rgb(254 214 91/.16) 0%,rgb(254 214 91/.05) 100%)}
+.fee .headline{font-size:26px;font-weight:800;color:var(--gold-700);padding:16px 20px 6px;line-height:1.2}
+.fee .headline small{display:block;font-size:12.5px;font-weight:600;color:var(--navy-600);margin-top:4px}
+.fee table{width:100%;border-collapse:collapse}
+.fee td{padding:9px 20px;font-size:13px;border-bottom:1px solid rgb(115 92 0/.14)}
+.fee td:last-child{text-align:left;font-weight:700;white-space:nowrap}
+.fee tr:last-child td{border-bottom:0;font-size:16px;font-weight:800;color:var(--gold-700);
+                      background:rgb(254 214 91/.22)}
+.fee-note{font-size:11.5px;color:var(--navy-600);margin:8px 0 0}
+.cols ul{display:grid;grid-template-columns:1fr 1fr;gap:0 24px;align-items:start}
+ul.tick{margin:0;padding:0;list-style:none}
+ul.tick li{position:relative;padding-inline-start:19px;margin-bottom:4px;font-size:12px;line-height:1.6;break-inside:avoid}
+ul.tick li::before{content:"✓";position:absolute;inset-inline-start:0;top:0;color:var(--gold-700);font-weight:700}
+ul.dot{margin:0;padding:0;list-style:none}
+ul.dot li{position:relative;padding-inline-start:19px;margin-bottom:4px;font-size:12px;line-height:1.6;color:var(--navy-600)}
+ul.dot li::before,.block ul.dot li::before{content:"";position:absolute;inset-inline-start:5px;top:9px;
+                  width:5px;height:5px;border-radius:999px;background:var(--navy-600);opacity:.45}
+table.grid{width:100%;border-collapse:collapse;margin-top:2px}
+table.grid th,table.grid td{text-align:right;font-size:12.2px;padding:7px 12px;border-bottom:1px solid rgb(10 25 47/.09)}
+table.grid th{font-size:10.5px;letter-spacing:.08em;color:var(--gold-700);font-weight:700}
+table.grid td:last-child{text-align:left;white-space:nowrap;font-weight:600}
 
 /* ---------- עמוד 4: תנאים ---------- */
 .terms{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:12px;margin-top:16px}
@@ -248,7 +272,7 @@ ol.conditions{margin:0;padding-inline-start:18px;font-size:11.8px;line-height:1.
   .page{width:auto;min-height:295mm;margin:0;box-shadow:none;break-after:page}
   .page:last-child{break-after:auto}
 }
-.letter,.domain h3,.track-head,.track-fit,.terms .cell,.closing,ul.focus li,.track,.page::before{
+.letter,.domain h3,.track-head,.track-fit,.terms .cell,.closing,ul.focus li,.track,.fee,.fee tr:last-child td,.page::before{
   -webkit-print-color-adjust:exact;print-color-adjust:exact}
 @media screen and (max-width:780px){
   .page{width:100%;min-height:0;margin:0 0 12px;padding:18px}
@@ -257,6 +281,44 @@ ol.conditions{margin:0;padding-inline-start:18px;font-size:11.8px;line-height:1.
   .track-body ul{columns:1}
 }
 """
+
+
+def fee_block(cfg, svc):
+    """בלוק שכר הטרחה לשירות בודד: מספר אחד גדול, ופירוט מתחתיו."""
+    fin = cfg["finance"]
+    cur = fin.get("currency", "₪")
+    vat = float(fin.get("vatRate", 0))
+    model = svc["pricingModel"]
+
+    if model == "success_percent":
+        pct = svc.get("percent")
+        if pct in (None, ""):
+            die(f"לשירות '{svc['id']}' לא הוגדר אחוז שכר טרחה ב-services.json.")
+        rows = ""
+        if svc.get("minFee"):
+            rows += f"<tr><td>שכר טרחה מינימלי</td><td>{money(float(svc['minFee']), cur)}</td></tr>"
+        rows += "<tr><td>מועד החיוב</td><td>עם העמדת האשראי בפועל</td></tr>"
+        head = (f'<div class="headline"><span dir="ltr">{pct}%</span>'
+                f'<small>מהיקף המימון שיועמד בפועל</small></div>')
+        note = svc.get("feeNote", "")
+        return f'<div class="fee">{head}<table>{rows}</table></div>', note
+
+    price = svc.get("price")
+    if price in (None, ""):
+        die(f"לשירות '{svc['id']}' לא הוגדר מחיר ב-services.json.")
+    price = float(price)
+    unit = {"monthly_retainer": "לחודש", "punch_card": "לכרטיסייה"}.get(model, "")
+    sub = {"monthly_retainer": "ריטיינר חודשי", "punch_card": "כרטיסייה",
+           "fixed": "שכר טרחה לתהליך"}.get(model, "שכר טרחה")
+    if svc.get("minTermMonths"):
+        sub += f" · התחייבות ל-{svc['minTermMonths']} חודשים"
+    head = (f'<div class="headline">{money(price, cur)}{" " + unit if unit else ""}'
+            f'<small>{escape(sub)}</small></div>')
+    vat_amount = price * vat / 100
+    rows = (f'<tr><td>מע"מ {vat:g}%</td><td>{money(vat_amount, cur)}</td></tr>'
+            f'<tr><td>סה"כ לתשלום{" לחודש" if unit == "לחודש" else ""}</td>'
+            f'<td>{money(price + vat_amount, cur)}</td></tr>')
+    return f'<div class="fee">{head}<table>{rows}</table></div>', ""
 
 
 def topbar(logo, today, tag):
@@ -352,11 +414,44 @@ def build_html(cfg, payload, quote_no, today, tracks):
       <div class="track-fit"><b>למי זה מתאים</b>{escape(svc.get('fit') or (svc.get('criteria') or [''])[0])}</div>
     </div>
   </div>"""
-    page3 = f"""
+    if len(tracks) == 1:
+        svc = tracks[0]
+        block, note = fee_block(cfg, svc)
+        includes = payload.get("includes") or svc.get("includes", [])
+        excludes = payload.get("excludes") or svc.get("excludes", [])
+        payments = "".join(f'<tr><td>{escape(s["milestone"])}</td><td>{escape(s["part"])}</td></tr>'
+                           for s in svc.get("paymentSchedule", []))
+        timeline = "".join(f'<tr><td>{escape(s["step"])}</td><td>{escape(s["when"])}</td></tr>'
+                           for s in svc.get("timeline", []))
+        page3 = f"""
+<article class="page">
+  {topbar(logo, today, tag)}
+  <h2 class="sec">שכר <span>טרחה</span></h2><div class="bar"></div>
+  <p class="lead">{escape(payload.get('feeIntro', svc.get('summary', '')))}</p>
+  {block}
+  {f'<p class="fee-note">{escape(note)}</p>' if note else ''}
+
+  <section class="block"><h3>מה כולל שכר הטרחה</h3>
+    <div class="cols"><ul class="tick">{''.join(f'<li>{escape(i)}</li>' for i in includes)}</ul></div>
+  </section>
+
+  {f'<section class="block"><h3>מה לא כלול</h3><ul class="dot">' + ''.join(f'<li>{escape(i)}</li>' for i in excludes) + '</ul></section>' if excludes else ''}
+
+  <section class="block"><h3>שלבי העבודה</h3>
+    <table class="grid"><tr><th>שלב</th><th>מסגרת זמן</th></tr>{timeline}</table>
+  </section>
+
+  <section class="block"><h3>לוח תשלומים</h3>
+    <table class="grid"><tr><th>אבן דרך</th><th>חלק מהתשלום</th></tr>{payments}</table>
+  </section>
+  {pagefoot(biz, logo)}
+</article>"""
+    else:
+        page3 = f"""
 <article class="page">
   {topbar(logo, today, tag)}
   <h2 class="sec">הדרך שלך <span>מתחילה כאן</span></h2><div class="bar"></div>
-  <p class="lead">{escape(payload.get('tracksIntro', 'בוחרים מסלול לפי הקצב שמתאים לך היום. אפשר לעבור בין המסלולים בהמשך הדרך.'))}</p>
+  <p class="lead">{escape(payload.get('tracksIntro', 'בוחרים לפי מה שמתאים היום. אפשר לעבור בין השירותים בהמשך הדרך.'))}</p>
   {cards}
   {pagefoot(biz, logo)}
 </article>"""
@@ -473,6 +568,12 @@ def main():
                                 f"--user-data-dir={tmp}", "--no-pdf-header-footer",
                                 f"--print-to-pdf={pdf_path}", html_path.as_uri()],
                                check=True, capture_output=True, timeout=120)
+            raw = pdf_path.read_bytes()
+            pages = raw.count(b"/Type /Page") - raw.count(b"/Type /Pages")
+            if pages != 4:
+                print(f"אזהרה: המסמך יצא ב-{pages} עמודים במקום 4. משהו ארוך מדי לפריסה - "
+                      f"בדרך כלל המכתב האישי, פסקת היעד, סעיפי תחומי העבודה, או רשימת "
+                      f"מה-כלול של השירות ב-services.json. לקצר ולבנות שוב.", file=sys.stderr)
         else:
             print("אזהרה: לא נמצא Chromium - נוצר HTML בלבד.", file=sys.stderr)
 

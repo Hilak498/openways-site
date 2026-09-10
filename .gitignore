@@ -61,3 +61,6 @@ next-env.d.ts
 /.claude/skills/quote/services.json
 /.claude/skills/quote/out/
 /.claude/skills/quote/tracking.csv
+
+# Open Ways - חומר עסקי פנימי (לא לגיט, הריפו ציבורי)
+/docs/internal/
