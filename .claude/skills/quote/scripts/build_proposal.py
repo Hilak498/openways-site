@@ -435,10 +435,14 @@ def main():
     payload = json.loads(Path(args.payload).read_text(encoding="utf-8"))
 
     by_id = {s["id"]: s for s in cfg["services"]}
-    ids = payload.get("tracks") or [s["id"] for s in cfg["services"]
-                                    if s.get("trackLabel")]
+    ids = payload.get("tracks")
+    if not ids and payload.get("family"):
+        ids = [s["id"] for s in cfg["services"] if s["family"] == payload["family"]]
+        if not ids:
+            die(f"אין בקטלוג שירותים במשפחה {payload['family']!r}.")
     if not ids:
-        die("לא נבחרו מסלולים (tracks) ואין בקטלוג מסלולים עם trackLabel.")
+        die("צריך לציין אילו שירותים יופיעו בהצעה: 'tracks' עם מזהי שירות, "
+            "או 'family' עם שם משפחת שירות מהקטלוג.")
     tracks = []
     for tid in ids:
         if tid not in by_id:
