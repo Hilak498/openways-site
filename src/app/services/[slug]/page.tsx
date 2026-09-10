@@ -284,15 +284,29 @@ export default async function ServicePage({
             <ol className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {service.methodology.items.map((item, i) => (
                 <Reveal key={item.title} as="li" delay={i * 0.06} className="h-full">
-                  <div className="card card-hover h-full p-7">
+                  <div className="card group relative h-full overflow-hidden p-7 transition-all duration-300 hover:-translate-y-2 hover:rotate-1 hover:shadow-lift">
+                    {/* רקע עיצובי מעודן ברוח מצגת השיטה: הילת זהב + שם הלבנה כווטרמרק */}
+                    <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+                      <div className="absolute -bottom-12 -left-8 h-44 w-44 rounded-full bg-gold-400/10 blur-2xl transition-colors duration-500 group-hover:bg-gold-400/25" />
+                      {item.en ? (
+                        <span
+                          dir="ltr"
+                          className="absolute bottom-2 left-3 font-display text-3xl font-extrabold tracking-widest whitespace-nowrap text-navy-800/5 uppercase transition-colors duration-500 group-hover:text-gold-700/15"
+                        >
+                          {item.en}
+                        </span>
+                      ) : null}
+                    </div>
                     <span
-                      className="flex h-12 w-12 items-center justify-center rounded-xl bg-navy-800 font-display text-lg font-bold text-gold-300"
+                      className="relative flex h-12 w-12 items-center justify-center rounded-xl bg-navy-800 font-display text-lg font-bold text-gold-300 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3"
                       aria-hidden="true"
                     >
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <h3 className="mt-5 text-lg font-bold text-navy-800">{item.title}</h3>
-                    <p className="mt-2 text-sm leading-7 text-navy-600">
+                    <h3 className="relative mt-5 text-lg font-bold text-navy-800">
+                      {item.title}
+                    </h3>
+                    <p className="relative mt-2 text-sm leading-7 text-navy-600">
                       {item.description}
                     </p>
                   </div>
@@ -521,7 +535,7 @@ export default async function ServicePage({
               <div className="relative">
                 <h2 className="text-3xl font-bold sm:text-4xl">מוכנים לצעד הראשון?</h2>
                 <p className="mx-auto mt-4 max-w-xl text-lg leading-8 text-white/90">
-                  פגישת היכרות ראשונית - ללא עלות וללא התחייבות. נבין את הצורך,
+                  שיחת היכרות ראשונית - ללא עלות וללא התחייבות. נבין את הצורך,
                   נציג את הדרך ותחליטו בנחת.
                 </p>
                 <Link href="/#contact" className="btn-primary mt-8 !px-8 !py-4">
