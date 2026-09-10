@@ -208,10 +208,10 @@ ul.focus b{color:var(--navy-800)}
 /* ---------- עמוד 3 בגרסת שירות יחיד: שכר טרחה ---------- */
 .fee{border:1px solid rgb(115 92 0/.25);border-radius:18px;overflow:hidden;margin-top:4px;
      background:linear-gradient(180deg,rgb(254 214 91/.16) 0%,rgb(254 214 91/.05) 100%)}
-.fee .headline{font-size:26px;font-weight:800;color:var(--gold-700);padding:16px 20px 6px;line-height:1.2}
+.fee .headline{font-size:25px;font-weight:800;color:var(--gold-700);padding:14px 20px 5px;line-height:1.2}
 .fee .headline small{display:block;font-size:12.5px;font-weight:600;color:var(--navy-600);margin-top:4px}
 .fee table{width:100%;border-collapse:collapse}
-.fee td{padding:9px 20px;font-size:13px;border-bottom:1px solid rgb(115 92 0/.14)}
+.fee td{padding:8px 20px;font-size:12.8px;border-bottom:1px solid rgb(115 92 0/.14)}
 .fee td:last-child{text-align:left;font-weight:700;white-space:nowrap}
 .fee tr:last-child td{border-bottom:0;font-size:16px;font-weight:800;color:var(--gold-700);
                       background:rgb(254 214 91/.22)}
@@ -225,7 +225,7 @@ ul.dot li{position:relative;padding-inline-start:19px;margin-bottom:4px;font-siz
 ul.dot li::before,.block ul.dot li::before{content:"";position:absolute;inset-inline-start:5px;top:9px;
                   width:5px;height:5px;border-radius:999px;background:var(--navy-600);opacity:.45}
 table.grid{width:100%;border-collapse:collapse;margin-top:2px}
-table.grid th,table.grid td{text-align:right;font-size:12.2px;padding:7px 12px;border-bottom:1px solid rgb(10 25 47/.09)}
+table.grid th,table.grid td{text-align:right;font-size:12px;padding:6px 12px;border-bottom:1px solid rgb(10 25 47/.09)}
 table.grid th{font-size:10.5px;letter-spacing:.08em;color:var(--gold-700);font-weight:700}
 table.grid td:last-child{text-align:left;white-space:nowrap;font-weight:600}
 
