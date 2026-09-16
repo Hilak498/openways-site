@@ -56,3 +56,9 @@ next-env.d.ts
 
 .vercel
 .env*
+
+# Open Ways - חומר עסקי פנימי ונתוני לקוחות (הריפו ציבורי)
+/docs/internal/
+/.claude/skills/quote/services.json
+/.claude/skills/quote/out/
+/.claude/skills/quote/tracking.csv
