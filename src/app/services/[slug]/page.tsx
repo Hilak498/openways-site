@@ -289,9 +289,12 @@ export default async function ServicePage({
                     <div aria-hidden="true" className="pointer-events-none absolute inset-0">
                       <div className="absolute -bottom-12 -left-8 h-44 w-44 rounded-full bg-gold-400/10 blur-2xl transition-colors duration-500 group-hover:bg-gold-400/25" />
                       {item.en ? (
+                        /* שם הלבנה באנגלית כווטרמרק. הגודל יורד ככל שהכרטיס
+                           צר יותר, כך שגם השם הארוך (DEVELOPMENT) נכנס במלואו
+                           ולא נחתך בקצה הכרטיס. */
                         <span
                           dir="ltr"
-                          className="absolute bottom-2 left-3 font-display text-3xl font-extrabold tracking-widest whitespace-nowrap text-navy-800/5 uppercase transition-colors duration-500 group-hover:text-gold-700/15"
+                          className="absolute bottom-2 left-4 font-display text-2xl font-extrabold tracking-[0.12em] whitespace-nowrap text-navy-800/5 uppercase transition-colors duration-500 group-hover:text-gold-700/15 lg:text-lg lg:tracking-[0.1em]"
                         >
                           {item.en}
                         </span>
