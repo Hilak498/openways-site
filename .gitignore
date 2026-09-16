@@ -57,10 +57,8 @@ next-env.d.ts
 .vercel
 .env*
 
-# Open Ways quoting agent - business data stays out of this PUBLIC repo
+# Open Ways - חומר עסקי פנימי ונתוני לקוחות (הריפו ציבורי)
+/docs/internal/
 /.claude/skills/quote/services.json
 /.claude/skills/quote/out/
 /.claude/skills/quote/tracking.csv
-
-# Open Ways - חומר עסקי פנימי (לא לגיט, הריפו ציבורי)
-/docs/internal/

@@ -46,22 +46,23 @@ export function Hero() {
           <Reveal>
             <p className="inline-flex items-center gap-2 rounded-full border border-gold-300/40 bg-gold-400/10 px-4 py-1.5 text-sm font-medium text-gold-300 backdrop-blur-md">
               <span className="h-1.5 w-1.5 rounded-full bg-gold-400" aria-hidden="true" />
-              ייעוץ עסקי · גיוס אשראי · משכנתאות
+              ייעוץ עסקי · ייעוץ משכנתאות · גיוס אשראי עסקי
             </p>
           </Reveal>
 
           <Reveal delay={0.08}>
-            <h1 className="max-w-2xl text-4xl leading-[1.2] font-bold tracking-tight sm:text-5xl lg:text-[3.4rem]">
-              פותחים לכם דרך
+            {/* tracking-normal: באות עברית ריווח שלילי גורם לאותיות "להידבק" */}
+            <h1 className="max-w-2xl text-4xl leading-[1.2] font-bold tracking-normal sm:text-5xl lg:text-[3.4rem]">
+              יוצרים אפשרויות בדרך
               <br />
-              <span className="text-gold-300">להחלטות פיננסיות נכונות</span>
+              <span className="text-gold-300">להחלטות עסקיות ופיננסיות נכונות</span>
             </h1>
           </Reveal>
 
           <Reveal delay={0.16}>
             <p className="max-w-xl text-lg leading-8 text-white/90">
               Open Ways מלווה עסקים ומשקי בית בצמתים הפיננסיים החשובים באמת:
-              אסטרטגיה עסקית, גיוס אשראי בתנאים מיטביים ומשכנתא חכמה - בשקיפות
+              אסטרטגיה עסקית, משכנתא חכמה וגיוס אשראי בתנאים מיטביים - בשקיפות
               מלאה ובאחריות אישית לתוצאה.
             </p>
           </Reveal>
@@ -86,18 +87,18 @@ export function Hero() {
                 </svg>
               </Link>
               <Link href="/#services" className="btn-ghost-dark !px-8 !py-4">
-                להכיר את השירותים
+                להכיר את מגוון השירותים
               </Link>
             </div>
           </Reveal>
 
-          {/* Proof-point cards - same glass window as the ₪120M card (TODO: נתונים אמיתיים) */}
+          {/* Proof-point cards - same glass window as the stat card */}
           <Reveal delay={0.32}>
             <dl className="grid max-w-xl grid-cols-1 gap-4 pt-2 sm:grid-cols-2">
               {[
                 {
-                  value: "‏₪120M+",
-                  label: "אשראי שגויס ללקוחותינו",
+                  value: "‏2000+",
+                  label: "הצלחות עם לקוחות בייעוץ משכנתאות וגיוס אשראי",
                   icon: (
                     <>
                       <path d="m22 7-8.5 8.5-5-5L2 17" />
@@ -106,8 +107,8 @@ export function Hero() {
                   ),
                 },
                 {
-                  value: "‏18+",
-                  label: "שנות ניסיון",
+                  value: "‏16+",
+                  label: "שנות ניסיון ופרקטיקה בשטח",
                   icon: (
                     <>
                       <circle cx="12" cy="8" r="6" />
@@ -116,8 +117,8 @@ export function Hero() {
                   ),
                 },
                 {
-                  value: "‏350+",
-                  label: "לקוחות בליווי",
+                  value: "ייעוץ עסקי",
+                  label: "בשיטת 7 BRICKS",
                   icon: (
                     <>
                       <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
@@ -127,12 +128,13 @@ export function Hero() {
                   ),
                 },
                 {
-                  value: "‏24 שעות",
-                  label: "מענה ראשוני",
+                  value: "יצירתיות",
+                  label: "במציאת פתרונות מגוונים",
                   icon: (
                     <>
-                      <circle cx="12" cy="12" r="9" />
-                      <path d="M12 7v5l3 2" />
+                      <path d="M9 18h6" />
+                      <path d="M10 22h4" />
+                      <path d="M12 2a7 7 0 0 0-4.9 12 4.9 4.9 0 0 1 1.4 2.5c.1.5.5 1.5 1.5 1.5h4c1 0 1.4-1 1.5-1.5a4.9 4.9 0 0 1 1.4-2.5A7 7 0 0 0 12 2Z" />
                     </>
                   ),
                 },

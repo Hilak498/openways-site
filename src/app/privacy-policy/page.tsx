@@ -34,7 +34,7 @@ export default function PrivacyPolicyPage() {
           {site.privacyOfficer.email}
         </a>
         , טלפון: <span dir="ltr">{site.phoneDisplay}</span>, כתובת:{" "}
-        {site.address.street}, {site.address.city}.
+        {site.address.street} {site.address.zip}.
       </p>
 
       <h2>2. איזה מידע נאסף</h2>
@@ -139,7 +139,7 @@ export default function PrivacyPolicyPage() {
         <a href={`mailto:${site.privacyOfficer.email}`} dir="ltr">
           {site.privacyOfficer.email}
         </a>
-        , או בכתובת {site.address.street}, {site.address.city}.
+        , או בכתובת {site.address.street} {site.address.zip}.
       </p>
     </LegalPage>
   );
