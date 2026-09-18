@@ -4,9 +4,9 @@ import { Reveal } from "@/components/reveal";
 import { LoanCalculator } from "@/components/loan-calculator";
 
 export const metadata: Metadata = {
-  title: "מחשבון משכנתא",
+  title: "מחשבון משכנתה",
   description:
-    "מחשבון משכנתא של Open Ways: הזינו סכום, ריבית ותקופה וקבלו הערכה של ההחזר החודשי, סך התשלומים וסך הריבית - לצורך המחשה בלבד.",
+    "מחשבון משכנתה של Open Ways: הזינו סכום, ריבית ותקופה וקבלו הערכה של ההחזר החודשי, סך התשלומים וסך הריבית - לצורך המחשה בלבד.",
   alternates: { canonical: "/calculators/mortgage" },
 };
 
@@ -28,13 +28,13 @@ export default function MortgageCalculatorPage() {
               </li>
               <li aria-hidden="true">/</li>
               <li aria-current="page" className="font-semibold text-gold-300">
-                מחשבון משכנתא
+                מחשבון משכנתה
               </li>
             </ol>
           </nav>
           <Reveal>
             <h1 className="mt-10 max-w-2xl text-4xl leading-[1.2] font-bold tracking-normal sm:text-5xl">
-              מחשבון משכנתא
+              מחשבון משכנתה
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-white/90">
               קבלו הערכה מהירה של ההחזר החודשי לפי סכום ההלוואה, הריבית והתקופה.
@@ -48,7 +48,7 @@ export default function MortgageCalculatorPage() {
         <div className="container-site max-w-3xl">
           <Reveal>
             <LoanCalculator
-              amountLabel="סכום המשכנתא"
+              amountLabel="סכום המשכנתה"
               defaultAmount={1_000_000}
               maxAmount={5_000_000}
               amountStep={50_000}

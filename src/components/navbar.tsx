@@ -14,7 +14,7 @@ interface NavLink {
 }
 
 // סדר הקישורים לפי הלוגו: נעים להכיר → ייעוץ עסקי → ייעוץ משכנתאות →
-// גיוס אשראי עסקי → למה אנחנו → מחשבונים (סדר השירותים נגזר מ-lib/site.ts)
+// גיוס אשראי עסקי → בלוג ומאמרים → מחשבונים (סדר השירותים נגזר מ-lib/site.ts)
 const navLinks: NavLink[] = [
   { href: "/about", label: "נעים להכיר" },
   ...services.map((s) => ({
@@ -22,7 +22,7 @@ const navLinks: NavLink[] = [
     label: s.name,
     children: s.slug === "mortgage-advisory" ? mortgageTracks : undefined,
   })),
-  { href: "/#why-us", label: "למה אנחנו" },
+  { href: "/blog", label: "בלוג ומאמרים" },
   { href: calculatorLinks[0].href, label: "מחשבונים", children: calculatorLinks },
 ];
 

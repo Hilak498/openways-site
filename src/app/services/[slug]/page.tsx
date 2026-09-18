@@ -6,7 +6,6 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
-import { ServiceIcon } from "@/components/service-icon";
 import { Faq } from "@/components/faq";
 import { JsonLd } from "@/components/json-ld";
 import { faqSchema, serviceSchema } from "@/lib/schema";
@@ -99,10 +98,7 @@ export default async function ServicePage({
           <div className="mt-10 grid items-center gap-10 lg:grid-cols-12">
             <div className="lg:col-span-8">
               <Reveal>
-                <span className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-navy-800 text-gold-300 shadow-sm ring-1 ring-white/10">
-                  <ServiceIcon icon={service.icon} className="h-8 w-8" />
-                </span>
-                <h1 className="mt-6 max-w-2xl text-4xl leading-[1.2] font-bold tracking-normal sm:text-5xl">
+                <h1 className="max-w-2xl text-4xl leading-[1.2] font-bold tracking-normal sm:text-5xl">
                   {service.hero.title}
                 </h1>
                 <p className="mt-6 max-w-2xl text-lg leading-8 text-white/90">
@@ -472,7 +468,7 @@ export default async function ServicePage({
             <SectionHeading
               eyebrow="מילון מונחים"
               title="מדברים משכנתאות בגובה העיניים"
-              description="המונחים שתפגשו בדרך למשכנתא - מוסברים פשוט וברור."
+              description="המונחים שתפגשו בדרך למשכנתה - מוסברים פשוט וברור."
             />
             <div className="mt-12">
               <Faq

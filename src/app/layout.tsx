@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     "גיוס אשראי עסקי",
     "ייעוץ משכנתאות",
     "מימון לעסקים",
-    "מחזור משכנתא",
+    "מחזור משכנתה",
   ],
   alternates: { canonical: "/" },
   openGraph: {
