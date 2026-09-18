@@ -113,7 +113,7 @@ export default function AboutPage() {
             </ol>
           </nav>
           <Reveal>
-            <h1 className="mt-10 max-w-2xl text-4xl leading-[1.2] font-bold tracking-normal sm:text-5xl">
+            <h1 className="mt-10 max-w-2xl text-4xl leading-[1.2] font-bold sm:text-5xl">
               נעים להכיר -
               <br />
               <span className="text-gold-300">Open Ways Group</span>

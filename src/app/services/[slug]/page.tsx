@@ -6,6 +6,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
+import { CardArtwork } from "@/components/card-artwork";
 import { Faq } from "@/components/faq";
 import { JsonLd } from "@/components/json-ld";
 import { faqSchema, serviceSchema } from "@/lib/schema";
@@ -98,7 +99,7 @@ export default async function ServicePage({
           <div className="mt-10 grid items-center gap-10 lg:grid-cols-12">
             <div className="lg:col-span-8">
               <Reveal>
-                <h1 className="max-w-2xl text-4xl leading-[1.2] font-bold tracking-normal sm:text-5xl">
+                <h1 className="max-w-2xl text-4xl leading-[1.2] font-bold sm:text-5xl">
                   {service.hero.title}
                 </h1>
                 <p className="mt-6 max-w-2xl text-lg leading-8 text-white/90">
@@ -175,34 +176,73 @@ export default async function ServicePage({
               title={service.solutions.title}
               description={service.solutions.description}
             />
-            <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {service.solutions.items.map((solution, i) => (
-                <Reveal key={solution.title} as="li" delay={i * 0.05} className="h-full">
-                  <article className="card card-hover relative flex h-full flex-col p-7">
-                    <span className="inline-flex w-fit items-center rounded-full bg-gold-500/15 px-3 py-1 text-xs font-bold text-gold-700">
-                      {solution.badge}
-                    </span>
-                    <h3 className="mt-4 text-lg font-bold text-navy-800">
-                      {solution.title}
-                    </h3>
-                    <p className="mt-2 flex-1 text-sm leading-7 text-navy-600">
-                      {solution.description}
-                    </p>
-                    {/* Stretched link - the whole card leads to the contact form */}
-                    <Link
-                      href="/#contact"
-                      className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-gold-700 transition-all after:absolute after:inset-0 after:content-[''] hover:gap-3"
-                      aria-label={`לפרטים על ${solution.title}`}
-                    >
-                      לפרטים
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="-scale-x-100">
-                        <path d="M5 12h14M13 6l6 6-6 6" />
-                      </svg>
-                    </Link>
-                  </article>
-                </Reveal>
-              ))}
-            </ul>
+            {/*
+              שתי פריסות שונות בכוונה: עמוד המשכנתאות בגריד שלושה טורים עם
+              רצועת איור בראש כל כרטיס, ועמוד האשראי בשורות רוחביות שבהן
+              האיור יושב בצד. כך שני העמודים לא נקראים כאותו תבנית.
+            */}
+            {service.slug === "business-credit" ? (
+              <ul className="mt-14 grid gap-5 lg:grid-cols-2">
+                {service.solutions.items.map((solution, i) => (
+                  <Reveal key={solution.title} as="li" delay={i * 0.05} className="h-full">
+                    <article className="card card-hover relative flex h-full overflow-hidden">
+                      <CardArtwork
+                        seed={i + 31}
+                        className="h-auto w-24 shrink-0 sm:w-32"
+                      />
+                      <div className="flex flex-1 flex-col p-6">
+                        <span className="inline-flex w-fit items-center rounded-full bg-gold-500/15 px-3 py-1 text-xs font-bold text-gold-700">
+                          {solution.badge}
+                        </span>
+                        <h3 className="mt-3 text-lg font-bold text-navy-800">
+                          {solution.title}
+                        </h3>
+                        <p className="mt-2 flex-1 text-sm leading-7 text-navy-600">
+                          {solution.description}
+                        </p>
+                        <Link
+                          href="/#contact"
+                          className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-gold-700 transition-all after:absolute after:inset-0 after:content-[''] hover:gap-3"
+                          aria-label={`לפרטים על ${solution.title}`}
+                        >
+                          לפרטים
+                        </Link>
+                      </div>
+                    </article>
+                  </Reveal>
+                ))}
+              </ul>
+            ) : (
+              <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {service.solutions.items.map((solution, i) => (
+                  <Reveal key={solution.title} as="li" delay={i * 0.05} className="h-full">
+                    <article className="card card-hover relative flex h-full flex-col overflow-hidden">
+                      <div className="relative h-24 w-full">
+                        <CardArtwork seed={i + 7} className="h-full w-full" />
+                        <span className="absolute bottom-3 right-4 inline-flex items-center rounded-full bg-navy-900/70 px-3 py-1 text-xs font-bold text-gold-300 backdrop-blur-sm">
+                          {solution.badge}
+                        </span>
+                      </div>
+                      <div className="flex flex-1 flex-col p-7">
+                        <h3 className="text-lg font-bold text-navy-800">
+                          {solution.title}
+                        </h3>
+                        <p className="mt-2 flex-1 text-sm leading-7 text-navy-600">
+                          {solution.description}
+                        </p>
+                        <Link
+                          href="/#contact"
+                          className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-gold-700 transition-all after:absolute after:inset-0 after:content-[''] hover:gap-3"
+                          aria-label={`לפרטים על ${solution.title}`}
+                        >
+                          לפרטים
+                        </Link>
+                      </div>
+                    </article>
+                  </Reveal>
+                ))}
+              </ul>
+            )}
           </div>
         </section>
       ) : null}

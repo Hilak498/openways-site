@@ -33,7 +33,7 @@ export default function BusinessCreditCalculatorPage() {
             </ol>
           </nav>
           <Reveal>
-            <h1 className="mt-10 max-w-2xl text-4xl leading-[1.2] font-bold tracking-normal sm:text-5xl">
+            <h1 className="mt-10 max-w-2xl text-4xl leading-[1.2] font-bold sm:text-5xl">
               מחשבון גיוס אשראי עסקי
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-white/90">

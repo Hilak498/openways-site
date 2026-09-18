@@ -82,7 +82,7 @@ export default function MortgageAdvisorsPage() {
                 <span className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-navy-800 text-gold-300 shadow-sm ring-1 ring-white/10">
                   <ServiceIcon icon="home" className="h-8 w-8" />
                 </span>
-                <h1 className="mt-6 max-w-2xl text-4xl leading-[1.2] font-bold tracking-normal sm:text-5xl">
+                <h1 className="mt-6 max-w-2xl text-4xl leading-[1.2] font-bold sm:text-5xl">
                   {page.title}
                 </h1>
                 <p className="mt-6 max-w-2xl text-lg leading-8 text-white/90">
