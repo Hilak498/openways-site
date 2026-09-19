@@ -130,27 +130,27 @@ export default function AboutPage() {
       {/* Owner */}
       <section className="py-24">
         <div className="container-site grid items-start gap-12 lg:grid-cols-12">
-          <Reveal className="lg:col-span-5">
+          <Reveal className="mx-auto w-full max-w-xs lg:col-span-4 lg:mx-0 lg:max-w-none">
             <div className="card relative overflow-hidden !rounded-[2.5rem] p-2 shadow-lift">
               {ownerPhotoExists ? (
-                <div className="relative h-[440px] w-full overflow-hidden rounded-[2rem]">
+                <div className="relative h-[360px] w-full overflow-hidden rounded-[2rem]">
                   <Image
                     src="/images/owner.jpg"
                     alt={`${owner.name}, ${owner.role} של Open Ways Group`}
                     fill
-                    sizes="(min-width: 1024px) 40vw, 100vw"
+                    sizes="(min-width: 1024px) 32vw, 20rem"
                     className="object-cover"
                   />
                 </div>
               ) : (
                 /* Placeholder עד להעלאת תמונת המייסד ל-public/images/owner.jpg */
-                <div className="flex h-[440px] w-full items-center justify-center rounded-[2rem] bg-sand-100">
+                <div className="flex h-[360px] w-full items-center justify-center rounded-[2rem] bg-sand-100">
                   <LogoMark className="h-32 w-auto opacity-60" />
                 </div>
               )}
             </div>
           </Reveal>
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-8">
             <Reveal>
               <p className="eyebrow">מי מוביל את הדרך</p>
               <h2 className="mt-3 text-3xl font-extrabold text-navy-800 sm:text-4xl">
