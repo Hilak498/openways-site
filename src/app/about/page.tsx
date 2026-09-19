@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
 };
 
-// TODO: להשלים ביוגרפיה מלאה של המייסד ולהעלות תמונה ל-public/images/owner.jpg
+// TODO: להשלים ביוגרפיה מלאה של המייסד (התמונה כבר ב-public/images/owner.jpg)
 const owner = {
   name: "אושרי קירשנפלד",
   role: 'מייסד ומנכ"ל',
