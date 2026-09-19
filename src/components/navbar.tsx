@@ -56,13 +56,13 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 border-b border-navy-900/10 bg-sand-50/95 backdrop-blur-xl transition-shadow duration-300 ${
+      className={`on-dark fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-navy-900/95 backdrop-blur-xl transition-shadow duration-300 ${
         scrolled || open ? "shadow-card" : "shadow-sm"
       }`}
     >
       <nav aria-label="ניווט ראשי" className="container-site">
         <div className="flex h-20 items-center justify-between py-3">
-          <LogoLink variant="dark-text" imgClassName="h-13 w-auto" />
+          <LogoLink variant="light-text" imgClassName="h-13 w-auto" />
 
           {/* Desktop links */}
           <ul className="hidden items-center gap-8 lg:flex">
@@ -78,8 +78,8 @@ export function Navbar() {
                     aria-current={active ? "page" : undefined}
                     className={`rounded-md text-[0.95rem] font-medium underline-offset-8 transition-all duration-200 ${
                       active
-                        ? "border-b-2 border-gold-700 pb-1 text-gold-700"
-                        : "text-navy-600 hover:font-semibold hover:text-gold-700 hover:underline hover:decoration-gold-500 hover:decoration-2"
+                        ? "border-b-2 border-gold-300 pb-1 text-gold-300"
+                        : "text-white/80 hover:font-semibold hover:text-gold-300 hover:underline hover:decoration-gold-400 hover:decoration-2"
                     }`}
                   >
                     {link.label}
@@ -87,12 +87,12 @@ export function Navbar() {
                   {link.children ? (
                     /* נפתח במעבר עכבר או בפוקוס מקלדת; pt יוצר גשר רציף להעברת העכבר */
                     <div className="invisible absolute top-full right-0 z-50 pt-4 opacity-0 transition duration-200 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
-                      <ul className="w-72 rounded-2xl border border-navy-900/10 bg-sand-50 p-3 shadow-card">
+                      <ul className="w-72 rounded-2xl border border-white/10 bg-navy-800 p-3 shadow-card">
                         {link.children.map((child) => (
                           <li key={child.href}>
                             <Link
                               href={child.href}
-                              className="block rounded-xl px-4 py-2.5 text-sm font-medium text-navy-700 transition hover:bg-gold-400/15 hover:text-gold-700"
+                              className="block rounded-xl px-4 py-2.5 text-sm font-medium text-white/85 transition hover:bg-gold-300/15 hover:text-gold-300"
                             >
                               {child.label}
                             </Link>
@@ -126,7 +126,7 @@ export function Navbar() {
               aria-expanded={open}
               aria-controls="mobile-menu"
               aria-label={open ? "סגירת תפריט" : "פתיחת תפריט"}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-navy-900/15 text-navy-800 transition hover:bg-sand-100"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/20 text-white transition hover:bg-white/10"
             >
               <svg
                 width="22"
@@ -152,7 +152,7 @@ export function Navbar() {
         <div
           id="mobile-menu"
           hidden={!open}
-          className="border-t border-navy-900/10 pb-6 lg:hidden"
+          className="border-t border-white/10 pb-6 lg:hidden"
         >
           <ul className="flex flex-col gap-1 pt-4">
             {navLinks.map((link) => (
@@ -161,8 +161,8 @@ export function Navbar() {
                   href={link.href}
                   aria-current={pathname === link.href ? "page" : undefined}
                   onClick={() => setOpen(false)}
-                  className={`block rounded-xl px-3 py-3 text-lg font-medium transition hover:bg-gold-400/15 hover:text-gold-700 ${
-                    pathname === link.href ? "text-gold-700" : "text-navy-800"
+                  className={`block rounded-xl px-3 py-3 text-lg font-medium transition hover:bg-gold-300/15 hover:text-gold-300 ${
+                    pathname === link.href ? "text-gold-300" : "text-white"
                   }`}
                 >
                   {link.label}
@@ -174,7 +174,7 @@ export function Navbar() {
                         <Link
                           href={child.href}
                           onClick={() => setOpen(false)}
-                          className="block rounded-xl px-3 py-2 text-base font-medium text-navy-600 transition hover:bg-gold-400/15 hover:text-gold-700"
+                          className="block rounded-xl px-3 py-2 text-base font-medium text-white/75 transition hover:bg-gold-300/15 hover:text-gold-300"
                         >
                           {child.label}
                         </Link>
