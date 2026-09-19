@@ -6,10 +6,12 @@
  * הכלכלית 2026 שריווח את מדרגות המס ב-31.3.2026).
  * https://www.gov.il/he/pages/income-tax-monthly-deductions-booklet
  *
- * ⚠️ ביטוח לאומי ומס בריאות אינם מופיעים בחוברת של רשות המסים - הם באחריות
- * המוסד לביטוח לאומי. הערכים כאן טרם אומתו מול חוזר ביטוח לאומי 2026,
- * ולכן `nationalInsurance.verified` עדיין false והמחשבון מציג אזהרה.
- * לאימות: https://www.btl.gov.il/Insurance/Rates/Pages/default.aspx
+ * ביטוח לאומי ובריאות: אינם בחוברת של רשות המסים - הם באחריות המוסד לביטוח
+ * לאומי. השיעורים כאן לקוחים מדפי השיעורים הרשמיים של הביטוח הלאומי
+ * (לעובדים שכירים ולעובד עצמאי), עם מדרגת הגבייה המופחתת 7,703 ש"ח וההכנסה
+ * המרבית החייבת 51,910 ש"ח - שתיהן החל ב-01.01.2026.
+ * https://www.btl.gov.il/Insurance/Rates/Pages/לעובדים%20שכירים.aspx
+ * https://www.btl.gov.il/Insurance/National%20Insurance/type_list/Self_Employed/Pages/rates.aspx
  *
  * בינואר של כל שנה: לעדכן את הקובץ הזה בלבד - שאר הקוד נגזר ממנו.
  */
@@ -27,9 +29,9 @@ export const TAX_SOURCE = {
   nationalInsurance: {
     title: "שיעורי דמי ביטוח לאומי ודמי ביטוח בריאות",
     publisher: "המוסד לביטוח לאומי",
-    updated: "טרם אומת",
+    updated: "מדרגות 2026",
     url: "https://www.btl.gov.il/Insurance/Rates/Pages/default.aspx",
-    verified: false,
+    verified: true,
   },
 } as const;
 
@@ -76,21 +78,42 @@ export const PENSION_CREDIT_RATE = 0.35;
 export const AVERAGE_WAGE = 13_769;
 
 /**
- * ביטוח לאומי ומס בריאות - שיעורי עובד שכיר ועצמאי.
- * ⚠️ טרם אומת מול המוסד לביטוח לאומי. ראו הערה בראש הקובץ.
+ * ביטוח לאומי ומס בריאות.
+ *
+ * שכיר (מגיל 18 עד גיל פרישה): מופחת - ביטוח לאומי 1.04% ובריאות 3.23%
+ * (סה"כ 4.27%); מלא - ביטוח לאומי 7% ובריאות 5.17% (סה"כ 12.17%).
+ * עצמאי (אותם גילאים): מופחת - 4.47% ו-3.23% (סה"כ 7.7%);
+ * מלא - 12.83% ו-5.17% (סה"כ 18%).
+ *
+ * הביטוח הלאומי מפרסם שיעורים נפרדים לקבוצות נוספות (מקבלי פנסיה מוקדמת,
+ * עובדי משק בית, מי שאינם עובדים ובעלי הכנסה שלא מעבודה, מתחת לגיל 18 ומעל
+ * גיל פרישה). המחשבון מכסה שכיר ועצמאי בגילאי 18 עד גיל פרישה בלבד.
+ *
+ * החישוב לעצמאי אינו כולל את הניכוי בשל דמי ביטוח לאומי מההכנסה החייבת -
+ * ראו selfEmployedNiDeduction.
  */
 export const nationalInsurance = {
-  verified: false,
-  /** השכר שעד אליו חל השיעור המופחת (60% מהשכר הממוצע). */
+  verified: true,
+  /** מדרגת הגבייה המופחתת, החל ב-01.01.2026. */
   reducedRateCeiling: 7_703,
-  /** התקרה שמעליה לא משלמים דמי ביטוח כלל. */
+  /** ההכנסה המרבית החייבת בדמי ביטוח, החל ב-01.01.2026. */
   maxIncome: 51_910,
   employee: {
-    reduced: { insurance: 0.004, health: 0.031 },
-    full: { insurance: 0.07, health: 0.05 },
+    reduced: { insurance: 0.0104, health: 0.0323 },
+    full: { insurance: 0.07, health: 0.0517 },
   },
   selfEmployed: {
-    reduced: { insurance: 0.0287, health: 0.031 },
-    full: { insurance: 0.1283, health: 0.05 },
+    reduced: { insurance: 0.0447, health: 0.0323 },
+    full: { insurance: 0.1283, health: 0.0517 },
   },
+} as const;
+
+/**
+ * לעצמאי מותר ניכוי מההכנסה החייבת בגובה 52% מדמי הביטוח הלאומי ששולמו
+ * (לא כולל דמי ביטוח בריאות). זה הנתון היחיד במחשבון שלא נלקח מדף רשמי
+ * שנמסר לנו, ולכן הוא כבוי עד לאישור רואה חשבון. להפעלה: applied = true.
+ */
+export const selfEmployedNiDeduction = {
+  applied: false,
+  rate: 0.52,
 } as const;

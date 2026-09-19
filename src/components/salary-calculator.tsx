@@ -3,7 +3,7 @@
 import { useId, useState } from "react";
 import Link from "next/link";
 import { calculateSalary } from "@/lib/salary";
-import { TAX_SOURCE, TAX_YEAR, nationalInsurance } from "@/lib/tax-2026";
+import { TAX_SOURCE, TAX_YEAR, selfEmployedNiDeduction } from "@/lib/tax-2026";
 
 const nis = (v: number) => `₪${Math.round(v).toLocaleString("he-IL")}`;
 
@@ -176,8 +176,9 @@ export function SalaryCalculator() {
           החישוב להמחשה בלבד ואינו מהווה ייעוץ מס. מדרגות המס, נקודת הזיכוי
           ותקרות ההפקדה לשנת {TAX_YEAR} לפי {TAX_SOURCE.incomeTax.title},{" "}
           {TAX_SOURCE.incomeTax.publisher}, {TAX_SOURCE.incomeTax.updated}.
-          {!nationalInsurance.verified
-            ? " שיעורי ביטוח לאומי ובריאות טרם אומתו מול המוסד לביטוח לאומי."
+          שיעורי דמי ביטוח לאומי ובריאות לפי {TAX_SOURCE.nationalInsurance.publisher}.
+          {!selfEmployedNiDeduction.applied
+            ? " החישוב לעצמאי/ת אינו כולל את הניכוי מההכנסה החייבת בשל דמי ביטוח לאומי."
             : ""}{" "}
           תלוש אמיתי כולל רכיבים נוספים (שווי שימוש, זקיפות, תיאומי מס והטבות
           יישוב) שאינם בחישוב.

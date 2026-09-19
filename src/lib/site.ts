@@ -45,6 +45,7 @@ export const mortgageTracks = [
 /** מחשבונים - מוצגים בתפריט הראשי. */
 export const calculatorLinks = [
   { label: "מחשבון משכנתה", href: "/calculators/mortgage" },
+  { label: "מחשבון שכר נטו", href: "/calculators/salary" },
   { label: "מחשבון גיוס אשראי", href: "/calculators/business-credit" },
 ] as const;
 

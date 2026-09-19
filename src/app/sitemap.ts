@@ -30,7 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.7,
     },
-    ...["/calculators/mortgage", "/calculators/business-credit"].map((path) => ({
+    ...["/calculators/mortgage", "/calculators/salary", "/calculators/business-credit"].map((path) => ({
       url: `${site.url}${path}`,
       lastModified: now,
       changeFrequency: "monthly" as const,
