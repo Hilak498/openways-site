@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
-import { Heebo, Inter, Montserrat } from "next/font/google";
+import { Poppins, Rubik, Secular_One } from "next/font/google";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { CookieConsent } from "@/components/cookie-consent";
@@ -10,26 +10,40 @@ import { Analytics } from "@/components/analytics";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-const heebo = Heebo({
-  variable: "--font-heebo",
+/*
+ * הטיפוגרפיה לפי פרק 04 בספר המותג (Typeface System).
+ *
+ * הספר מגדיר Bingo Regular לכותרות ו-Poppins לכל השאר - שתיהן פונטים
+ * לטיניים בלבד, בלי אות עברית אחת. לכן לכל אחת נבחרה מקבילה עברית
+ * מהקרובות שיש, והמקור הלטיני נשאר ראשון בערימה כדי שמילים באנגלית
+ * ("Open Ways", "7Bricks") ייראו כמו בספר:
+ *
+ * Bingo Regular  ->  Secular One - דיספליי גאומטרי עברי, בטן עגולה ורחבה
+ *                    ואופי החלטי, הקרוב ביותר לאופי של Bingo. משקל אחד.
+ * Poppins        ->  Rubik - הגאומטרי העברי הקרוב ביותר ל-Poppins
+ *                    בפרופורציות ובעגלגלות, עם עברית ולטינית באותה משפחה
+ *                    ובמשקלים 300-900.
+ *
+ * Poppins עצמה נטענת ללטינית בלבד - היא הפונט של הספר, ואין לה עברית.
+ */
+const secularOne = Secular_One({
+  variable: "--font-secular",
   subsets: ["hebrew", "latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400"],
   display: "swap",
 });
 
-// Latin display/body faces from the approved design; Hebrew glyphs fall back
-// to Heebo via the CSS font stacks in globals.css.
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
-  subsets: ["latin"],
-  weight: ["600", "700", "800"],
+const rubik = Rubik({
+  variable: "--font-rubik",
+  subsets: ["hebrew", "latin"],
+  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
 
-const inter = Inter({
-  variable: "--font-inter",
+const poppins = Poppins({
+  variable: "--font-poppins",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -78,7 +92,7 @@ export default function RootLayout({
     <html
       lang="he"
       dir="rtl"
-      className={`${heebo.variable} ${montserrat.variable} ${inter.variable} font-sans`}
+      className={`${secularOne.variable} ${rubik.variable} ${poppins.variable} font-sans`}
     >
       <body className="flex min-h-svh flex-col">
         <a href="#main" className="skip-link">

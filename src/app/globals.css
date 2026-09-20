@@ -25,9 +25,14 @@
   --color-sand-200: #efedef; /* surface-container */
   --color-sand-300: #e4e2e4; /* surface-container-highest */
 
-  --font-sans: var(--font-inter), var(--font-heebo), system-ui, -apple-system,
+  /*
+   * ערימת הפונטים: הלטיני של ספר המותג קודם, העברי אחריו. הדפדפן לוקח
+   * מכל פונט רק את האותיות שיש לו, כך שאנגלית מקבלת את Poppins המקורית
+   * ועברית נופלת ל-Rubik - בלי שהמשתמש רואה מעבר.
+   */
+  --font-sans: var(--font-poppins), var(--font-rubik), system-ui, -apple-system,
     "Segoe UI", Arial, sans-serif;
-  --font-display: var(--font-montserrat), var(--font-heebo), system-ui,
+  --font-display: var(--font-secular), var(--font-rubik), system-ui,
     -apple-system, "Segoe UI", Arial, sans-serif;
 
   --shadow-soft: 0 10px 30px -10px rgb(0 0 0 / 0.1);
@@ -52,6 +57,12 @@
   h3,
   h4 {
     font-family: var(--font-display);
+    /*
+     * ל-Secular One משקל אחד בלבד (400). בלי זה הדפדפן היה מזייף בולד
+     * לכותרות שמבקשות 700 - עיבוי מלאכותי שמלכלך את האות העברית ומשתנה
+     * מדפדפן לדפדפן. הפונט ממילא חסון מספיק בעצמו.
+     */
+    font-synthesis-weight: none;
     /*
      * עברית: זוגות הקרנינג של הפונט מקרבים אותיות עד כדי הידבקות בגדלים
      * גדולים (למשל ב-ד במילה "בדרך"). מכבים קרנינג ומוסיפים ריווח קל -
