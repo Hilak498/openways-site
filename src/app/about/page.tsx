@@ -3,6 +3,8 @@ import path from "node:path";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import { CardArtwork } from "@/components/card-artwork";
+import { Marquee } from "@/components/marquee";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
 import { LogoMark } from "@/components/logo";
@@ -28,7 +30,7 @@ const owner = {
   role: 'מייסד ומנכ"ל',
   bio: [
     "אושרי קירשנפלד, המייסד והמנכ\"ל של Open Ways Group, מגיע עם רקע בנקאי רחב וניסיון מוכח בייעוץ עסקי, בייעוץ משכנתאות ובגיוס אשראי עסקי.",
-    "אחרי שנים \"בצד השני של השולחן\", אושרי יודע בדיוק איך מתקבלות ההחלטות אצל הבנקים ואצל מאשרי האשראי - וידע הזה עומד לרשות כל לקוח וכל תיק שיוצא מאיתנו.",
+    "אחרי שנים \"בצד השני של השולחן\", אושרי יודע בדיוק איך מתקבלות ההחלטות אצל הבנקים ואצל מאשרי האשראי - והידע הזה עומד לרשות כל לקוח וכל תיק שיוצא מאיתנו.",
     "את Open Ways הקים מתוך אמונה פשוטה: כשמלווים אנשים ועסקים במקצועיות, בשקיפות וביצירתיות - נפתחות אפשרויות חדשות בדרך להחלטות הנכונות.",
   ],
 };
@@ -180,8 +182,9 @@ export default function AboutPage() {
           <SectionHeading
             onDark
             eyebrow="החזון שלנו"
+            eyebrowClassName="!text-base sm:!text-lg"
             title="יוצרים אפשרויות בדרך להחלטות עסקיות ופיננסיות נכונות"
-            description="אנחנו מאמינים שלכל עסק ולכל משפחה מגיעה דרך פתוחה קדימה: החלטות פיננסיות גדולות לא צריכות להתקבל לבד, בערפל או תחת לחץ. התפקיד שלנו הוא לפתוח בפניכם את מגוון האפשרויות, להנגיש את הידע - וללוות אתכם עד לתוצאה."
+            description="אנחנו מאמינים שלכל עסק ולכל משפחה מגיעה האפשרות למגוון דרכים והזדמנויות שמהן יבחרו את הדרך הנכונה קדימה: החלטות פיננסיות גדולות לא צריכות להתקבל לבד, בערפל או תחת לחץ. התפקיד שלנו הוא לפתוח בפניכם את מגוון האפשרויות, להנגיש את הידע - וללוות אתכם עד לתוצאה."
           />
         </div>
       </section>
@@ -191,27 +194,46 @@ export default function AboutPage() {
         <div className="container-site">
           <SectionHeading
             eyebrow="הערכים שלנו"
+            eyebrowClassName="!text-base sm:!text-lg"
             title="הסטנדרטים שמנחים אותנו בכל תיק"
           />
-          <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {values.map((value, i) => (
-              <Reveal key={value.title} as="li" delay={i * 0.08} className="h-full">
-                <div className="card card-hover h-full p-8">
-                  <span
-                    className="flex h-12 w-12 items-center justify-center rounded-full bg-gold-400/25 font-display text-lg font-bold text-gold-700"
-                    aria-hidden="true"
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <h3 className="mt-5 text-lg font-bold text-navy-800">{value.title}</h3>
-                  <p className="mt-2 text-sm leading-7 text-navy-600">
-                    {value.description}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
-          </ul>
         </div>
+
+        {/*
+          שישה ערכים לא מתחלקים לשורה שלמה בשום רשת, ולכן במקום שורה שנייה
+          חסרה - רצועה נעה אחת. הרצועה נעצרת במעבר עכבר ובפוקוס מקלדת,
+          וכל כרטיס נושא איור שנגזר מהקשתות של הלוגו.
+        */}
+        <Reveal className="mt-14">
+          <Marquee duration={70} gap="1.5rem">
+            <ul className="flex gap-6">
+              {values.map((value, i) => (
+                <li key={value.title} className="w-[19rem] shrink-0">
+                  <div className="card card-hover relative h-full overflow-hidden">
+                    <div className="relative h-20">
+                      <CardArtwork
+                        seed={i + 1}
+                        className="absolute inset-0 h-full w-full object-cover"
+                      />
+                      <span
+                        className="absolute -bottom-6 right-6 flex h-12 w-12 items-center justify-center rounded-full bg-gold-400 font-display text-lg font-bold text-gold-ink shadow-soft"
+                        aria-hidden="true"
+                      >
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                    </div>
+                    <div className="p-8 pt-10">
+                      <h3 className="text-lg font-bold text-navy-800">{value.title}</h3>
+                      <p className="mt-2 text-sm leading-7 text-navy-600">
+                        {value.description}
+                      </p>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </Marquee>
+        </Reveal>
       </section>
 
       {/* CTA band */}

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { services } from "@/lib/site";
+import { contactTopics } from "@/lib/site";
 import { contactSchema } from "@/lib/contact-schema";
 
 type Status =
@@ -193,14 +193,11 @@ export function ContactForm({ variant = "light" }: { variant?: "light" | "dark" 
             <option value="" className="text-navy-800">
               בחרו תחום (לא חובה)
             </option>
-            {services.map((sv) => (
-              <option key={sv.slug} value={sv.slug} className="text-navy-800">
-                {sv.name}
+            {contactTopics.map((topic) => (
+              <option key={topic.value} value={topic.value} className="text-navy-800">
+                {topic.label}
               </option>
             ))}
-            <option value="other" className="text-navy-800">
-              אחר
-            </option>
           </select>
         </div>
       </div>

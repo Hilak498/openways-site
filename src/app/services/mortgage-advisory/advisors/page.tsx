@@ -109,7 +109,7 @@ export default function MortgageAdvisorsPage() {
             eyebrow="מה כוללת המעטפת"
             title="גב מקצועי, כלים לעבודה ודרך קדימה"
           />
-          <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {page.items.map((item, i) => (
               <Reveal key={item.title} as="li" delay={i * 0.06} className="h-full">
                 <div className="card card-hover h-full p-8">

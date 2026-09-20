@@ -29,6 +29,9 @@ const navLinks: NavLink[] = [
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  // התפריט הנפתח מנוהל ב-state ולא ב-CSS בלבד: אחרי לחיצה על פריט הוא נסגר,
+  // ולא נשאר תקוע פתוח בגלל :focus-within על הקישור שנלחץ.
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
   const pathname = usePathname();
   const toggleRef = useRef<HTMLButtonElement>(null);
 
@@ -43,6 +46,12 @@ export function Navbar() {
     setOpen(false);
     toggleRef.current?.focus();
   }, []);
+
+  // ניווט לעמוד אחר סוגר כל תפריט שנשאר פתוח
+  useEffect(() => {
+    setOpenMenu(null);
+    setOpen(false);
+  }, [pathname]);
 
   // Escape closes the mobile menu
   useEffect(() => {
@@ -72,10 +81,23 @@ export function Navbar() {
                 (link.children?.some((c) => pathname === c.href.split("#")[0]) ??
                   false);
               return (
-                <li key={link.label} className="group relative">
+                <li
+                  key={link.label}
+                  className="relative"
+                  onMouseEnter={() => link.children && setOpenMenu(link.label)}
+                  onMouseLeave={() => setOpenMenu(null)}
+                  onBlur={(e) => {
+                    if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+                      setOpenMenu(null);
+                    }
+                  }}
+                >
                   <Link
                     href={link.href}
                     aria-current={active ? "page" : undefined}
+                    aria-expanded={link.children ? openMenu === link.label : undefined}
+                    onFocus={() => link.children && setOpenMenu(link.label)}
+                    onClick={() => setOpenMenu(null)}
                     className={`rounded-md text-[0.95rem] font-medium underline-offset-8 transition-all duration-200 ${
                       active
                         ? "border-b-2 border-gold-300 pb-1 text-gold-300"
@@ -86,12 +108,22 @@ export function Navbar() {
                   </Link>
                   {link.children ? (
                     /* נפתח במעבר עכבר או בפוקוס מקלדת; pt יוצר גשר רציף להעברת העכבר */
-                    <div className="invisible absolute top-full right-0 z-50 pt-4 opacity-0 transition duration-200 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+                    <div
+                      className={`absolute top-full right-0 z-50 pt-4 transition duration-200 ${
+                        openMenu === link.label
+                          ? "visible opacity-100"
+                          : "invisible opacity-0"
+                      }`}
+                    >
                       <ul className="w-72 rounded-2xl border border-white/10 bg-navy-800 p-3 shadow-card">
                         {link.children.map((child) => (
                           <li key={child.href}>
                             <Link
                               href={child.href}
+                              onClick={(e) => {
+                                setOpenMenu(null);
+                                e.currentTarget.blur();
+                              }}
                               className="block rounded-xl px-4 py-2.5 text-sm font-medium text-white/85 transition hover:bg-gold-300/15 hover:text-gold-300"
                             >
                               {child.label}

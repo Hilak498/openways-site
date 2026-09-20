@@ -8,6 +8,7 @@ import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
 import { CardArtwork } from "@/components/card-artwork";
 import { Faq } from "@/components/faq";
+import { Marquee } from "@/components/marquee";
 import { JsonLd } from "@/components/json-ld";
 import { faqSchema, serviceSchema } from "@/lib/schema";
 import { banks, getService, services } from "@/lib/site";
@@ -218,7 +219,13 @@ export default async function ServicePage({
                   <Reveal key={solution.title} as="li" delay={i * 0.05} className="h-full">
                     <article className="card card-hover relative flex h-full flex-col overflow-hidden">
                       <div className="relative h-24 w-full">
-                        <CardArtwork seed={i + 7} className="h-full w-full" />
+                        <CardArtwork
+                          seed={i + 7}
+                          tone={
+                            service.slug === "mortgage-advisory" ? "warm" : "navy"
+                          }
+                          className="h-full w-full"
+                        />
                         <span className="absolute bottom-3 right-4 inline-flex items-center rounded-full bg-navy-900/70 px-3 py-1 text-xs font-bold text-gold-300 backdrop-blur-sm">
                           {solution.badge}
                         </span>
@@ -253,7 +260,12 @@ export default async function ServicePage({
           <div className="flex flex-col items-center justify-between gap-16 md:flex-row">
             {/* Steps */}
             <div className="w-full md:w-1/2">
-              <SectionHeading align="start" eyebrow="תהליך העבודה" title={service.process.title} />
+              <SectionHeading
+                align="start"
+                eyebrow="תהליך העבודה"
+                eyebrowClassName="!text-base sm:!text-lg"
+                title={service.process.title}
+              />
               <ol className="relative mt-12 space-y-12">
                 <div
                   aria-hidden="true"
@@ -320,9 +332,13 @@ export default async function ServicePage({
             <ol className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {service.methodology.items.map((item, i) => (
                 <Reveal key={item.title} as="li" delay={i * 0.06} className="h-full">
-                  <div className="card group relative h-full overflow-hidden p-7 transition-all duration-300 hover:-translate-y-2 hover:rotate-1 hover:shadow-lift">
+                  <div className="card group relative h-full overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:rotate-1 hover:shadow-lift">
+                    {/* רצועת איור בראש הלבנה - אותן קשתות של הלוגו, וריאציה לכל לבנה */}
+                    <div className="relative h-20 w-full">
+                      <CardArtwork seed={i + 61} className="h-full w-full" />
+                    </div>
                     {/* רקע עיצובי מעודן ברוח מצגת השיטה: הילת זהב + שם הלבנה כווטרמרק */}
-                    <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+                    <div aria-hidden="true" className="pointer-events-none absolute inset-0 top-20">
                       <div className="absolute -bottom-12 -left-8 h-44 w-44 rounded-full bg-gold-400/10 blur-2xl transition-colors duration-500 group-hover:bg-gold-400/25" />
                       {item.en ? (
                         /* שם הלבנה באנגלית כווטרמרק. הגודל יורד ככל שהכרטיס
@@ -337,17 +353,17 @@ export default async function ServicePage({
                       ) : null}
                     </div>
                     <span
-                      className="relative flex h-12 w-12 items-center justify-center rounded-xl bg-navy-800 font-display text-lg font-bold text-gold-300 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3"
+                      className="absolute top-14 right-7 flex h-12 w-12 items-center justify-center rounded-xl bg-navy-800 font-display text-lg font-bold text-gold-300 shadow-soft transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3"
                       aria-hidden="true"
                     >
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <h3 className="relative mt-5 text-lg font-bold text-navy-800">
-                      {item.title}
-                    </h3>
-                    <p className="relative mt-2 text-sm leading-7 text-navy-600">
-                      {item.description}
-                    </p>
+                    <div className="relative p-7 pt-10">
+                      <h3 className="text-lg font-bold text-navy-800">{item.title}</h3>
+                      <p className="mt-2 text-sm leading-7 text-navy-600">
+                        {item.description}
+                      </p>
+                    </div>
                   </div>
                 </Reveal>
               ))}
@@ -361,22 +377,29 @@ export default async function ServicePage({
         <section className="py-20">
           <div className="container-site text-center">
             <Reveal>
-              <p className="eyebrow">כל הדלתות פתוחות</p>
+              <p className="eyebrow !text-base sm:!text-lg">כל האפשרויות פתוחות</p>
               <h2 className="mt-3 text-2xl font-bold text-navy-800 sm:text-3xl">
                 הדרך שלכם פתוחה בכל בנק ובכל גוף מימון
               </h2>
             </Reveal>
-            <Reveal delay={0.1}>
-              <ul className="mx-auto mt-8 flex max-w-3xl flex-wrap items-center justify-center gap-3">
-                {banks.map((bank) => (
-                  <li
-                    key={bank}
-                    className="rounded-full border border-navy-800/10 bg-sand-100 px-5 py-2 text-sm font-semibold text-navy-700"
-                  >
-                    {bank}
-                  </li>
-                ))}
-              </ul>
+            <Reveal delay={0.1} className="mt-8">
+              {/*
+                רצועה נעה לאט משמאל לימין. כרגע השמות בלבד - סמלי הבנקים הם
+                סימנים מסחריים, וברגע שהקבצים וההיתר יהיו כאן הם ייכנסו
+                במקום הטקסט, באותה רצועה.
+              */}
+              <Marquee duration={55} direction="ltr" gap="0.75rem">
+                <ul className="flex gap-3">
+                  {banks.map((bank) => (
+                    <li
+                      key={bank}
+                      className="rounded-full border border-navy-800/10 bg-sand-100 px-5 py-2 text-sm font-semibold whitespace-nowrap text-navy-700"
+                    >
+                      {bank}
+                    </li>
+                  ))}
+                </ul>
+              </Marquee>
             </Reveal>
           </div>
         </section>
@@ -392,65 +415,60 @@ export default async function ServicePage({
               description={service.comparison.description}
             />
             <Reveal delay={0.1}>
-              <div className="mx-auto mt-14 max-w-2xl overflow-x-auto">
-                <table className="w-full border-separate border-spacing-0 text-right">
-                  <thead>
-                    <tr>
-                      <th scope="col" className="sr-only">
-                        מה מקבלים
-                      </th>
-                      <th
-                        scope="col"
-                        className="rounded-t-2xl bg-navy-800 px-6 py-4 text-center font-display text-sm font-bold text-gold-300"
-                      >
-                        עם Open Ways
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-4 text-center text-sm font-semibold text-navy-600"
-                      >
-                        לבד
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {service.comparison.rows.map((row, i) => {
-                      const last = i === service.comparison!.rows.length - 1;
-                      return (
-                        <tr key={row}>
-                          <th
-                            scope="row"
-                            className={`border-t border-navy-800/10 py-4 pl-4 font-semibold text-navy-800 ${
-                              last ? "border-b" : ""
-                            }`}
-                          >
-                            {row}
-                          </th>
-                          <td
-                            className={`border-x border-gold-500/40 bg-white px-6 py-4 text-center ${
-                              last ? "rounded-b-2xl border-b" : ""
-                            }`}
-                          >
-                            <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-gold-500/20 text-gold-700">
-                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                                <path d="M20 6 9 17l-5-5" />
-                              </svg>
-                              <span className="sr-only">כלול</span>
-                            </span>
-                          </td>
-                          <td
-                            className={`border-t border-navy-800/10 px-6 py-4 text-center text-navy-800/30 ${
-                              last ? "border-b" : ""
-                            }`}
-                          >
-                            <span aria-hidden="true">—</span>
-                            <span className="sr-only">לא כלול</span>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
+              {/*
+                שני לוחות מנוגדים ולא טבלה: הלוח הכהה נושא את מה שמקבלים איתנו,
+                והלוח הבהיר לצידו מראה את אותם סעיפים כשהם חסרים. הניגוד בין
+                הנייבי לחול הוא מה שמוכר, בלי מסגרות של טבלה.
+              */}
+              <div className="mx-auto mt-14 grid max-w-4xl gap-5 lg:grid-cols-5">
+                <div className="relative overflow-hidden rounded-[2rem] bg-navy-900 p-8 shadow-lift lg:col-span-3 lg:p-10">
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute -top-20 -left-16 h-64 w-64 rounded-full bg-gold-300/15 blur-[80px]"
+                  />
+                  <p className="relative font-display text-xl font-extrabold text-gold-300">
+                    עם Open Ways
+                  </p>
+                  <ul className="relative mt-7 space-y-4">
+                    {service.comparison.rows.map((row) => (
+                      <li key={row} className="flex items-start gap-3.5">
+                        <span
+                          className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gold-400 text-gold-ink"
+                          aria-hidden="true"
+                        >
+                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M20 6 9 17l-5-5" />
+                          </svg>
+                        </span>
+                        <span className="text-[0.95rem] leading-7 font-semibold text-white">
+                          {row}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="rounded-[2rem] border border-navy-800/10 bg-sand-50 p-8 lg:col-span-2 lg:p-10">
+                  <p className="font-display text-xl font-bold text-navy-800/45">לבד</p>
+                  <ul className="mt-7 space-y-4">
+                    {service.comparison.rows.map((row) => (
+                      <li key={row} className="flex items-start gap-3.5">
+                        <span
+                          className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-navy-800/15 text-navy-800/25"
+                          aria-hidden="true"
+                        >
+                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
+                            <path d="M6 12h12" />
+                          </svg>
+                        </span>
+                        <span className="text-[0.95rem] leading-7 text-navy-800/45">
+                          {row}
+                          <span className="sr-only"> - לא כלול</span>
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </Reveal>
             <Reveal delay={0.15} className="mt-10 text-center">

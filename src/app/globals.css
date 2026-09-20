@@ -79,6 +79,58 @@
 }
 
 @layer components {
+  /* רצועה נעה - ראו src/components/marquee.tsx */
+  .marquee {
+    @apply relative overflow-hidden;
+    /* דהייה בקצוות כדי שהפריטים ייכנסו ויצאו בלי קטיעה חדה */
+    mask-image: linear-gradient(
+      to left,
+      transparent,
+      black 5rem,
+      black calc(100% - 5rem),
+      transparent
+    );
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    gap: var(--marquee-gap);
+    animation: marquee-scroll var(--marquee-duration) linear infinite;
+  }
+
+  .marquee-group {
+    display: flex;
+    flex-shrink: 0;
+    gap: var(--marquee-gap);
+  }
+
+  .marquee-pausable:hover .marquee-track,
+  .marquee-pausable:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee-scroll {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      /* חצי המסילה ועוד המרווח שבין שני העותקים */
+      transform: translate3d(calc(-50% - var(--marquee-gap) / 2), 0, 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+    }
+    .marquee {
+      overflow-x: auto;
+      mask-image: none;
+    }
+  }
+
+
   .container-site {
     @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
   }
