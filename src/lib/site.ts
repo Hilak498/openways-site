@@ -65,19 +65,20 @@ export const calculatorLinks = [
  * הבנקים וגופי המימון שמולם אנחנו עובדים - רצועה בעמודי המשכנתאות והאשראי.
  * מוצגים כשמות (ללא לוגואים - סמלי הבנקים הם סימנים מסחריים).
  */
-export const banks = [
-  "בנק הפועלים",
-  "בנק לאומי",
-  "מזרחי-טפחות",
-  "בנק דיסקונט",
-  "הבנק הבינלאומי",
-  "בנק ירושלים",
-  "בנק מרכנתיל",
-  "בנק יהב",
-  "קרנות בערבות מדינה",
-  "גופים מוסדיים",
-  "גופים חוץ־בנקאיים",
-] as const;
+/** בנק עם קובץ לוגו מציג את הלוגו בפס הנע; בלעדיו - שם מעוצב. */
+export const banks: { name: string; logo?: string }[] = [
+  { name: "בנק הפועלים", logo: "/images/banks/hapoalim.webp" },
+  { name: "בנק לאומי", logo: "/images/banks/leumi.webp" },
+  { name: "מזרחי-טפחות" },
+  { name: "בנק דיסקונט", logo: "/images/banks/discount.png" },
+  { name: "הבנק הבינלאומי" },
+  { name: "בנק ירושלים" },
+  { name: "בנק מרכנתיל" },
+  { name: "בנק יהב" },
+  { name: "קרנות בערבות מדינה" },
+  { name: "גופים מוסדיים" },
+  { name: "גופים חוץ־בנקאיים" },
+];
 
 export type ServiceSlug = "business-advisory" | "business-credit" | "mortgage-advisory";
 

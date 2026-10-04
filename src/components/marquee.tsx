@@ -29,7 +29,13 @@ export function Marquee({
   className?: string;
 }) {
   return (
+    /*
+      dir="ltr" על העוטף ולא רק על המסילה: בעמוד RTL בלוק רחב מההורה גולש
+      שמאלה, והמסילה כולה נדחפה אל מחוץ למסך - הרצועה נראתה ריקה. עיגון
+      הגאומטריה כולה ל-LTR מציב את המסילה בקצה וההזזה חושפת אותה ברצף.
+    */
     <div
+      dir="ltr"
       className={`marquee ${pauseOnHover ? "marquee-pausable" : ""} ${className}`}
     >
       <div

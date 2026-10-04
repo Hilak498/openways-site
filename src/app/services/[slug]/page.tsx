@@ -422,19 +422,30 @@ export default async function ServicePage({
               </h2>
             </Reveal>
             <Reveal delay={0.1} className="mt-8">
-              {/*
-                רצועה נעה לאט משמאל לימין. כרגע השמות בלבד - סמלי הבנקים הם
-                סימנים מסחריים, וברגע שהקבצים וההיתר יהיו כאן הם ייכנסו
-                במקום הטקסט, באותה רצועה.
-              */}
+              {/* רצועה נעה לאט משמאל לימין: לוגו היכן שסופק קובץ, שם מעוצב לשאר */}
               <Marquee duration={55} direction="ltr" gap="0.75rem">
-                <ul className="flex gap-3">
+                <ul className="flex items-stretch gap-3">
                   {banks.map((bank) => (
                     <li
-                      key={bank}
-                      className="rounded-full border border-navy-800/10 bg-sand-100 px-5 py-2 text-sm font-semibold whitespace-nowrap text-navy-700"
+                      key={bank.name}
+                      className="flex items-center rounded-full border border-navy-800/10 bg-white px-6 py-2 shadow-sm"
                     >
-                      {bank}
+                      {bank.logo ? (
+                        /* eager: בתוך רצועה נעה טעינה עצלה לא נורית על חלק
+                           מהעותקים והצ'יפ נשאר ריק; הקבצים זעירים ממילא */
+                        <Image
+                          src={bank.logo}
+                          alt={bank.name}
+                          width={132}
+                          height={40}
+                          loading="eager"
+                          className="h-8 w-auto object-contain"
+                        />
+                      ) : (
+                        <span className="text-sm font-semibold whitespace-nowrap text-navy-700">
+                          {bank.name}
+                        </span>
+                      )}
                     </li>
                   ))}
                 </ul>
