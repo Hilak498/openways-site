@@ -186,11 +186,24 @@ export default async function ServicePage({
               <ul className="mt-14 grid gap-5 lg:grid-cols-2">
                 {service.solutions.items.map((solution, i) => (
                   <Reveal key={solution.title} as="li" delay={i * 0.05} className="h-full">
-                    <article className="card card-hover relative flex h-full overflow-hidden">
-                      <CardArtwork
-                        seed={i + 31}
-                        className="h-auto w-24 shrink-0 sm:w-32"
-                      />
+                    <article className="card card-hover group relative flex h-full overflow-hidden">
+                      {solution.image ? (
+                        <div className="relative w-24 shrink-0 sm:w-32">
+                          <Image
+                            src={solution.image}
+                            alt=""
+                            fill
+                            sizes="128px"
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                            aria-hidden="true"
+                          />
+                        </div>
+                      ) : (
+                        <CardArtwork
+                          seed={i + 31}
+                          className="h-auto w-24 shrink-0 sm:w-32"
+                        />
+                      )}
                       <div className="flex flex-1 flex-col p-6">
                         <span className="inline-flex w-fit items-center rounded-full bg-gold-500/15 px-3 py-1 text-xs font-bold text-gold-700">
                           {solution.badge}
@@ -217,15 +230,26 @@ export default async function ServicePage({
               <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {service.solutions.items.map((solution, i) => (
                   <Reveal key={solution.title} as="li" delay={i * 0.05} className="h-full">
-                    <article className="card card-hover relative flex h-full flex-col overflow-hidden">
+                    <article className="card card-hover group relative flex h-full flex-col overflow-hidden">
                       <div className="relative h-24 w-full">
-                        <CardArtwork
-                          seed={i + 7}
-                          tone={
-                            service.slug === "mortgage-advisory" ? "warm" : "navy"
-                          }
-                          className="h-full w-full"
-                        />
+                        {solution.image ? (
+                          <Image
+                            src={solution.image}
+                            alt=""
+                            fill
+                            sizes="320px"
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                            aria-hidden="true"
+                          />
+                        ) : (
+                          <CardArtwork
+                            seed={i + 7}
+                            tone={
+                              service.slug === "mortgage-advisory" ? "warm" : "navy"
+                            }
+                            className="h-full w-full"
+                          />
+                        )}
                         <span className="absolute bottom-3 right-4 inline-flex items-center rounded-full bg-navy-900/70 px-3 py-1 text-xs font-bold text-gold-300 backdrop-blur-sm">
                           {solution.badge}
                         </span>
@@ -326,6 +350,7 @@ export default async function ServicePage({
           <div className="container-site">
             <SectionHeading
               eyebrow="המתודולוגיה שלנו"
+              eyebrowClassName="!text-xl"
               title={service.methodology.title}
               description={service.methodology.subtitle}
             />
@@ -333,9 +358,23 @@ export default async function ServicePage({
               {service.methodology.items.map((item, i) => (
                 <Reveal key={item.title} as="li" delay={i * 0.06} className="h-full">
                   <div className="card group relative h-full overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:rotate-1 hover:shadow-lift">
-                    {/* רצועת איור בראש הלבנה - אותן קשתות של הלוגו, וריאציה לכל לבנה */}
+                    {/* תמונת נושא מספר המותג בראש הלבנה - שונה מלבנה ללבנה */}
                     <div className="relative h-20 w-full">
-                      <CardArtwork seed={i + 61} className="h-full w-full" />
+                      {item.image ? (
+                        <>
+                          <Image
+                            src={item.image}
+                            alt=""
+                            fill
+                            sizes="320px"
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                            aria-hidden="true"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-navy-900/15" />
+                        </>
+                      ) : (
+                        <CardArtwork seed={i + 61} className="h-full w-full" />
+                      )}
                     </div>
                     {/* רקע עיצובי מעודן ברוח מצגת השיטה: הילת זהב + שם הלבנה כווטרמרק */}
                     <div aria-hidden="true" className="pointer-events-none absolute inset-0 top-20">
@@ -415,13 +454,9 @@ export default async function ServicePage({
               description={service.comparison.description}
             />
             <Reveal delay={0.1}>
-              {/*
-                שני לוחות מנוגדים ולא טבלה: הלוח הכהה נושא את מה שמקבלים איתנו,
-                והלוח הבהיר לצידו מראה את אותם סעיפים כשהם חסרים. הניגוד בין
-                הנייבי לחול הוא מה שמוכר, בלי מסגרות של טבלה.
-              */}
-              <div className="mx-auto mt-14 grid max-w-4xl gap-5 lg:grid-cols-5">
-                <div className="relative overflow-hidden rounded-[2rem] bg-navy-900 p-8 shadow-lift lg:col-span-3 lg:p-10">
+              {/* לוח אחד כהה עם מה שמקבלים איתנו - בלי עמודת "לבד" */}
+              <div className="mx-auto mt-14 max-w-3xl">
+                <div className="relative overflow-hidden rounded-[2rem] bg-navy-900 p-8 shadow-lift lg:p-10">
                   <div
                     aria-hidden="true"
                     className="pointer-events-none absolute -top-20 -left-16 h-64 w-64 rounded-full bg-gold-300/15 blur-[80px]"
@@ -442,28 +477,6 @@ export default async function ServicePage({
                         </span>
                         <span className="text-[0.95rem] leading-7 font-semibold text-white">
                           {row}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="rounded-[2rem] border border-navy-800/10 bg-sand-50 p-8 lg:col-span-2 lg:p-10">
-                  <p className="font-display text-xl font-bold text-navy-800/45">לבד</p>
-                  <ul className="mt-7 space-y-4">
-                    {service.comparison.rows.map((row) => (
-                      <li key={row} className="flex items-start gap-3.5">
-                        <span
-                          className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-navy-800/15 text-navy-800/25"
-                          aria-hidden="true"
-                        >
-                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
-                            <path d="M6 12h12" />
-                          </svg>
-                        </span>
-                        <span className="text-[0.95rem] leading-7 text-navy-800/45">
-                          {row}
-                          <span className="sr-only"> - לא כלול</span>
                         </span>
                       </li>
                     ))}
@@ -548,11 +561,12 @@ export default async function ServicePage({
               <div className="flex flex-col items-center justify-between gap-6 text-center md:flex-row md:text-right">
                 <div>
                   <h2 className="text-2xl font-bold sm:text-3xl">
-                    יועצי משכנתאות? יש לנו מעטפת בשבילכם
+                    יועצי משכנתאות? יש לנו ערך מטורף בשבילכם
                   </h2>
                   <p className="mt-2 max-w-2xl text-lg leading-8 text-white/85">
-                    גיבוי מקצועי בתיקים, כלים, שיווק וקהילה - כל מה שצריך כדי
-                    לבנות עסק ייעוץ מצליח.
+                    תמיכה והכוונה מקצועית בתיקים ובתהליכי השירות בעסק, קשרים
+                    מעולים מול הנהלות הבנקים, וכלים ומתודולוגיה לפיתוח עסקי -
+                    כל מה שצריך כדי לבנות עסק ייעוץ מצליח.
                   </p>
                 </div>
                 <Link

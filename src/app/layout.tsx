@@ -80,8 +80,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  // צבע הסרגל של הדפדפן בנייד - בהיר, תואם לכותרת האתר (sand-50)
-  themeColor: "#fbf9fb",
+  // צבע הסרגל של הדפדפן בנייד - נייבי, תואם לכותרת האתר הכהה
+  themeColor: "#0b1220",
   width: "device-width",
   initialScale: 1,
 };
