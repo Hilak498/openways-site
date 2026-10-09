@@ -65,19 +65,20 @@ export const calculatorLinks = [
  * הבנקים וגופי המימון שמולם אנחנו עובדים - רצועה בעמודי המשכנתאות והאשראי.
  * מוצגים כשמות (ללא לוגואים - סמלי הבנקים הם סימנים מסחריים).
  */
-export const banks = [
-  "בנק הפועלים",
-  "בנק לאומי",
-  "מזרחי-טפחות",
-  "בנק דיסקונט",
-  "הבנק הבינלאומי",
-  "בנק ירושלים",
-  "בנק מרכנתיל",
-  "בנק יהב",
-  "קרנות בערבות מדינה",
-  "גופים מוסדיים",
-  "גופים חוץ־בנקאיים",
-] as const;
+/** בנק עם קובץ לוגו מציג את הלוגו בפס הנע; בלעדיו - שם מעוצב. */
+export const banks: { name: string; logo?: string }[] = [
+  { name: "בנק הפועלים", logo: "/images/banks/hapoalim.webp" },
+  { name: "בנק לאומי", logo: "/images/banks/leumi.webp" },
+  { name: "מזרחי-טפחות" },
+  { name: "בנק דיסקונט", logo: "/images/banks/discount.png" },
+  { name: "הבנק הבינלאומי" },
+  { name: "בנק ירושלים" },
+  { name: "בנק מרכנתיל" },
+  { name: "בנק יהב" },
+  { name: "קרנות בערבות מדינה" },
+  { name: "גופים מוסדיים" },
+  { name: "גופים חוץ־בנקאיים" },
+];
 
 export type ServiceSlug = "business-advisory" | "business-credit" | "mortgage-advisory";
 
@@ -99,8 +100,8 @@ export interface Service {
   methodology?: {
     title: string;
     subtitle: string;
-    /** en - שם הלבנה באנגלית, מוצג כווטרמרק עיצובי בכרטיס. */
-    items: { title: string; description: string; en?: string }[];
+    /** en - שם הלבנה באנגלית כווטרמרק; image - תמונת נושא מספר המותג. */
+    items: { title: string; description: string; en?: string; image?: string }[];
   };
   /** מילון מונחים - מוצג כאקורדיון בעמוד השירות. */
   glossary?: { term: string; definition: string }[];
@@ -108,7 +109,7 @@ export interface Service {
   solutions?: {
     title: string;
     description: string;
-    items: { badge: string; title: string; description: string }[];
+    items: { badge: string; title: string; description: string; image?: string }[];
   };
   /** טעויות נפוצות - מקטע תוכן חינוכי בעמוד השירות. */
   mistakes?: {
@@ -261,49 +262,56 @@ export const services: Service[] = [
       "ייעוץ עסקי מקצועי: אבחון מעמיק, אסטרטגיה ותוכנית פעולה מדידה, וליווי צמוד ביישום. Open Ways - ייעוץ שמתרגם אסטרטגיה לתוצאות.",
     // שבע הלבנים הרשמיות של שיטת 7 BRICKS (לפי מצגת השיטה)
     methodology: {
-      title: "7Bricks",
+      title: "שיטת ה-7Bricks",
       subtitle:
         "כל עסק הוא מבנה של שבע לבנים - וכשלבנה אחת חלשה, כל המבנה מתערער. אנחנו עוברים איתכם לבנה אחר לבנה: מאבחון הפערים, דרך יעדים ותוכנית עבודה - ועד הטמעה בשטח.",
       items: [
         {
           en: "MARKETING",
           title: "שיווק",
+          image: "/images/brand/roads.jpg",
           description:
             "זרם קבוע, מדוד ואיכותי של לקוחות מדויקים לעסק - עם מסר מבודל, ערוצים מגוונים ושיפור מתמיד.",
         },
         {
           en: "SALES & CR",
           title: "מכירות וקשרי לקוחות",
+          image: "/images/brand/meeting.jpg",
           description:
             "תהליך מכירה מנוהל ויזום שמביא לסגירות איכותיות, ללקוחות חוזרים ולקהילה נאמנה.",
         },
         {
           en: "OPERATIONS",
           title: "תפעול",
+          image: "/images/brand/architecture.jpg",
           description:
             "מערך תפעולי חזק, מסודר וגמיש ששומר על איכות ועקביות - גם בעומס, וגם כשאתם לא שם.",
         },
         {
           en: "EMPLOYEES",
           title: "עובדים ופרילנסרים",
+          image: "/images/brand/path-to-sun.jpg",
           description:
             "צוות מקצועי, מתואם ומחויב שמבצע באחריות ומתפקד היטב לאורך זמן - גם בלעדיכם.",
         },
         {
           en: "FINANCE",
           title: "כספים",
+          image: "/images/brand/gold-waves.jpg",
           description:
             "שליטה מלאה בכסף של העסק: תמחור נכון, תזרים בריא, תחזית כלכלית ושכר בעלים מספק.",
         },
         {
           en: "MANAGEMENT",
           title: "ניהול ומנהיגות",
+          image: "/images/brand/horizon-man.jpg",
           description:
             "ניהול יציב וממוקד שמחבר בין חזון, תכנון וביצוע - ומנהיג אנשים, כיוון ותרבות.",
         },
         {
           en: "DEVELOPMENT",
           title: "פיתוח עסקי וחדשנות",
+          image: "/images/brand/sunset-road.jpg",
           description:
             "פיתוח יזום של שלב הצמיחה הבא: חדשנות, שיתופי פעולה ובניית נכסים שמקפיצים את העסק.",
         },
@@ -413,36 +421,42 @@ export const services: Service[] = [
       {
         badge: "צעד ראשון",
         title: "דירה ראשונה",
+          image: "/images/brand/path-to-sun.jpg",
         description:
           "קונים בפעם הראשונה? אנחנו לצידכם מהאישור העקרוני ועד המפתח - מתרגמים את המושגים ומובילים אתכם בביטחון.",
       },
       {
         badge: "משדרגים",
         title: "שיפור דיור",
+          image: "/images/brand/architecture.jpg",
         description:
           "מוכרים, קונים ומשדרגים - תכנון נכון של הגישור בין שתי העסקאות חוסך לחץ, זמן וכסף.",
       },
       {
         badge: "משקיעים",
         title: "נכס להשקעה",
+          image: "/images/brand/gold-waves.jpg",
         description:
           "מימון חכם לנכס מניב: איזון נכון בין הון עצמי, מינוף ותשואה - בהתאמה לתוכנית ההשקעה שלכם.",
       },
       {
         badge: "בודקים מחדש",
         title: "מחזור משכנתה",
+          image: "/images/brand/roads.jpg",
         description:
           "הריביות השתנו מאז שלקחתם? בדיקת כדאיות מסודרת ללא עלות - ואם משתלם, ממחזרים וחוסכים.",
       },
       {
         badge: "מנצלים נכס",
         title: "משכנתה לכל מטרה",
+          image: "/images/brand/silk.jpg",
         description:
           "הנכס הקיים שלכם יכול לממן כל מטרה - עסק, שיפוץ או עזרה לילדים - בתנאים טובים מהלוואה רגילה.",
       },
       {
         badge: "מקרים מיוחדים",
         title: "משכנתאות מורכבות",
+          image: "/images/brand/mountain-road.jpg",
         description:
           "עצמאים? הכנסה לא שגרתית? היסטוריית אשראי מאתגרת? כאן נפתחות הדרכים שאחרים לא רואים.",
       },
@@ -479,6 +493,7 @@ export const services: Service[] = [
       {
         badge: "בני 60+",
         title: "משכנתה הפוכה",
+          image: "/images/brand/sunset-road.jpg",
         description:
           "הבית שלכם יכול לעבוד בשבילכם: נזילות כספית לבני 60+ כנגד הנכס, ללא החזר חודשי שוטף.",
       },
@@ -689,42 +704,49 @@ export const services: Service[] = [
         {
           badge: "מתדלקים צמיחה",
           title: "הון חוזר",
+          image: "/images/brand/gold-waves.jpg",
           description:
             "תזרים שנושם: מימון שוטף למלאי, לספקים ולפערי גבייה - כדי שהצמיחה לא תיעצר בגלל עיתוי.",
         },
         {
           badge: "בתנאים מועדפים",
           title: "הלוואה בערבות מדינה",
+          image: "/images/brand/architecture.jpg",
           description:
             "מסלול בערבות מדינה המאפשר ביטחון לבנק בהלוואת סולו בתנאים נוחים - פתרון מצוין לעסקים ללא ביטחונות מספיקים.",
         },
         {
           badge: "משקיעים בעסק",
           title: "מימון ציוד והתרחבות",
+          image: "/images/brand/roads.jpg",
           description:
             "רכישת ציוד, שדרוג קו ייצור או פתיחת סניף - מימון שמותאם לתוכנית ולתשואה הצפויה ממנה.",
         },
         {
           badge: "מסדרים את החוב",
           title: "מחזור הלוואות",
+          image: "/images/brand/mountain-road.jpg",
           description:
             "איחוד הלוואות יקרות לפריסה נוחה אחת - מקטין את ההחזר החודשי ומשחרר תזרים לפעילות.",
         },
         {
           badge: "גמישות שוטפת",
           title: "מסגרות אשראי וניכיון",
+          image: "/images/brand/silk.jpg",
           description:
             "מסגרת שנמצאת שם כשצריך אותה: אשראי שוטף וניכיון שיקים - בלי לחץ של הרגע האחרון.",
         },
         {
           badge: "מעבר לבנק",
           title: "מימון חוץ־בנקאי",
+          image: "/images/brand/lighthouse.jpg",
           description:
             "כשהבנק לא נותן מענה - גופים מוסדיים וקרנות חוץ־בנקאיות מאפשרים גמישות גבוהה ומענה מהיר יותר.",
         },
         {
           badge: "לזמן קצר",
           title: "הלוואות גישור",
+          image: "/images/brand/path-to-sun.jpg",
           description:
             "פתרון ביניים עד כניסת כסף צפוי: עסקה שנסגרת, גבייה גדולה או מימוש נכס.",
         },

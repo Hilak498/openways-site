@@ -49,6 +49,7 @@ export function Navbar() {
 
   // ניווט לעמוד אחר סוגר כל תפריט שנשאר פתוח
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setOpenMenu(null);
     setOpen(false);
   }, [pathname]);
@@ -101,7 +102,7 @@ export function Navbar() {
                     className={`rounded-md text-[0.95rem] font-medium underline-offset-8 transition-all duration-200 ${
                       active
                         ? "border-b-2 border-gold-300 pb-1 text-gold-300"
-                        : "text-white/80 hover:font-semibold hover:text-gold-300 hover:underline hover:decoration-gold-400 hover:decoration-2"
+                        : "text-white/85 hover:font-semibold hover:text-gold-300 hover:underline hover:decoration-gold-400 hover:decoration-2"
                     }`}
                   >
                     {link.label}
@@ -206,7 +207,7 @@ export function Navbar() {
                         <Link
                           href={child.href}
                           onClick={() => setOpen(false)}
-                          className="block rounded-xl px-3 py-2 text-base font-medium text-white/75 transition hover:bg-gold-300/15 hover:text-gold-300"
+                          className="block rounded-xl px-3 py-2 text-base font-medium text-white/80 transition hover:bg-gold-300/15 hover:text-gold-300"
                         >
                           {child.label}
                         </Link>

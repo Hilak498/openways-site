@@ -182,7 +182,7 @@ export default function AboutPage() {
           <SectionHeading
             onDark
             eyebrow="החזון שלנו"
-            eyebrowClassName="!text-base sm:!text-lg"
+            eyebrowClassName="!text-xl sm:!text-2xl"
             title="יוצרים אפשרויות בדרך להחלטות עסקיות ופיננסיות נכונות"
             description="אנחנו מאמינים שלכל עסק ולכל משפחה מגיעה האפשרות למגוון דרכים והזדמנויות שמהן יבחרו את הדרך הנכונה קדימה: החלטות פיננסיות גדולות לא צריכות להתקבל לבד, בערפל או תחת לחץ. התפקיד שלנו הוא לפתוח בפניכם את מגוון האפשרויות, להנגיש את הידע - וללוות אתכם עד לתוצאה."
           />
@@ -194,7 +194,7 @@ export default function AboutPage() {
         <div className="container-site">
           <SectionHeading
             eyebrow="הערכים שלנו"
-            eyebrowClassName="!text-base sm:!text-lg"
+            eyebrowClassName="!text-xl sm:!text-2xl"
             title="הסטנדרטים שמנחים אותנו בכל תיק"
           />
         </div>

@@ -182,7 +182,8 @@
   }
 
   .eyebrow {
-    @apply text-sm font-semibold tracking-widest text-gold-700;
+    /* הוגדל בשתי פעימות (sm -> lg) לבקשת הלקוח - 03.10.26 */
+    @apply text-lg font-semibold tracking-widest text-gold-700;
   }
 
   /* Gold underline bar beneath section headings (bg-secondary in the design) */

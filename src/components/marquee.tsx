@@ -29,7 +29,13 @@ export function Marquee({
   className?: string;
 }) {
   return (
+    /*
+      dir="ltr" על העוטף ולא רק על המסילה: בעמוד RTL בלוק רחב מההורה גולש
+      שמאלה, והמסילה כולה נדחפה אל מחוץ למסך - הרצועה נראתה ריקה. עיגון
+      הגאומטריה כולה ל-LTR מציב את המסילה בקצה וההזזה חושפת אותה ברצף.
+    */
     <div
+      dir="ltr"
       className={`marquee ${pauseOnHover ? "marquee-pausable" : ""} ${className}`}
     >
       <div
@@ -43,12 +49,19 @@ export function Marquee({
           } as React.CSSProperties
         }
       >
+        {/*
+          ארבעה עותקים (ולא שניים): כשהתוכן צר מרוחב המסך, שני עותקים לא
+          מכסים את המסילה לאורך כל המחזור ונוצר קטע ריק. ההזזה נשארת 50%
+          מהמסילה - שני עותקים בדיוק - ולכן הלולאה חלקה ורציפה תמיד.
+        */}
         <div dir="rtl" className="marquee-group">
           {children}
         </div>
-        <div dir="rtl" className="marquee-group" aria-hidden="true">
-          {children}
-        </div>
+        {[1, 2, 3].map((copy) => (
+          <div key={copy} dir="rtl" className="marquee-group" aria-hidden="true">
+            {children}
+          </div>
+        ))}
       </div>
     </div>
   );

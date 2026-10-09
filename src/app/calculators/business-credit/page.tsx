@@ -58,7 +58,7 @@ export default function BusinessCreditCalculatorPage() {
             />
           </Reveal>
           <Reveal delay={0.1} className="mt-10 text-center">
-            <Link href="/services/business-credit" className="btn-dark !px-8 !py-4">
+            <Link href="/#contact" className="btn-dark !px-8 !py-4">
               לשירות גיוס אשראי עסקי
             </Link>
           </Reveal>

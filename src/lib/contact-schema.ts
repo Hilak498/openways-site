@@ -16,7 +16,13 @@ export const contactSchema = z.object({
     .regex(/^0(?:[23489]|5[0-9]|7[2-9])-?\d{7}$/, "נא להזין מספר טלפון ישראלי תקין"),
   email: z.string().trim().email("נא להזין כתובת אימייל תקינה").max(254),
   service: z
-    .enum(["business-advisory", "business-credit", "mortgage-advisory", "other"])
+    .enum([
+      "business-advisory",
+      "business-credit",
+      "mortgage-advisory",
+      "mortgage-advisors",
+      "other",
+    ])
     .optional(),
   message: z
     .string()

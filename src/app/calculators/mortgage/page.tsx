@@ -58,7 +58,7 @@ export default function MortgageCalculatorPage() {
             />
           </Reveal>
           <Reveal delay={0.1} className="mt-10 text-center">
-            <Link href="/services/mortgage-advisory" className="btn-dark !px-8 !py-4">
+            <Link href="/#contact" className="btn-dark !px-8 !py-4">
               לייעוץ משכנתאות מקצועי
             </Link>
           </Reveal>
