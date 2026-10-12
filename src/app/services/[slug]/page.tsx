@@ -52,6 +52,14 @@ export default async function ServicePage({
     path.join(process.cwd(), "public", "images", `service-${service.slug}.jpg`),
   );
 
+  // תמונה אנכית לצד שלבי "כך זה עובד" - public/images/process-<slug>.jpg
+  // אם קיימת, אחרת תמונת ההירו של השירות.
+  const processImage = existsSync(
+    path.join(process.cwd(), "public", "images", `process-${service.slug}.jpg`),
+  )
+    ? `/images/process-${service.slug}.jpg`
+    : heroBg;
+
   return (
     <>
       <JsonLd data={serviceSchema(service)} />
@@ -284,7 +292,7 @@ export default async function ServicePage({
         <div className="container-site">
           <div className="flex flex-col items-center justify-between gap-16 md:flex-row">
             {/* Steps */}
-            <div className="w-full md:w-1/2">
+            <div className="w-full md:flex-1">
               <SectionHeading
                 align="start"
                 eyebrow="תהליך העבודה"
@@ -321,19 +329,20 @@ export default async function ServicePage({
 
             {/* Photo card (per the design) */}
             {heroBgExists ? (
-              <Reveal delay={0.2} className="hidden w-full md:block md:w-1/2">
+              /* תמונה מוארכת וצרה לצד השלבים - נמתחת לגובה הרשימה */
+              <Reveal delay={0.2} className="hidden w-full md:block md:w-[32%] lg:w-[28%]">
                 <div className="group relative">
                   <div
                     aria-hidden="true"
                     className="absolute -inset-4 rounded-[3rem] bg-gold-700/15 blur-2xl transition group-hover:bg-gold-700/25"
                   />
                   <div className="card relative overflow-hidden !rounded-[2.5rem] p-2 shadow-lift">
-                    <div className="relative h-[480px] w-full overflow-hidden rounded-[2rem]">
+                    <div className="relative h-[640px] w-full overflow-hidden rounded-[2rem] lg:h-[720px]">
                       <Image
-                        src={heroBg}
+                        src={processImage}
                         alt=""
                         fill
-                        sizes="(min-width: 768px) 45vw, 100vw"
+                        sizes="(min-width: 1024px) 28vw, 32vw"
                         className="object-cover"
                       />
                     </div>
