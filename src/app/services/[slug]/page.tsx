@@ -9,6 +9,7 @@ import { SectionHeading } from "@/components/section-heading";
 import { CardArtwork } from "@/components/card-artwork";
 import { Faq } from "@/components/faq";
 import { Marquee } from "@/components/marquee";
+import { BankCategoryIconSvg } from "@/components/bank-category-icon";
 import { JsonLd } from "@/components/json-ld";
 import { faqSchema, serviceSchema } from "@/lib/schema";
 import { banks, getService, services, showAdvisorsTrack } from "@/lib/site";
@@ -428,7 +429,7 @@ export default async function ServicePage({
                   {banks.map((bank) => (
                     <li
                       key={bank.name}
-                      className="flex items-center rounded-full border border-navy-800/10 bg-white px-6 py-2 shadow-sm"
+                      className="flex items-center rounded-full border border-navy-800/10 bg-white px-6 py-1 shadow-sm"
                     >
                       {bank.logo ? (
                         /* eager: בתוך רצועה נעה טעינה עצלה לא נורית על חלק
@@ -439,10 +440,13 @@ export default async function ServicePage({
                           width={132}
                           height={40}
                           loading="eager"
-                          className="h-8 w-auto object-contain"
+                          className={`${bank.logoClass ?? "h-8"} w-auto object-contain`}
                         />
                       ) : (
-                        <span className="text-sm font-semibold whitespace-nowrap text-navy-700">
+                        <span className="flex items-center gap-2 text-sm font-semibold whitespace-nowrap text-navy-700">
+                          {bank.icon ? (
+                            <BankCategoryIconSvg icon={bank.icon} className="h-5 w-5 text-gold-700" />
+                          ) : null}
                           {bank.name}
                         </span>
                       )}
