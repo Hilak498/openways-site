@@ -6,7 +6,7 @@ import { ServiceIcon } from "@/components/service-icon";
 import { ContactForm } from "@/components/contact-form";
 import { JsonLd } from "@/components/json-ld";
 import { organizationSchema } from "@/lib/schema";
-import { services, site, testimonials, whyUs } from "@/lib/site";
+import { services, showTestimonials, site, testimonials, whyUs } from "@/lib/site";
 
 export default function HomePage() {
   return (
@@ -116,44 +116,46 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Testimonials - navy band with glass cards */}
-      <section
-        id="testimonials"
-        className="on-dark hero-navy scroll-mt-24 py-24 text-white"
-      >
-        <div className="container-site">
-          <SectionHeading
-            onDark
-            eyebrow="מה לקוחות מספרים עלינו"
-            title="התוצאות מדברות בעד עצמן"
-          />
-          <div className="mt-14 grid gap-8 lg:grid-cols-3">
-            {testimonials.map((t, i) => (
-              <Reveal key={t.name} delay={i * 0.1} className="h-full">
-                <figure className="glass-dark flex h-full flex-col !rounded-3xl p-8 transition-colors duration-300 hover:border-gold-400/60">
-                  <svg
-                    width="32"
-                    height="24"
-                    viewBox="0 0 32 24"
-                    fill="currentColor"
-                    aria-hidden="true"
-                    className="text-gold-500"
-                  >
-                    <path d="M0 24V14.4C0 6.5 4.8 1.2 12.8 0l1.6 3.8c-4.3 1.3-6.6 3.7-6.9 7h6.1V24H0Zm18.4 0V14.4c0-7.9 4.8-13.2 12.8-14.4l1.6 3.8c-4.3 1.3-6.6 3.7-6.9 7H32V24H18.4Z" />
-                  </svg>
-                  <blockquote className="mt-5 flex-1 leading-8 text-white italic">
-                    {t.quote}
-                  </blockquote>
-                  <figcaption className="mt-6 border-t border-white/15 pt-4">
-                    <span className="block font-bold text-white">{t.name}</span>
-                    <span className="text-sm text-gold-500">{t.role}</span>
-                  </figcaption>
-                </figure>
-              </Reveal>
-            ))}
+      {/* Testimonials - navy band with glass cards (hidden until real ones exist) */}
+      {showTestimonials ? (
+        <section
+          id="testimonials"
+          className="on-dark hero-navy scroll-mt-24 py-24 text-white"
+        >
+          <div className="container-site">
+            <SectionHeading
+              onDark
+              eyebrow="מה לקוחות מספרים עלינו"
+              title="התוצאות מדברות בעד עצמן"
+            />
+            <div className="mt-14 grid gap-8 lg:grid-cols-3">
+              {testimonials.map((t, i) => (
+                <Reveal key={t.name} delay={i * 0.1} className="h-full">
+                  <figure className="glass-dark flex h-full flex-col !rounded-3xl p-8 transition-colors duration-300 hover:border-gold-400/60">
+                    <svg
+                      width="32"
+                      height="24"
+                      viewBox="0 0 32 24"
+                      fill="currentColor"
+                      aria-hidden="true"
+                      className="text-gold-500"
+                    >
+                      <path d="M0 24V14.4C0 6.5 4.8 1.2 12.8 0l1.6 3.8c-4.3 1.3-6.6 3.7-6.9 7h6.1V24H0Zm18.4 0V14.4c0-7.9 4.8-13.2 12.8-14.4l1.6 3.8c-4.3 1.3-6.6 3.7-6.9 7H32V24H18.4Z" />
+                    </svg>
+                    <blockquote className="mt-5 flex-1 leading-8 text-white italic">
+                      {t.quote}
+                    </blockquote>
+                    <figcaption className="mt-6 border-t border-white/15 pt-4">
+                      <span className="block font-bold text-white">{t.name}</span>
+                      <span className="text-sm text-gold-500">{t.role}</span>
+                    </figcaption>
+                  </figure>
+                </Reveal>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
       {/* Contact - navy glass form per the approved design */}
       <section id="contact" className="on-dark hero-navy scroll-mt-24 relative overflow-hidden py-24 text-white">
