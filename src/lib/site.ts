@@ -819,6 +819,12 @@ export function getService(slug: string): Service | undefined {
   return services.find((s) => s.slug === slug);
 }
 
+/**
+ * ההמלצות בדף הבית מוסתרות עד שיהיו המלצות אמיתיות עם אישור פרסום
+ * (השמות למטה הם placeholder). true מחזיר את הסקשן.
+ */
+export const showTestimonials = false;
+
 export const testimonials = [
   {
     quote:
