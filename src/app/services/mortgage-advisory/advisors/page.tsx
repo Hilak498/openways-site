@@ -2,7 +2,7 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 import Image from "next/image";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 const heroCandidates = ["advisors.jpg", "service-mortgage-advisory.jpg"];
 
 export default function MortgageAdvisorsPage() {
-  if (!showAdvisorsTrack) notFound();
+  if (!showAdvisorsTrack) redirect("/services/mortgage-advisory");
 
   const heroFile = heroCandidates.find((f) =>
     existsSync(path.join(process.cwd(), "public", "images", f)),

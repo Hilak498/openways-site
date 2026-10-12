@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { showAdvisorsTrack } from "./src/lib/site";
 
 /**
  * Security headers.
@@ -45,6 +46,19 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  async redirects() {
+    // מסלול היועצים מוסתר זמנית: קישורים קיימים אליו מגיעים לעמוד המשכנתאות.
+    // permanent: false (307) כי המסלול יחזור, ודפדפנים לא ישמרו את ההפניה.
+    return showAdvisorsTrack
+      ? []
+      : [
+          {
+            source: "/services/mortgage-advisory/advisors",
+            destination: "/services/mortgage-advisory",
+            permanent: false,
+          },
+        ];
+  },
   async headers() {
     return [
       {
