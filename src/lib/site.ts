@@ -76,21 +76,23 @@ export const calculatorLinks = [
 
 /**
  * הבנקים וגופי המימון שמולם אנחנו עובדים - רצועה בעמודי המשכנתאות והאשראי.
- * מוצגים כשמות (ללא לוגואים - סמלי הבנקים הם סימנים מסחריים).
+ * בנק עם קובץ לוגו מציג את הלוגו בפס הנע. קטגוריה (לא בנק) מציגה אייקון קו + שם.
  */
-/** בנק עם קובץ לוגו מציג את הלוגו בפס הנע; בלעדיו - שם מעוצב. */
-export const banks: { name: string; logo?: string }[] = [
+export type BankCategoryIcon = "shield" | "building" | "network";
+
+/** logoClass: גובה מותאם ללוגו כדי שכל הלוגואים ייראו באותו משקל חזותי (ברירת מחדל h-8). */
+export const banks: { name: string; logo?: string; logoClass?: string; icon?: BankCategoryIcon }[] = [
   { name: "בנק הפועלים", logo: "/images/banks/hapoalim.webp" },
   { name: "בנק לאומי", logo: "/images/banks/leumi.webp" },
-  { name: "מזרחי-טפחות" },
-  { name: "בנק דיסקונט", logo: "/images/banks/discount.png" },
-  { name: "הבנק הבינלאומי" },
-  { name: "בנק ירושלים" },
-  { name: "בנק מרכנתיל" },
-  { name: "בנק יהב" },
-  { name: "קרנות בערבות מדינה" },
-  { name: "גופים מוסדיים" },
-  { name: "גופים חוץ־בנקאיים" },
+  { name: "מזרחי-טפחות", logo: "/images/banks/mizrahi-tefahot.webp", logoClass: "h-10" },
+  { name: "בנק דיסקונט", logo: "/images/banks/discount.png", logoClass: "h-10" },
+  { name: "הבנק הבינלאומי", logo: "/images/banks/first-international.webp", logoClass: "h-6" },
+  { name: "בנק ירושלים", logo: "/images/banks/jerusalem.webp", logoClass: "h-6" },
+  { name: "בנק מרכנתיל", logo: "/images/banks/mercantile.webp" },
+  { name: "בנק יהב", logo: "/images/banks/yahav.webp" },
+  { name: "קרנות בערבות מדינה", icon: "shield" },
+  { name: "גופים מוסדיים", icon: "building" },
+  { name: "גופים חוץ־בנקאיים", icon: "network" },
 ];
 
 export type ServiceSlug = "business-advisory" | "business-credit" | "mortgage-advisory";
