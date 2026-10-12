@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { services, site } from "@/lib/site";
+import { services, showAdvisorsTrack, site } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -18,12 +18,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.9,
     })),
-    {
-      url: `${site.url}/services/mortgage-advisory/advisors`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
+    ...(showAdvisorsTrack
+      ? [
+          {
+            url: `${site.url}/services/mortgage-advisory/advisors`,
+            lastModified: now,
+            changeFrequency: "monthly" as const,
+            priority: 0.8,
+          },
+        ]
+      : []),
     {
       url: `${site.url}/blog`,
       lastModified: now,

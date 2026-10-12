@@ -2,11 +2,12 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
 import { ServiceIcon } from "@/components/service-icon";
-import { mortgageAdvisorsPage as page } from "@/lib/site";
+import { mortgageAdvisorsPage as page, showAdvisorsTrack } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: page.metaTitle,
@@ -25,6 +26,8 @@ export const metadata: Metadata = {
 const heroCandidates = ["advisors.jpg", "service-mortgage-advisory.jpg"];
 
 export default function MortgageAdvisorsPage() {
+  if (!showAdvisorsTrack) notFound();
+
   const heroFile = heroCandidates.find((f) =>
     existsSync(path.join(process.cwd(), "public", "images", f)),
   );

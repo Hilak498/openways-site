@@ -11,7 +11,7 @@ import { Faq } from "@/components/faq";
 import { Marquee } from "@/components/marquee";
 import { JsonLd } from "@/components/json-ld";
 import { faqSchema, serviceSchema } from "@/lib/schema";
-import { banks, getService, services } from "@/lib/site";
+import { banks, getService, services, showAdvisorsTrack } from "@/lib/site";
 
 export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
@@ -565,7 +565,7 @@ export default async function ServicePage({
       ) : null}
 
       {/* Cross-link to the advisors page (mortgage page only) */}
-      {service.slug === "mortgage-advisory" ? (
+      {service.slug === "mortgage-advisory" && showAdvisorsTrack ? (
         <section className="on-dark hero-navy py-16 text-white">
           <div className="container-site">
             <Reveal>
