@@ -33,8 +33,14 @@ export const socials = [
   { name: "יוטיוב", href: "https://www.youtube.com/", icon: "youtube" },
 ] as const;
 
+/**
+ * מסלול "ייעוץ ליועצים" מוסתר זמנית עד שהתוכן סופי. true מחזיר אותו לתפריט,
+ * לפוטר, לטופס, למפת האתר ולעמוד עצמו (שבינתיים מחזיר 404).
+ */
+export const showAdvisorsTrack = false;
+
 /** שני מסלולי ייעוץ המשכנתאות - עמודים נפרדים, מוצגים בתפריט (במעבר עכבר) ובפוטר. */
-export const mortgageTracks = [
+const allMortgageTracks = [
   { label: "ייעוץ לפרטיים ומשקי בית", href: "/services/mortgage-advisory" },
   {
     label: "ייעוץ ליועצים - מעטפת אימון מקצועית ועסקית",
@@ -42,17 +48,24 @@ export const mortgageTracks = [
   },
 ] as const;
 
+/** עם מסלול אחד בלבד אין טעם בתת-תפריט, ולכן הרשימה ריקה. */
+export const mortgageTracks = showAdvisorsTrack ? allMortgageTracks : [];
+
 /**
  * נושאי הפנייה בטופס יצירת הקשר. לא נגזרים מ-services כי ייעוץ המשכנתאות
  * מפוצל כאן לפרטיים וליועצים - שתי פניות שונות לגמרי מבחינת מה שעושים איתן.
  */
-export const contactTopics = [
+const allContactTopics = [
   { value: "business-advisory", label: "ייעוץ עסקי" },
   { value: "mortgage-advisory", label: "ייעוץ משכנתאות לפרטיים" },
   { value: "mortgage-advisors", label: "ייעוץ ליועצי משכנתאות" },
   { value: "business-credit", label: "גיוס אשראי עסקי" },
   { value: "other", label: "אחר" },
 ] as const;
+
+export const contactTopics = allContactTopics.filter(
+  (t) => showAdvisorsTrack || t.value !== "mortgage-advisors",
+);
 
 /** מחשבונים - מוצגים בתפריט הראשי. */
 export const calculatorLinks = [

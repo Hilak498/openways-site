@@ -20,7 +20,10 @@ const navLinks: NavLink[] = [
   ...services.map((s) => ({
     href: `/services/${s.slug}`,
     label: s.name,
-    children: s.slug === "mortgage-advisory" ? mortgageTracks : undefined,
+    children:
+      s.slug === "mortgage-advisory" && mortgageTracks.length > 0
+        ? mortgageTracks
+        : undefined,
   })),
   { href: "/blog", label: "בלוג ומאמרים" },
   { href: calculatorLinks[0].href, label: "מחשבונים", children: calculatorLinks },

@@ -29,7 +29,11 @@ export function Footer() {
             {services.map((s) => (
               <li
                 key={s.slug}
-                className={s.slug === "mortgage-advisory" ? "group" : undefined}
+                className={
+                  s.slug === "mortgage-advisory" && mortgageTracks.length > 0
+                    ? "group"
+                    : undefined
+                }
               >
                 <Link
                   href={`/services/${s.slug}`}
@@ -37,7 +41,7 @@ export function Footer() {
                 >
                   {s.name}
                 </Link>
-                {s.slug === "mortgage-advisory" ? (
+                {s.slug === "mortgage-advisory" && mortgageTracks.length > 0 ? (
                   /* Hover reveals the two mortgage tracks (focus-within keeps it keyboard-accessible) */
                   <ul className="hidden space-y-2 pt-2 pr-4 text-sm group-focus-within:block group-hover:block">
                     {mortgageTracks.map((track) => (
