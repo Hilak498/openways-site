@@ -478,30 +478,35 @@ export const services: Service[] = [
       {
         badge: "משפצים",
         title: "משכנתה לשיפוץ",
+          image: "/images/brand/renovation.jpg",
         description:
           "שיפוץ רציני עולה כסף אמיתי. מימון כנגד הנכס בתנאים טובים מהלוואה צרכנית - בלי לגעת בחסכונות.",
       },
       {
         badge: "לעסק",
         title: "משכנתה עסקית",
+          image: "/images/brand/business-building.jpg",
         description:
           "מינוף נכס לטובת העסק: הון להתרחבות, לרכישת ציוד או להון חוזר - בריבית של משכנתה ולא של אשראי עסקי.",
       },
       {
         badge: "מחו\"ל",
         title: "משכנתה לתושבי חוץ",
+          image: "/images/brand/flight-home.jpg",
         description:
           "רוכשים נכס בישראל ומתגוררים בחו\"ל? הליך שדורש היכרות עם דרישות הבנקים לתושבי חוץ - ואנחנו מכירים אותן.",
       },
       {
         badge: "בונים",
         title: "בנייה עצמית",
+          image: "/images/brand/construction.jpg",
         description:
           "בונים בית משלכם? מימון בנייה עובד בשלבים, מול הקרקע ומול קצב ההתקדמות - תכנון נכון מונע תקיעות באמצע.",
       },
       {
         badge: "כפר וקיבוץ",
         title: "המרחב הכפרי והקיבוצים",
+          image: "/images/brand/countryside.jpg",
         description:
           "נחלות, הרחבות ובתים בקיבוץ מתנהלים אחרת מול הבנקים ורשות מקרקעי ישראל. מכירים את המסלול מקרוב.",
       },
