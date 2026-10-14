@@ -114,28 +114,129 @@ export async function POST(request: Request) {
   };
 
   // --- Delivery ---
-  // TODO: חברו כאן ספק אימייל (Resend / SendGrid / SES) או CRM.
-  // המפתחות נשמרים ב-.env בלבד ואינם נחשפים ללקוח. דוגמה עם Resend:
-  //
-  //   await fetch("https://api.resend.com/emails", {
-  //     method: "POST",
-  //     headers: {
-  //       Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       from: "site@openways.co.il",
-  //       to: process.env.CONTACT_INBOX ?? site.email,
-  //       subject: `פנייה חדשה מהאתר: ${submission.name}`,
-  //       text: JSON.stringify(submission, null, 2),
-  //     }),
-  //   });
-  console.info("[contact] new submission for", site.name, {
-    ...submission,
+  // Email via Resend (RESEND_API_KEY, CONTACT_INBOX, CONTACT_FROM) and,
+  // optionally, a copy in a Supabase "leads" table (SUPABASE_URL +
+  // SUPABASE_SERVICE_ROLE_KEY). Secrets stay server-side. If no channel
+  // accepts the lead, the visitor gets an error with the phone number
+  // instead of a false "sent" message.
+  const [emailed, stored] = await Promise.all([
+    sendEmail(submission),
+    storeLead(submission),
+  ]);
+
+  console.info("[contact] submission", {
+    emailed,
+    stored,
     // Avoid logging full PII in production logs
     email: submission.email.replace(/(.{2}).+(@.*)/, "$1***$2"),
     phone: submission.phone.slice(0, 3) + "****",
   });
 
+  if (!emailed && !stored) {
+    return NextResponse.json(
+      {
+        error: `לא הצלחנו לשלוח את הפנייה כרגע. אפשר להתקשר אלינו ישירות: ${site.phoneDisplay}`,
+      },
+      { status: 502 },
+    );
+  }
+
   return NextResponse.json({ ok: true });
+}
+
+type Submission = {
+  name: string;
+  phone: string;
+  email: string;
+  service: string;
+  message: string;
+  marketingConsent: boolean;
+  receivedAt: string;
+  consentRecord: { type: string; at: string; source: string } | null;
+};
+
+const SERVICE_LABELS: Record<string, string> = {
+  "business-advisory": "ייעוץ עסקי",
+  "business-credit": "אשראי לעסקים",
+  "mortgage-advisory": "ייעוץ משכנתאות",
+  "mortgage-advisors": "ייעוץ משכנתאות ליועצים",
+  other: "אחר",
+};
+
+async function sendEmail(sub: Submission): Promise<boolean> {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) return false;
+  const to = process.env.CONTACT_INBOX ?? site.email;
+  const from = process.env.CONTACT_FROM ?? `Open Ways <site@openways.co.il>`;
+  const service = SERVICE_LABELS[sub.service] ?? sub.service;
+  const text = [
+    `שם: ${sub.name}`,
+    `טלפון: ${sub.phone}`,
+    `אימייל: ${sub.email}`,
+    `שירות: ${service}`,
+    `הסכמה לדיוור: ${sub.marketingConsent ? "כן" : "לא"}`,
+    `התקבל: ${sub.receivedAt}`,
+    "",
+    "הודעה:",
+    sub.message,
+  ].join("\n");
+  try {
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from,
+        to: to.split(",").map((s) => s.trim()),
+        reply_to: sub.email,
+        subject: `פנייה חדשה מהאתר: ${sub.name} (${service})`,
+        text,
+      }),
+    });
+    if (!res.ok) {
+      console.error("[contact] resend failed", res.status, await res.text());
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.error("[contact] resend error", err);
+    return false;
+  }
+}
+
+async function storeLead(sub: Submission): Promise<boolean> {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) return false;
+  try {
+    const res = await fetch(`${url.replace(/\/$/, "")}/rest/v1/leads`, {
+      method: "POST",
+      headers: {
+        apikey: key,
+        Authorization: `Bearer ${key}`,
+        "Content-Type": "application/json",
+        Prefer: "return=minimal",
+      },
+      body: JSON.stringify({
+        name: sub.name,
+        phone: sub.phone,
+        email: sub.email,
+        service: sub.service,
+        message: sub.message,
+        marketing_consent: sub.marketingConsent,
+        consent_record: sub.consentRecord,
+        received_at: sub.receivedAt,
+      }),
+    });
+    if (!res.ok) {
+      console.error("[contact] supabase failed", res.status, await res.text());
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.error("[contact] supabase error", err);
+    return false;
+  }
 }
