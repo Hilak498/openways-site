@@ -76,21 +76,23 @@ export const calculatorLinks = [
 
 /**
  * הבנקים וגופי המימון שמולם אנחנו עובדים - רצועה בעמודי המשכנתאות והאשראי.
- * מוצגים כשמות (ללא לוגואים - סמלי הבנקים הם סימנים מסחריים).
+ * בנק עם קובץ לוגו מציג את הלוגו בפס הנע. קטגוריה (לא בנק) מציגה אייקון קו + שם.
  */
-/** בנק עם קובץ לוגו מציג את הלוגו בפס הנע; בלעדיו - שם מעוצב. */
-export const banks: { name: string; logo?: string }[] = [
+export type BankCategoryIcon = "shield" | "building" | "network";
+
+/** logoClass: גובה מותאם ללוגו כדי שכל הלוגואים ייראו באותו משקל חזותי (ברירת מחדל h-8). */
+export const banks: { name: string; logo?: string; logoClass?: string; icon?: BankCategoryIcon }[] = [
   { name: "בנק הפועלים", logo: "/images/banks/hapoalim.webp" },
   { name: "בנק לאומי", logo: "/images/banks/leumi.webp" },
-  { name: "מזרחי-טפחות" },
-  { name: "בנק דיסקונט", logo: "/images/banks/discount.png" },
-  { name: "הבנק הבינלאומי" },
-  { name: "בנק ירושלים" },
-  { name: "בנק מרכנתיל" },
-  { name: "בנק יהב" },
-  { name: "קרנות בערבות מדינה" },
-  { name: "גופים מוסדיים" },
-  { name: "גופים חוץ־בנקאיים" },
+  { name: "מזרחי-טפחות", logo: "/images/banks/mizrahi-tefahot.webp", logoClass: "h-10" },
+  { name: "בנק דיסקונט", logo: "/images/banks/discount.png", logoClass: "h-10" },
+  { name: "הבנק הבינלאומי", logo: "/images/banks/first-international.webp", logoClass: "h-6" },
+  { name: "בנק ירושלים", logo: "/images/banks/jerusalem.webp", logoClass: "h-6" },
+  { name: "בנק מרכנתיל", logo: "/images/banks/mercantile.webp" },
+  { name: "בנק יהב", logo: "/images/banks/yahav.webp" },
+  { name: "קרנות בערבות מדינה", icon: "shield" },
+  { name: "גופים מוסדיים", icon: "building" },
+  { name: "גופים חוץ־בנקאיים", icon: "network" },
 ];
 
 export type ServiceSlug = "business-advisory" | "business-credit" | "mortgage-advisory";
@@ -476,30 +478,35 @@ export const services: Service[] = [
       {
         badge: "משפצים",
         title: "משכנתה לשיפוץ",
+          image: "/images/brand/renovation.jpg",
         description:
           "שיפוץ רציני עולה כסף אמיתי. מימון כנגד הנכס בתנאים טובים מהלוואה צרכנית - בלי לגעת בחסכונות.",
       },
       {
         badge: "לעסק",
         title: "משכנתה עסקית",
+          image: "/images/brand/business-building.jpg",
         description:
           "מינוף נכס לטובת העסק: הון להתרחבות, לרכישת ציוד או להון חוזר - בריבית של משכנתה ולא של אשראי עסקי.",
       },
       {
         badge: "מחו\"ל",
         title: "משכנתה לתושבי חוץ",
+          image: "/images/brand/flight-home.jpg",
         description:
           "רוכשים נכס בישראל ומתגוררים בחו\"ל? הליך שדורש היכרות עם דרישות הבנקים לתושבי חוץ - ואנחנו מכירים אותן.",
       },
       {
         badge: "בונים",
         title: "בנייה עצמית",
+          image: "/images/brand/construction.jpg",
         description:
           "בונים בית משלכם? מימון בנייה עובד בשלבים, מול הקרקע ומול קצב ההתקדמות - תכנון נכון מונע תקיעות באמצע.",
       },
       {
         badge: "כפר וקיבוץ",
         title: "המרחב הכפרי והקיבוצים",
+          image: "/images/brand/countryside.jpg",
         description:
           "נחלות, הרחבות ובתים בקיבוץ מתנהלים אחרת מול הבנקים ורשות מקרקעי ישראל. מכירים את המסלול מקרוב.",
       },
