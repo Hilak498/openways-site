@@ -62,3 +62,4 @@ next-env.d.ts
 /.claude/skills/quote/services.json
 /.claude/skills/quote/out/
 /.claude/skills/quote/tracking.csv
+!.env.example
