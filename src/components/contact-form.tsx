@@ -66,6 +66,7 @@ export function ContactForm({ variant = "light" }: { variant?: "light" | "dark" 
       message: String(data.get("message") ?? ""),
       marketingConsent: data.get("marketingConsent") === "on",
       company: String(data.get("company") ?? ""),
+      sourcePage: window.location.pathname.slice(0, 500),
       renderedAt: renderedAt.current,
     };
 

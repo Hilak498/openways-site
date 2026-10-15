@@ -15,15 +15,19 @@ export const contactSchema = z.object({
     .trim()
     .regex(/^0(?:[23489]|5[0-9]|7[2-9])-?\d{7}$/, "נא להזין מספר טלפון ישראלי תקין"),
   email: z.string().trim().email("נא להזין כתובת אימייל תקינה").max(254),
-  service: z
-    .enum([
-      "business-advisory",
-      "business-credit",
-      "mortgage-advisory",
-      "mortgage-advisors",
-      "other",
-    ])
-    .optional(),
+  // "" (the select's placeholder) means "not chosen"
+  service: z.preprocess(
+    (v) => (v === "" || v === null ? undefined : v),
+    z
+      .enum([
+        "business-advisory",
+        "business-credit",
+        "mortgage-advisory",
+        "mortgage-advisors",
+        "other",
+      ])
+      .optional(),
+  ),
   message: z
     .string()
     .trim()
@@ -33,6 +37,8 @@ export const contactSchema = z.object({
   marketingConsent: z.boolean().default(false),
   /** Honeypot - humans leave it empty; the server pretends success if filled. */
   company: z.string().max(200).optional(),
+  /** Path of the page the form was sent from (stored as leads.source_page). */
+  sourcePage: z.string().max(500).optional(),
   /** Anti-bot time trap - when the form was rendered. */
   renderedAt: z.number(),
 });

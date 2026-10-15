@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { contactSchema } from "@/lib/contact-schema";
+import { insertLead, toLeadRow } from "@/lib/leads";
 import { rateLimit } from "@/lib/rate-limit";
 import { site } from "@/lib/site";
 
@@ -99,6 +100,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "אימות אנושיות נכשל." }, { status: 403 });
   }
 
+  const sourcePage =
+    data.sourcePage ?? pathFromReferer(headerList.get("referer"));
+
   const submission = {
     name: sanitize(data.name),
     phone: sanitize(data.phone),
@@ -107,21 +111,31 @@ export async function POST(request: Request) {
     message: sanitize(data.message),
     marketingConsent: data.marketingConsent,
     receivedAt: new Date().toISOString(),
-    // Consent audit trail (Amendment 13): what was agreed to and when
-    consentRecord: data.marketingConsent
-      ? { type: "marketing-opt-in", at: new Date().toISOString(), source: "contact-form" }
-      : null,
   };
 
+  // Re-check against the table's own limits after sanitizing (sanitize can
+  // shorten a value below a minimum).
+  const leadRow = toLeadRow({
+    ...submission,
+    service: data.service,
+    sourcePage,
+  });
+  if (!leadRow) {
+    return NextResponse.json(
+      { error: "הפרטים שנשלחו אינם תקינים. בדקו את השדות ונסו שוב." },
+      { status: 422 },
+    );
+  }
+
   // --- Delivery ---
-  // Email via Resend (RESEND_API_KEY, CONTACT_INBOX, CONTACT_FROM) and,
-  // optionally, a copy in a Supabase "leads" table (SUPABASE_URL +
-  // SUPABASE_SERVICE_ROLE_KEY). Secrets stay server-side. If no channel
-  // accepts the lead, the visitor gets an error with the phone number
-  // instead of a false "sent" message.
+  // Supabase "leads" table (SUPABASE_URL + SUPABASE_PUBLISHABLE_KEY) and,
+  // optionally, an email via Resend (RESEND_API_KEY, CONTACT_INBOX,
+  // CONTACT_FROM). Secrets stay server-side. If no channel accepts the
+  // lead, the visitor gets an error with the phone number instead of a
+  // false "sent" message.
   const [emailed, stored] = await Promise.all([
     sendEmail(submission),
-    storeLead(submission),
+    insertLead(leadRow),
   ]);
 
   console.info("[contact] submission", {
@@ -152,8 +166,17 @@ type Submission = {
   message: string;
   marketingConsent: boolean;
   receivedAt: string;
-  consentRecord: { type: string; at: string; source: string } | null;
 };
+
+/** Fallback when the client didn't send its path: take it from Referer. */
+function pathFromReferer(referer: string | null): string | undefined {
+  if (!referer) return undefined;
+  try {
+    return new URL(referer).pathname;
+  } catch {
+    return undefined;
+  }
+}
 
 const SERVICE_LABELS: Record<string, string> = {
   "business-advisory": "ייעוץ עסקי",
@@ -202,41 +225,6 @@ async function sendEmail(sub: Submission): Promise<boolean> {
     return true;
   } catch (err) {
     console.error("[contact] resend error", err);
-    return false;
-  }
-}
-
-async function storeLead(sub: Submission): Promise<boolean> {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) return false;
-  try {
-    const res = await fetch(`${url.replace(/\/$/, "")}/rest/v1/leads`, {
-      method: "POST",
-      headers: {
-        apikey: key,
-        Authorization: `Bearer ${key}`,
-        "Content-Type": "application/json",
-        Prefer: "return=minimal",
-      },
-      body: JSON.stringify({
-        name: sub.name,
-        phone: sub.phone,
-        email: sub.email,
-        service: sub.service,
-        message: sub.message,
-        marketing_consent: sub.marketingConsent,
-        consent_record: sub.consentRecord,
-        received_at: sub.receivedAt,
-      }),
-    });
-    if (!res.ok) {
-      console.error("[contact] supabase failed", res.status, await res.text());
-      return false;
-    }
-    return true;
-  } catch (err) {
-    console.error("[contact] supabase error", err);
     return false;
   }
 }
