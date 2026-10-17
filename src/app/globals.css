@@ -210,6 +210,79 @@
     @apply font-semibold text-gold-700 underline underline-offset-4 hover:text-gold-600;
   }
 
+  /* Blog article body (HTML from the Soro feed, sanitized in lib/blog.ts) */
+  .prose-article {
+    @apply text-lg leading-9 text-navy-700;
+  }
+  /* Content arrives wrapped in a <div dir="rtl">, so spacing targets blocks at any depth */
+  .prose-article :where(p, ul, ol, blockquote, figure, pre, .table-wrap) {
+    @apply my-6;
+  }
+  .prose-article h2 {
+    @apply mt-14 mb-4 font-display text-[1.75rem] leading-tight text-navy-800;
+  }
+  .prose-article h3 {
+    @apply mt-10 mb-3 font-display text-xl leading-snug text-navy-800;
+  }
+  .prose-article h4 {
+    @apply mt-8 mb-2 text-lg font-bold text-navy-800;
+  }
+  .prose-article strong,
+  .prose-article b {
+    @apply font-bold text-navy-800;
+  }
+  .prose-article a {
+    @apply font-semibold text-gold-700 underline decoration-gold-700/40 underline-offset-4 transition hover:decoration-gold-700;
+  }
+  .prose-article ul,
+  .prose-article ol {
+    @apply space-y-2 pr-7;
+  }
+  .prose-article ul {
+    @apply list-disc;
+  }
+  .prose-article ol {
+    @apply list-decimal;
+  }
+  .prose-article li::marker {
+    @apply text-gold-700;
+  }
+  .prose-article blockquote {
+    @apply rounded-l-2xl border-r-4 border-gold-700 bg-sand-100 px-7 py-5 text-xl leading-9 text-navy-800;
+  }
+  .prose-article .table-wrap {
+    /* Wide tables scroll sideways on mobile instead of breaking the layout */
+    @apply overflow-x-auto rounded-2xl border border-navy-900/10;
+  }
+  .prose-article table {
+    @apply w-full border-collapse text-base leading-7;
+  }
+  .prose-article th,
+  .prose-article td {
+    @apply border-b border-navy-900/10 px-4 py-3 text-right align-top;
+  }
+  .prose-article th {
+    @apply bg-navy-800 font-bold text-white;
+  }
+  .prose-article tbody tr:nth-child(even) {
+    @apply bg-sand-100;
+  }
+  .prose-article caption {
+    @apply pb-2 text-sm text-navy-600;
+  }
+  .prose-article img {
+    @apply h-auto max-w-full rounded-2xl;
+  }
+  .prose-article figcaption {
+    @apply mt-2 text-sm text-navy-600;
+  }
+  .prose-article hr {
+    @apply my-12 border-navy-900/10;
+  }
+  .prose-article code {
+    @apply rounded bg-sand-100 px-1.5 py-0.5 text-base;
+  }
+
   .skip-link {
     @apply fixed top-3 right-3 z-[100] -translate-y-24 rounded-lg bg-navy-900 px-4 py-2 font-semibold text-white transition focus:translate-y-0;
   }

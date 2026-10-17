@@ -1,17 +1,13 @@
-import { site } from "@/lib/site";
+import { whatsappHref } from "@/lib/site";
 
 /**
  * Floating WhatsApp button, shown on every page.
  * מעל כפתור יצירת הקשר במובייל; בדסקטופ (שם ה-FAB מוסתר) יורד לפינה.
  */
 export function WhatsAppButton() {
-  const href = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(
-    "שלום, אשמח לתאם שיחת ייעוץ עם Open Ways",
-  )}`;
-
   return (
     <a
-      href={href}
+      href={whatsappHref}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="שיחה איתנו בוואטסאפ"

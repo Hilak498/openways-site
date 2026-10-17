@@ -143,3 +143,18 @@ public/
 
 הפרויקט מקושר ל־Vercel (`openways-site`). כל דחיפה ל־main יוצרת פריסה.
 יש להגדיר את משתני הסביבה מ־`.env.example` בהגדרות הפרויקט ב־Vercel.
+
+## בלוג אוטומטי (פיד RSS של Soro)
+
+- המאמרים נקראים מהפיד בזמן `next build` (`src/lib/blog.ts`) והופכים לעמודים
+  סטטיים ב-`/blog/[slug]`. ה-slug נלקח מהקישור שבפיד.
+- כתובת הפיד קבועה בקוד, ואפשר לדרוס אותה במשתנה הסביבה `SORO_RSS_URL`.
+- התוכן המלא נלקח מ-`content:encoded`, התקציר מ-`description`, והתמונה
+  מ-`enclosure` / `media:content` (או מה-`<img>` הראשון בתוכן).
+- ה-HTML עובר ניקוי (`sanitize-html`, רשימת תגיות מותרות) לפני הצגה.
+  קישורים ל-openways.co.il הופכים ליחסיים, קישורים חיצוניים נפתחים בלשונית חדשה.
+- אם הפיד לא זמין או ריק, ה-build לא נכשל: הבלוג מוצג עם הודעת "מאמרים בקרוב".
+- עדכון יומי: `.github/workflows/daily-rebuild.yml` מפעיל Deploy Hook של Vercel
+  כל יום ב-07:00 שעון ישראל. דורש secret בשם `VERCEL_DEPLOY_HOOK_URL` בריפו
+  (Vercel → Project → Settings → Git → Deploy Hooks, ענף `main`).
+  הפעלה ידנית: GitHub → Actions → "Daily rebuild (blog feed)" → Run workflow.

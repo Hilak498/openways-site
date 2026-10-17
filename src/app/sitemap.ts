@@ -1,8 +1,10 @@
 import type { MetadataRoute } from "next";
+import { getPosts, postUrl } from "@/lib/blog";
 import { services, showAdvisorsTrack, site } from "@/lib/site";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
+  const posts = await getPosts();
 
   return [
     { url: site.url, lastModified: now, changeFrequency: "monthly", priority: 1 },
@@ -34,6 +36,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.7,
     },
+    ...posts.map((post) => ({
+      url: postUrl(post.slug),
+      lastModified: new Date(post.date),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
     ...["/calculators/mortgage", "/calculators/salary", "/calculators/business-credit"].map((path) => ({
       url: `${site.url}${path}`,
       lastModified: now,

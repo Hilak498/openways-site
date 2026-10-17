@@ -11,6 +11,9 @@ export const site = {
   phoneDisplay: "054-9796211",
   /** מספר בפורמט בינלאומי לקישור וואטסאפ (wa.me). */
   whatsapp: "972549796211",
+  linkedin: "https://www.linkedin.com/in/oshry-kirshenfeld",
+  /** כוכבית לחיוג מהיר. */
+  starDial: "*9769",
   email: "info@openways.co.il", // TODO: לעדכן ל-oshryk@openways.co.il לאחר פתיחת התיבה (סעיף 11 במסמך העדכונים)
   address: {
     street: "קיבוץ מסילות",
@@ -26,11 +29,17 @@ export const site = {
     "Open Ways - ייעוץ עסקי, ייעוץ משכנתאות וגיוס אשראי עסקי. ליווי מקצועי, שקוף וממוקד תוצאות לעסקים ולמשקי בית בישראל.",
 } as const;
 
+/** קישור לצ'אט וואטסאפ עם הודעת פתיחה. */
+export const whatsappHref = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(
+  "שלום, אשמח לתאם שיחת ייעוץ עם Open Ways",
+)}`;
+
 /** Social profiles shown in the footer. TODO: להחליף בקישורים לפרופילים האמיתיים */
 export const socials = [
   { name: "פייסבוק", href: "https://www.facebook.com/", icon: "facebook" },
   { name: "אינסטגרם", href: "https://www.instagram.com/", icon: "instagram" },
   { name: "יוטיוב", href: "https://www.youtube.com/", icon: "youtube" },
+  { name: "לינקדאין", href: site.linkedin, icon: "linkedin" },
 ] as const;
 
 /**

@@ -8,15 +8,16 @@ import { showAdvisorsTrack } from "./src/lib/site";
  * - script-src includes 'unsafe-inline' because Next.js emits inline
  *   bootstrap scripts on static pages, and Google Analytics (consent-gated)
  *   is initialized inline. For a nonce-based CSP, move to proxy.ts (see
- *   Next.js CSP guide) — documented in the README.
+ *   Next.js CSP guide) - documented in the README.
  * - style-src 'unsafe-inline' is required by Framer Motion / React inline styles.
  * - media-src 'self' allows the logo video; worker-src blob: supports three.js.
+ * - img-src *.supabase.co: blog images from the Soro feed (inline <img> in articles).
  */
 const csp = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google.com https://www.gstatic.com",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://www.googletagmanager.com",
+  "img-src 'self' data: blob: https://www.googletagmanager.com https://*.supabase.co",
   "font-src 'self'",
   "media-src 'self'",
   "connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com",
@@ -46,6 +47,12 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  images: {
+    // Blog featured images from the Soro RSS feed (Supabase storage)
+    remotePatterns: [
+      { protocol: "https", hostname: "*.supabase.co", pathname: "/storage/v1/object/public/**" },
+    ],
+  },
   async redirects() {
     // מסלול היועצים מוסתר זמנית: קישורים קיימים אליו מגיעים לעמוד המשכנתאות.
     // permanent: false (307) כי המסלול יחזור, ודפדפנים לא ישמרו את ההפניה.

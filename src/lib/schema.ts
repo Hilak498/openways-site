@@ -21,6 +21,7 @@ export function organizationSchema() {
       postalCode: site.address.zip,
       addressCountry: site.address.country,
     },
+    sameAs: [site.linkedin],
     areaServed: { "@type": "Country", name: "Israel" },
     openingHoursSpecification: [
       {
@@ -55,6 +56,7 @@ export function serviceSchema(service: Service) {
     description: service.metaDescription,
     url: `${site.url}/services/${service.slug}`,
     provider: { "@id": `${site.url}/#organization` },
+    sameAs: [site.linkedin],
     areaServed: { "@type": "Country", name: "Israel" },
   };
 }

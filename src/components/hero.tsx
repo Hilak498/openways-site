@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Reveal } from "@/components/reveal";
 import { Hero3D } from "@/components/hero-3d";
+import { StarDialButton } from "@/components/star-dial-button";
 
 /**
  * Hero per the approved Stitch design: photo backdrop under a navy overlay,
@@ -86,10 +87,15 @@ export function Hero() {
                   <path d="M5 12h14M13 6l6 6-6 6" />
                 </svg>
               </Link>
-              <Link href="/#services" className="btn-ghost-dark !px-8 !py-4">
-                להכיר את מגוון השירותים
-              </Link>
+              <StarDialButton className="btn-ghost-dark !px-8 !py-4" />
             </div>
+            <Link
+              href="/#services"
+              className="mt-5 inline-flex items-center gap-2 font-semibold text-white/85 underline decoration-white/30 underline-offset-4 transition hover:text-gold-300 hover:decoration-gold-300"
+            >
+              או להכיר את מגוון השירותים
+              <span aria-hidden="true">←</span>
+            </Link>
           </Reveal>
 
           {/* Proof-point cards - same glass window as the stat card */}

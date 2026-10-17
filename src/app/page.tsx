@@ -4,6 +4,7 @@ import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
 import { ServiceIcon } from "@/components/service-icon";
 import { ContactForm } from "@/components/contact-form";
+import { StarDialButton } from "@/components/star-dial-button";
 import { JsonLd } from "@/components/json-ld";
 import { organizationSchema } from "@/lib/schema";
 import { services, showTestimonials, site, testimonials, whyUs } from "@/lib/site";
@@ -174,6 +175,10 @@ export default function HomePage() {
           <Reveal delay={0.1}>
             <div className="glass-dark mx-auto mt-14 max-w-3xl !rounded-[2.5rem] border-white/25 p-8 shadow-lift md:p-12">
               <ContactForm variant="dark" />
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-x-4 gap-y-3 border-t border-white/15 pt-8 text-white/85">
+                <span>מעדיפים לדבר?</span>
+                <StarDialButton className="btn-ghost-dark !px-6 !py-3" />
+              </div>
             </div>
           </Reveal>
 
