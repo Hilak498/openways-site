@@ -8,7 +8,7 @@ import { showAdvisorsTrack } from "./src/lib/site";
  * - script-src includes 'unsafe-inline' because Next.js emits inline
  *   bootstrap scripts on static pages, and Google Analytics (consent-gated)
  *   is initialized inline. For a nonce-based CSP, move to proxy.ts (see
- *   Next.js CSP guide) — documented in the README.
+ *   Next.js CSP guide) - documented in the README.
  * - style-src 'unsafe-inline' is required by Framer Motion / React inline styles.
  * - media-src 'self' allows the logo video; worker-src blob: supports three.js.
  */

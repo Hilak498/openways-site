@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import { Suspense, useEffect, useState } from "react";
 
-// The three.js bundle is heavy — load it lazily, client-only, so it never
+// The three.js bundle is heavy - load it lazily, client-only, so it never
 // affects LCP. The Suspense fallback keeps the hero visually stable.
 const HeroScene = dynamic(() => import("@/components/three/hero-scene"), {
   ssr: false,

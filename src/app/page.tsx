@@ -185,8 +185,23 @@ export default function HomePage() {
                 </a>
               </li>
               <li>
+                <a href={`tel:${site.starDial}`} className="font-semibold transition hover:text-gold-300">
+                  חיוג מהיר <span dir="ltr">{site.starDial}</span>
+                </a>
+              </li>
+              <li>
                 <a href={`mailto:${site.email}`} className="font-semibold transition hover:text-gold-300" dir="ltr">
                   {site.email}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={site.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold transition hover:text-gold-300"
+                >
+                  לינקדאין
                 </a>
               </li>
               <li>

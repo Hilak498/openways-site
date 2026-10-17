@@ -95,6 +95,14 @@ export function Footer() {
             </li>
             <li>
               <a
+                href={`tel:${site.starDial}`}
+                className="transition hover:text-gold-700"
+              >
+                חיוג מהיר <span dir="ltr">{site.starDial}</span>
+              </a>
+            </li>
+            <li>
+              <a
                 href={`mailto:${site.email}`}
                 className="transition hover:text-gold-700"
                 dir="ltr"
@@ -153,6 +161,12 @@ export function Footer() {
                     <rect x="2" y="2" width="20" height="20" rx="5" />
                     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37Z" />
                     <path d="M17.5 6.5h.01" />
+                  </svg>
+                ) : s.icon === "linkedin" ? (
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6Z" />
+                    <rect x="2" y="9" width="4" height="12" />
+                    <circle cx="4" cy="4" r="2" />
                   </svg>
                 ) : (
                   <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
