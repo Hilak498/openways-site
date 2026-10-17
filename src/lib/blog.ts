@@ -1,11 +1,12 @@
+import { cache } from "react";
 import { XMLParser } from "fast-xml-parser";
 import sanitizeHtml from "sanitize-html";
 import { site } from "@/lib/site";
 
 /**
- * Blog posts come from the Soro RSS feed and are read once at build time, so
- * every article is a fully static page. A daily rebuild (see
- * .github/workflows/daily-rebuild.yml) brings in new articles.
+ * Blog posts come from the Soro RSS feed. Pages are prerendered as static
+ * HTML at build time and regenerated in the background (ISR) at most once per
+ * FEED_REVALIDATE_SECONDS, so new articles appear without a redeploy.
  *
  * מבנה הפיד (נבדק ב-17.10.26): התוכן המלא ב-content:encoded (CDATA, עטוף
  * ב-<div dir="rtl">), התקציר ב-description, והתמונה הראשית גם ב-enclosure
@@ -16,6 +17,14 @@ const FEED_URL =
   "https://app.trysoro.com/api/rss/d9ba4d30-4958-43b9-870b-aab1d131f327";
 
 const FETCH_TIMEOUT_MS = 15_000;
+
+/** Keep in sync with `revalidate` in the blog pages and the sitemap. */
+export const FEED_REVALIDATE_SECONDS = 3600;
+
+// Where a feed failure should degrade to "no posts" instead of throwing
+const tolerateFeedErrors =
+  process.env.NEXT_PHASE === "phase-production-build" ||
+  process.env.NODE_ENV !== "production";
 
 export interface Post {
   slug: string;
@@ -181,6 +190,7 @@ async function fetchPosts(): Promise<Post[]> {
     const res = await fetch(FEED_URL, {
       signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
       headers: { Accept: "application/rss+xml, application/xml" },
+      next: { revalidate: FEED_REVALIDATE_SECONDS, tags: ["blog-feed"] },
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
@@ -202,21 +212,19 @@ async function fetchPosts(): Promise<Post[]> {
 
     return posts.sort((a, b) => b.date.localeCompare(a.date));
   } catch (error) {
-    // A missing or broken feed must never fail the build: the blog simply
-    // shows whatever is available (or the "coming soon" state).
+    // At build time a missing or broken feed must not fail the deploy: the
+    // blog is built with whatever is available ("coming soon" when empty).
+    // During background regeneration we throw instead, so Next.js keeps
+    // serving the last good pages rather than replacing them with an empty
+    // blog or 404s.
+    if (!tolerateFeedErrors) throw error;
     console.warn(`[blog] RSS feed unavailable, building without posts: ${String(error)}`);
     return [];
   }
 }
 
-// One fetch per build process, shared by the index, the article pages and
-// the sitemap.
-let postsPromise: Promise<Post[]> | undefined;
-
-export function getPosts(): Promise<Post[]> {
-  postsPromise ??= fetchPosts();
-  return postsPromise;
-}
+/** Deduplicated per render; the fetch itself is cached by Next.js. */
+export const getPosts = cache(fetchPosts);
 
 export async function getPost(slug: string): Promise<Post | undefined> {
   const wanted = slugify(safeDecode(slug));
