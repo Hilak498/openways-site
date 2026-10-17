@@ -7,8 +7,9 @@ import { StarDialButton } from "@/components/star-dial-button";
 import { formatPostDate, getPost, getPosts, postUrl } from "@/lib/blog";
 import { site } from "@/lib/site";
 
-// Only articles that were in the feed at build time exist; anything else 404s.
-export const dynamicParams = false;
+// Articles in the feed at build time are prerendered; newer ones are rendered
+// on first visit and cached. Both regenerate in the background hourly.
+export const revalidate = 3600;
 
 export async function generateStaticParams() {
   const posts = await getPosts();

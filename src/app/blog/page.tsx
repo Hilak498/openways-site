@@ -6,6 +6,9 @@ import Image from "next/image";
 import { formatPostDate, getPosts } from "@/lib/blog";
 import { site } from "@/lib/site";
 
+// Static HTML, regenerated in the background so new feed articles show up
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: "בלוג ומאמרים",
   description:

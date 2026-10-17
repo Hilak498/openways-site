@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 import { getPosts, postUrl } from "@/lib/blog";
 import { services, showAdvisorsTrack, site } from "@/lib/site";
 
+export const revalidate = 3600;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
   const posts = await getPosts();
