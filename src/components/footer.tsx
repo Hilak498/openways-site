@@ -58,6 +58,11 @@ export function Footer() {
                 ) : null}
               </li>
             ))}
+            <li>
+              <Link href="/blog" className="text-navy-700 transition hover:text-gold-700">
+                בלוג ומאמרים
+              </Link>
+            </li>
           </ul>
         </nav>
 
