@@ -29,6 +29,11 @@ export const site = {
     "Open Ways - ייעוץ עסקי, ייעוץ משכנתאות וגיוס אשראי עסקי. ליווי מקצועי, שקוף וממוקד תוצאות לעסקים ולמשקי בית בישראל.",
 } as const;
 
+/** קישור לצ'אט וואטסאפ עם הודעת פתיחה. */
+export const whatsappHref = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(
+  "שלום, אשמח לתאם שיחת ייעוץ עם Open Ways",
+)}`;
+
 /** Social profiles shown in the footer. TODO: להחליף בקישורים לפרופילים האמיתיים */
 export const socials = [
   { name: "פייסבוק", href: "https://www.facebook.com/", icon: "facebook" },

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/json-ld";
+import { StarDialButton } from "@/components/star-dial-button";
 import { formatPostDate, getPost, getPosts, postUrl } from "@/lib/blog";
 import { site } from "@/lib/site";
 
@@ -193,9 +194,7 @@ export default async function BlogPostPage({
             <Link href="/#contact" className="btn-primary !px-8 !py-4">
               לתיאום שיחת ייעוץ
             </Link>
-            <a href={`tel:${site.starDial}`} className="btn-ghost-dark !px-8 !py-4">
-              חיוג מהיר <span dir="ltr">{site.starDial}</span>
-            </a>
+            <StarDialButton className="btn-ghost-dark !px-8 !py-4" />
           </div>
         </div>
       </section>

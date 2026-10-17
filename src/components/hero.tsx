@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Reveal } from "@/components/reveal";
 import { Hero3D } from "@/components/hero-3d";
-import { site } from "@/lib/site";
+import { StarDialButton } from "@/components/star-dial-button";
 
 /**
  * Hero per the approved Stitch design: photo backdrop under a navy overlay,
@@ -87,20 +87,15 @@ export function Hero() {
                   <path d="M5 12h14M13 6l6 6-6 6" />
                 </svg>
               </Link>
-              <a
-                href={`tel:${site.starDial}`}
-                className="btn-ghost-dark !px-8 !py-4"
-                aria-label={`חיוג מהיר ${site.starDial}`}
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.13.96.36 1.9.7 2.8a2 2 0 0 1-.45 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.27a2 2 0 0 1 2.1-.45c.9.34 1.84.57 2.8.7a2 2 0 0 1 1.7 2Z" />
-                </svg>
-                חיוג מהיר <span dir="ltr">{site.starDial}</span>
-              </a>
-              <Link href="/#services" className="btn-ghost-dark !px-8 !py-4">
-                להכיר את מגוון השירותים
-              </Link>
+              <StarDialButton className="btn-ghost-dark !px-8 !py-4" />
             </div>
+            <Link
+              href="/#services"
+              className="mt-5 inline-flex items-center gap-2 font-semibold text-white/85 underline decoration-white/30 underline-offset-4 transition hover:text-gold-300 hover:decoration-gold-300"
+            >
+              או להכיר את מגוון השירותים
+              <span aria-hidden="true">←</span>
+            </Link>
           </Reveal>
 
           {/* Proof-point cards - same glass window as the stat card */}
