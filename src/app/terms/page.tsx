@@ -2,11 +2,17 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { LegalPage } from "@/components/legal-page";
 import { site } from "@/lib/site";
+import { pageOpenGraph } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "תנאי שימוש",
   description: "תנאי השימוש באתר Open Ways.",
   alternates: { canonical: "/terms" },
+  openGraph: pageOpenGraph(
+    "/terms",
+    `תנאי שימוש | ${site.name}`,
+    "תנאי השימוש באתר Open Ways.",
+  ),
 };
 
 /*

@@ -2,12 +2,18 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { LegalPage } from "@/components/legal-page";
 import { site } from "@/lib/site";
+import { pageOpenGraph } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "מדיניות פרטיות",
   description:
     "מדיניות הפרטיות של Open Ways בהתאם לחוק הגנת הפרטיות, התשמ\"א-1981, ותיקון 13 לחוק.",
   alternates: { canonical: "/privacy-policy" },
+  openGraph: pageOpenGraph(
+    "/privacy-policy",
+    `מדיניות פרטיות | ${site.name}`,
+    "מדיניות הפרטיות של Open Ways בהתאם לחוק הגנת הפרטיות, התשמ\"א-1981, ותיקון 13 לחוק.",
+  ),
 };
 
 /*

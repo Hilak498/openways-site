@@ -5,6 +5,7 @@ import { SectionHeading } from "@/components/section-heading";
 import Image from "next/image";
 import { formatPostDate, getPosts } from "@/lib/blog";
 import { site } from "@/lib/site";
+import { pageOpenGraph } from "@/lib/seo";
 
 // Static HTML, regenerated in the background so new feed articles show up
 export const revalidate = 3600;
@@ -14,14 +15,11 @@ export const metadata: Metadata = {
   description:
     "מאמרים וטיפים מעשיים בייעוץ עסקי, ייעוץ משכנתאות וגיוס אשראי עסקי - מהשטח, בלי סיסמאות.",
   alternates: { canonical: "/blog" },
-  openGraph: {
-    title: `בלוג ומאמרים | ${site.name}`,
-    description:
-      "מאמרים וטיפים מעשיים בייעוץ עסקי, ייעוץ משכנתאות וגיוס אשראי עסקי.",
-    url: "/blog",
-    type: "website",
-    locale: "he_IL",
-  },
+  openGraph: pageOpenGraph(
+    "/blog",
+    `בלוג ומאמרים | ${site.name}`,
+    "מאמרים וטיפים מעשיים בייעוץ עסקי, ייעוץ משכנתאות וגיוס אשראי עסקי.",
+  ),
 };
 
 export default async function BlogPage() {

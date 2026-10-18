@@ -6,7 +6,8 @@
 export const site = {
   name: "Open Ways",
   legalName: "Open Ways Group", // TODO: שם משפטי מלא של העסק
-  url: "https://openways.co.il",
+  /** כתובת הבסיס הקנונית (עם www, כמו ההפניה בדומיין). כל canonical, sitemap, robots, og:url ו-JSON-LD נגזרים ממנה. */
+  url: "https://www.openways.co.il",
   phone: "+972-54-979-6211",
   phoneDisplay: "054-9796211",
   /** מספר בפורמט בינלאומי לקישור וואטסאפ (wa.me). */

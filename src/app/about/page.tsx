@@ -8,20 +8,18 @@ import { Marquee } from "@/components/marquee";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
 import { LogoMark } from "@/components/logo";
+import { pageOpenGraph } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "נעים להכיר",
   description:
     "נעים להכיר את Open Ways Group: מי אנחנו, מי מוביל את החברה, ומה החזון והערכים שמנחים אותנו בייעוץ עסקי, ייעוץ משכנתאות וגיוס אשראי עסקי.",
   alternates: { canonical: "/about" },
-  openGraph: {
-    title: "נעים להכיר - Open Ways Group",
-    description:
-      "מי אנחנו, מי מוביל את החברה ומה החזון והערכים שמנחים אותנו.",
-    url: "/about",
-    type: "website",
-    locale: "he_IL",
-  },
+  openGraph: pageOpenGraph(
+    "/about",
+    "נעים להכיר - Open Ways Group",
+    "מי אנחנו, מי מוביל את החברה ומה החזון והערכים שמנחים אותנו.",
+  ),
 };
 
 // TODO: להשלים ביוגרפיה מלאה של המייסד (התמונה כבר ב-public/images/owner.jpg)

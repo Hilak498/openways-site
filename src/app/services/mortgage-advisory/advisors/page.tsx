@@ -8,18 +8,17 @@ import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
 import { ServiceIcon } from "@/components/service-icon";
 import { mortgageAdvisorsPage as page, showAdvisorsTrack } from "@/lib/site";
+import { pageOpenGraph } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: page.metaTitle,
   description: page.metaDescription,
   alternates: { canonical: "/services/mortgage-advisory/advisors" },
-  openGraph: {
-    title: page.metaTitle,
-    description: page.metaDescription,
-    url: "/services/mortgage-advisory/advisors",
-    type: "website",
-    locale: "he_IL",
-  },
+  openGraph: pageOpenGraph(
+    "/services/mortgage-advisory/advisors",
+    page.metaTitle,
+    page.metaDescription,
+  ),
 };
 
 // TODO: להעלות תמונת רקע ייעודית לעמוד היועצים ל-public/images/advisors.jpg
