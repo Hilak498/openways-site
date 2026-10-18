@@ -2,11 +2,18 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { LegalPage } from "@/components/legal-page";
 import { CookiePreferencesButton } from "@/components/cookie-preferences-button";
+import { pageOpenGraph } from "@/lib/seo";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "מדיניות עוגיות",
   description: "מדיניות העוגיות של אתר Open Ways וניהול העדפות מעקב.",
   alternates: { canonical: "/cookies" },
+  openGraph: pageOpenGraph(
+    "/cookies",
+    `מדיניות עוגיות | ${site.name}`,
+    "מדיניות העוגיות של אתר Open Ways וניהול העדפות מעקב.",
+  ),
 };
 
 export default function CookiesPage() {

@@ -2,12 +2,19 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { LoanCalculator } from "@/components/loan-calculator";
+import { pageOpenGraph } from "@/lib/seo";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "מחשבון משכנתה",
   description:
     "מחשבון משכנתה של Open Ways: הזינו סכום, ריבית ותקופה וקבלו הערכה של ההחזר החודשי, סך התשלומים וסך הריבית - לצורך המחשה בלבד.",
   alternates: { canonical: "/calculators/mortgage" },
+  openGraph: pageOpenGraph(
+    "/calculators/mortgage",
+    `מחשבון משכנתה | ${site.name}`,
+    "מחשבון משכנתה של Open Ways: הזינו סכום, ריבית ותקופה וקבלו הערכה של ההחזר החודשי, סך התשלומים וסך הריבית - לצורך המחשה בלבד.",
+  ),
 };
 
 export default function MortgageCalculatorPage() {

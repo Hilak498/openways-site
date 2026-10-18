@@ -1,12 +1,18 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/components/legal-page";
 import { site } from "@/lib/site";
+import { pageOpenGraph } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "הצהרת נגישות",
   description:
     "הצהרת הנגישות של אתר Open Ways בהתאם לתקן הישראלי ת\"י 5568 ולהנחיות WCAG 2.0 ברמה AA.",
   alternates: { canonical: "/accessibility-statement" },
+  openGraph: pageOpenGraph(
+    "/accessibility-statement",
+    `הצהרת נגישות | ${site.name}`,
+    "הצהרת הנגישות של אתר Open Ways בהתאם לתקן הישראלי ת\"י 5568 ולהנחיות WCAG 2.0 ברמה AA.",
+  ),
 };
 
 export default function AccessibilityStatementPage() {

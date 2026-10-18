@@ -9,6 +9,7 @@ import { WhatsAppButton } from "@/components/whatsapp-button";
 import { Analytics } from "@/components/analytics";
 import { site } from "@/lib/site";
 import "./globals.css";
+import { pageOpenGraph } from "@/lib/seo";
 
 /*
  * הטיפוגרפיה לפי פרק 04 בספר המותג (Typeface System).
@@ -62,15 +63,11 @@ export const metadata: Metadata = {
     "מחזור משכנתה",
   ],
   alternates: { canonical: "/" },
-  openGraph: {
-    type: "website",
-    locale: "he_IL",
-    siteName: site.name,
-    title: `${site.name} | ייעוץ עסקי, גיוס אשראי עסקי וייעוץ משכנתאות`,
-    description: site.description,
-    url: site.url,
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: site.name }],
-  },
+  openGraph: pageOpenGraph(
+    "/",
+    `${site.name} | ייעוץ עסקי, גיוס אשראי עסקי וייעוץ משכנתאות`,
+    site.description,
+  ),
   twitter: {
     card: "summary_large_image",
     title: site.name,

@@ -3,12 +3,19 @@ import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { SalaryCalculator } from "@/components/salary-calculator";
 import { nationalInsurance } from "@/lib/tax-2026";
+import { pageOpenGraph } from "@/lib/seo";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "מחשבון שכר נטו",
   description:
     "מחשבון שכר של Open Ways: מברוטו לנטו לשכירים, לעצמאים, לעובדי משק בית, למקבלי פנסיה מוקדמת ולבעלי הכנסה שלא מעבודה - לפי מדרגות המס ושיעורי הביטוח הלאומי של שנת 2026, לצורך המחשה בלבד.",
   alternates: { canonical: "/calculators/salary" },
+  openGraph: pageOpenGraph(
+    "/calculators/salary",
+    `מחשבון שכר נטו | ${site.name}`,
+    "מחשבון שכר של Open Ways: מברוטו לנטו לשכירים, לעצמאים, לעובדי משק בית, למקבלי פנסיה מוקדמת ולבעלי הכנסה שלא מעבודה - לפי מדרגות המס ושיעורי הביטוח הלאומי של שנת 2026, לצורך המחשה בלבד.",
+  ),
   // כל עוד שיעורי הביטוח הלאומי לא אומתו, העמוד לא נכנס לאינדוקס ולא מקושר
   // מהתפריט. לפרסום: לאמת את nationalInsurance ב-tax-2026.ts ולהסיר את זה.
   robots: nationalInsurance.verified ? undefined : { index: false, follow: false },

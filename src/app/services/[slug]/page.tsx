@@ -13,6 +13,7 @@ import { BankCategoryIconSvg } from "@/components/bank-category-icon";
 import { JsonLd } from "@/components/json-ld";
 import { faqSchema, serviceSchema } from "@/lib/schema";
 import { banks, getService, services, showAdvisorsTrack } from "@/lib/site";
+import { pageOpenGraph } from "@/lib/seo";
 
 export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
@@ -28,13 +29,11 @@ export async function generateMetadata({
     title: service.metaTitle,
     description: service.metaDescription,
     alternates: { canonical: `/services/${service.slug}` },
-    openGraph: {
-      title: service.metaTitle,
-      description: service.metaDescription,
-      url: `/services/${service.slug}`,
-      type: "website",
-      locale: "he_IL",
-    },
+    openGraph: pageOpenGraph(
+      `/services/${service.slug}`,
+      service.metaTitle,
+      service.metaDescription,
+    ),
   };
 }
 

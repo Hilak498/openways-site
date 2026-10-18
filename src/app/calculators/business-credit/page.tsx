@@ -2,12 +2,19 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { LoanCalculator } from "@/components/loan-calculator";
+import { pageOpenGraph } from "@/lib/seo";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "מחשבון גיוס אשראי עסקי",
   description:
     "מחשבון גיוס אשראי עסקי של Open Ways: הזינו סכום מימון, ריבית ותקופה וקבלו הערכה של ההחזר החודשי והעלות הכוללת - לצורך המחשה בלבד.",
   alternates: { canonical: "/calculators/business-credit" },
+  openGraph: pageOpenGraph(
+    "/calculators/business-credit",
+    `מחשבון גיוס אשראי עסקי | ${site.name}`,
+    "מחשבון גיוס אשראי עסקי של Open Ways: הזינו סכום מימון, ריבית ותקופה וקבלו הערכה של ההחזר החודשי והעלות הכוללת - לצורך המחשה בלבד.",
+  ),
 };
 
 export default function BusinessCreditCalculatorPage() {

@@ -6,6 +6,7 @@ import { JsonLd } from "@/components/json-ld";
 import { StarDialButton } from "@/components/star-dial-button";
 import { formatPostDate, getPost, getPosts, postUrl } from "@/lib/blog";
 import { site } from "@/lib/site";
+import { pageOpenGraph } from "@/lib/seo";
 
 // Articles in the feed at build time are prerendered; newer ones are rendered
 // on first visit and cached. Both regenerate in the background hourly.
@@ -28,17 +29,12 @@ export async function generateMetadata({
     title: post.title,
     description: post.excerpt,
     alternates: { canonical: url },
-    openGraph: {
-      title: post.title,
-      description: post.excerpt,
-      url,
+    openGraph: pageOpenGraph(url, post.title, post.excerpt, {
       type: "article",
-      locale: "he_IL",
-      siteName: site.name,
       publishedTime: post.date,
       authors: [author.name],
-      images: post.image ? [{ url: post.image, alt: post.title }] : undefined,
-    },
+      ...(post.image ? { images: [{ url: post.image, alt: post.title }] } : {}),
+    }),
     twitter: {
       card: post.image ? "summary_large_image" : "summary",
       title: post.title,
