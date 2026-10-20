@@ -39,12 +39,12 @@ export const whatsappHref = `https://wa.me/${site.whatsapp}?text=${encodeURIComp
 /**
  * פרופילים ברשתות. רשת עם href ריק לא מוצגת בפוטר ולא נכנסת ל-sameAs,
  * כך שמספיק למלא כאן את הכתובת כדי להפעיל אותה.
- * TODO: למלא כתובות פייסבוק, אינסטגרם וטיקטוק.
+ * כתובות קנוניות, בלי פרמטרי מעקב של קישורי השיתוף.
  */
 const allSocials: { name: string; href: string; icon: "facebook" | "instagram" | "tiktok" | "linkedin" }[] = [
-  { name: "פייסבוק", href: "", icon: "facebook" },
-  { name: "אינסטגרם", href: "", icon: "instagram" },
-  { name: "טיקטוק", href: "", icon: "tiktok" },
+  { name: "פייסבוק", href: "https://www.facebook.com/profile.php?id=61595689162380", icon: "facebook" },
+  { name: "אינסטגרם", href: "https://www.instagram.com/oshrykirshenfeld/", icon: "instagram" },
+  { name: "טיקטוק", href: "https://www.tiktok.com/@oshry.kirshenfeld", icon: "tiktok" },
   { name: "לינקדאין", href: site.linkedin, icon: "linkedin" },
 ];
 
