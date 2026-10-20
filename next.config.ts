@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { blogSlugRedirects } from "./src/lib/blog-redirects";
 import { showAdvisorsTrack } from "./src/lib/site";
 
 /**
@@ -56,7 +57,7 @@ const nextConfig: NextConfig = {
   async redirects() {
     // מסלול היועצים מוסתר זמנית: קישורים קיימים אליו מגיעים לעמוד המשכנתאות.
     // permanent: false (307) כי המסלול יחזור, ודפדפנים לא ישמרו את ההפניה.
-    return showAdvisorsTrack
+    const advisors = showAdvisorsTrack
       ? []
       : [
           {
@@ -65,6 +66,7 @@ const nextConfig: NextConfig = {
             permanent: false,
           },
         ];
+    return [...advisors, ...blogSlugRedirects()];
   },
   async headers() {
     return [
