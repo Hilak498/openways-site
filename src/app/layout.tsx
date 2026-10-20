@@ -105,15 +105,22 @@ export default function RootLayout({
         <Link
           href="/#contact"
           aria-label="יצירת קשר מהירה"
-          className="btn-primary fixed right-5 bottom-5 z-[70] !h-16 !w-16 !rounded-full !p-0 shadow-lift lg:hidden"
+          className="site-fab btn-primary fixed right-5 bottom-5 z-[70] !h-16 !w-16 !rounded-full !p-0 shadow-lift lg:hidden"
         >
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.8-.9L3 21l2-5.2a8.4 8.4 0 1 1 16-4.3Z" />
           </svg>
         </Link>
         <WhatsAppButton />
-        <AccessibilityWidget />
-        <CookieConsent />
+        {/*
+          Public-site chrome. Wrapped so the CRM surface can detach it - see the
+          :has(#crm-root) rule in globals.css. A plain div keeps each child's
+          own fixed positioning intact.
+        */}
+        <div className="site-chrome">
+          <AccessibilityWidget />
+          <CookieConsent />
+        </div>
         <Analytics />
       </body>
     </html>

@@ -6,7 +6,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/api/"],
+      // /crm is the internal lead board - password-gated, never indexed.
+      disallow: ["/api/", "/crm"],
     },
     sitemap: `${site.url}/sitemap.xml`,
   };
