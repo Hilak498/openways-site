@@ -189,7 +189,12 @@ async function fetchPosts(): Promise<Post[]> {
   try {
     const res = await fetch(FEED_URL, {
       signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
-      headers: { Accept: "application/rss+xml, application/xml" },
+      headers: {
+        Accept: "application/rss+xml, application/xml",
+        // Part of the fetch cache key: every deployment reads the feed fresh
+        // instead of reusing a Data Cache entry from an earlier deployment
+        "X-Deployment": process.env.VERCEL_DEPLOYMENT_ID ?? "local",
+      },
       next: { revalidate: FEED_REVALIDATE_SECONDS, tags: ["blog-feed"] },
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
