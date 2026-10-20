@@ -1,3 +1,5 @@
+import { compactJsonLd } from "@/lib/schema";
+
 /** Renders a Schema.org JSON-LD block. */
 export function JsonLd({ data }: { data: Record<string, unknown> }) {
   return (
@@ -6,7 +8,7 @@ export function JsonLd({ data }: { data: Record<string, unknown> }) {
       // JSON-LD must be embedded as a raw script; "<" is escaped to prevent
       // breaking out of the tag with crafted content.
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify(data).replace(/</g, "\\u003c"),
+        __html: JSON.stringify(compactJsonLd(data)).replace(/</g, "\\u003c"),
       }}
     />
   );

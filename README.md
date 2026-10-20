@@ -162,3 +162,15 @@ public/
   קישורים ל-openways.co.il הופכים ליחסיים, קישורים חיצוניים נפתחים בלשונית חדשה.
 - אם הפיד לא זמין ב-build, ה-build לא נכשל והבלוג מציג "מאמרים בקרוב".
   אם הפיד לא זמין בזמן חידוש ברקע, האתר ממשיך להציג את הגרסה האחרונה התקינה.
+
+## מדידה ואירועים
+
+- **Google Analytics 4:** נטען רק אחרי הסכמה לעוגיות סטטיסטיקה בבאנר, ורק כשמוגדר
+  `NEXT_PUBLIC_GA_MEASUREMENT_ID` (ב-Vercel → Settings → Environment Variables).
+- **Vercel Analytics + Speed Insights:** בלי עוגיות, נטענים תמיד (צריך להפעיל אותם בלשונית
+  Analytics / Speed Insights של הפרויקט ב-Vercel).
+- **אירועי GA4:** `generate_lead` (שליחת טופס מוצלחת, עם `service`), `phone_click`,
+  `whatsapp_click`, `calculator_use` (עם `calculator_name`). בלי הסכמה הם לא נשלחים.
+- **רשתות חברתיות:** כתובות ב-`src/lib/site.ts` (`allSocials`). רשת עם כתובת ריקה לא
+  מוצגת בפוטר ולא נכנסת ל-`sameAs`.
+- **תמונות שיתוף:** `public/og/*.png` (1200x630) לכל מחלקה ולאודות.

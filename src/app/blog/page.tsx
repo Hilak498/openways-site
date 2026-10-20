@@ -3,23 +3,22 @@ import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
 import Image from "next/image";
-import { formatPostDate, getPosts } from "@/lib/blog";
+import { formatPostDate, getPosts, postUrl } from "@/lib/blog";
+import { pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/json-ld";
+import { breadcrumbSchema, organizationId } from "@/lib/schema";
 import { site } from "@/lib/site";
-import { pageOpenGraph } from "@/lib/seo";
 
 // Static HTML, regenerated in the background so new feed articles show up
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "בלוג ומאמרים",
-  description:
-    "מאמרים וטיפים מעשיים בייעוץ עסקי, ייעוץ משכנתאות וגיוס אשראי עסקי - מהשטח, בלי סיסמאות.",
-  alternates: { canonical: "/blog" },
-  openGraph: pageOpenGraph(
-    "/blog",
-    `בלוג ומאמרים | ${site.name}`,
-    "מאמרים וטיפים מעשיים בייעוץ עסקי, ייעוץ משכנתאות וגיוס אשראי עסקי.",
-  ),
+  ...pageMetadata({
+    path: "/blog",
+    title: "מאמרים על אשראי עסקי, משכנתה וניהול עסק | Open Ways",
+    description:
+      "מדריכים ומאמרים מקצועיים על גיוס אשראי לעסק, תזרים מזומנים, ניהול עסקי ומשכנתאות, מבית Open Ways.",
+  }),
 };
 
 export default async function BlogPage() {
@@ -27,6 +26,31 @@ export default async function BlogPage() {
 
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Blog",
+          "@id": `${site.url}/blog#blog`,
+          name: "בלוג Open Ways",
+          url: `${site.url}/blog`,
+          inLanguage: "he-IL",
+          publisher: { "@id": organizationId },
+          blogPost: posts.map((post) => ({
+            "@type": "BlogPosting",
+            headline: post.title,
+            description: post.excerpt,
+            url: postUrl(post.slug),
+            datePublished: post.date,
+            image: post.image ?? undefined,
+          })),
+        }}
+      />
+      <JsonLd
+        data={breadcrumbSchema([
+          ["דף הבית", ""],
+          ["בלוג ומאמרים", "/blog"],
+        ])}
+      />
       <section className="on-dark hero-navy relative isolate overflow-hidden text-white">
         <div
           aria-hidden="true"

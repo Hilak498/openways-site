@@ -2,24 +2,29 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { LoanCalculator } from "@/components/loan-calculator";
-import { pageOpenGraph } from "@/lib/seo";
-import { site } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/json-ld";
+import { calculatorSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
-  title: "מחשבון גיוס אשראי עסקי",
-  description:
-    "מחשבון גיוס אשראי עסקי של Open Ways: הזינו סכום מימון, ריבית ותקופה וקבלו הערכה של ההחזר החודשי והעלות הכוללת - לצורך המחשה בלבד.",
-  alternates: { canonical: "/calculators/business-credit" },
-  openGraph: pageOpenGraph(
-    "/calculators/business-credit",
-    `מחשבון גיוס אשראי עסקי | ${site.name}`,
-    "מחשבון גיוס אשראי עסקי של Open Ways: הזינו סכום מימון, ריבית ותקופה וקבלו הערכה של ההחזר החודשי והעלות הכוללת - לצורך המחשה בלבד.",
-  ),
+  ...pageMetadata({
+    path: "/calculators/business-credit",
+    title: "מחשבון אשראי לעסק - החזר והלוואה | Open Ways",
+    description:
+      "מחשבון לחישוב החזר הלוואה לעסק לפי סכום, ריבית ותקופה, כדי לבדוק השפעה על התזרים לפני פנייה לגורם מממן.",
+  }),
 };
 
 export default function BusinessCreditCalculatorPage() {
   return (
     <>
+      <JsonLd
+        data={calculatorSchema(
+          "מחשבון אשראי לעסק",
+          "מחשבון לחישוב החזר הלוואה לעסק לפי סכום, ריבית ותקופה, כדי לבדוק השפעה על התזרים לפני פנייה לגורם מממן.",
+          "/calculators/business-credit",
+        )}
+      />
       <section className="on-dark hero-navy relative isolate overflow-hidden text-white">
         <div
           aria-hidden="true"
@@ -62,6 +67,7 @@ export default function BusinessCreditCalculatorPage() {
               defaultRate={6.5}
               defaultYears={5}
               maxYears={15}
+              calculatorName="business_credit"
             />
           </Reveal>
           <Reveal delay={0.1} className="mt-10 text-center">
