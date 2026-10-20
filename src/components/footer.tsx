@@ -175,8 +175,7 @@ export function Footer() {
                   </svg>
                 ) : (
                   <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <path d="M22.5 8.2a3 3 0 0 0-2.1-2.1C18.6 5.6 12 5.6 12 5.6s-6.6 0-8.4.5A3 3 0 0 0 1.5 8.2 31 31 0 0 0 1 12a31 31 0 0 0 .5 3.8 3 3 0 0 0 2.1 2.1c1.8.5 8.4.5 8.4.5s6.6 0 8.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 23 12a31 31 0 0 0-.5-3.8Z" />
-                    <path d="m9.8 15 5.4-3-5.4-3v6Z" />
+                    <path d="M16 3a5 5 0 0 0 5 5v3a8 8 0 0 1-5-1.7V15a6 6 0 1 1-6-6v3a3 3 0 1 0 3 3V3Z" />
                   </svg>
                 )}
               </a>

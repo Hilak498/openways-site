@@ -15,7 +15,8 @@ export const site = {
   linkedin: "https://www.linkedin.com/in/oshry-kirshenfeld",
   /** כוכבית לחיוג מהיר. */
   starDial: "*9769",
-  email: "info@openways.co.il", // TODO: לעדכן ל-oshryk@openways.co.il לאחר פתיחת התיבה (סעיף 11 במסמך העדכונים)
+  /** כתובת כללית. oshryk@ נשארת כתובת הממונה על הפרטיות (privacyOfficer), לפי החלטה מ-20.10.26. */
+  email: "info@openways.co.il",
   address: {
     street: "קיבוץ מסילות",
     city: "קיבוץ מסילות",
@@ -35,13 +36,19 @@ export const whatsappHref = `https://wa.me/${site.whatsapp}?text=${encodeURIComp
   "שלום, אשמח לתאם שיחת ייעוץ עם Open Ways",
 )}`;
 
-/** Social profiles shown in the footer. TODO: להחליף בקישורים לפרופילים האמיתיים */
-export const socials = [
-  { name: "פייסבוק", href: "https://www.facebook.com/", icon: "facebook" },
-  { name: "אינסטגרם", href: "https://www.instagram.com/", icon: "instagram" },
-  { name: "יוטיוב", href: "https://www.youtube.com/", icon: "youtube" },
+/**
+ * פרופילים ברשתות. רשת עם href ריק לא מוצגת בפוטר ולא נכנסת ל-sameAs,
+ * כך שמספיק למלא כאן את הכתובת כדי להפעיל אותה.
+ * TODO: למלא כתובות פייסבוק, אינסטגרם וטיקטוק.
+ */
+const allSocials: { name: string; href: string; icon: "facebook" | "instagram" | "tiktok" | "linkedin" }[] = [
+  { name: "פייסבוק", href: "", icon: "facebook" },
+  { name: "אינסטגרם", href: "", icon: "instagram" },
+  { name: "טיקטוק", href: "", icon: "tiktok" },
   { name: "לינקדאין", href: site.linkedin, icon: "linkedin" },
-] as const;
+];
+
+export const socials = allSocials.filter((s) => s.href);
 
 /**
  * מסלול "ייעוץ ליועצים" מוסתר זמנית עד שהתוכן סופי. true מחזיר אותו לתפריט,

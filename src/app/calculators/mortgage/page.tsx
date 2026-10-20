@@ -2,24 +2,29 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { LoanCalculator } from "@/components/loan-calculator";
-import { pageOpenGraph } from "@/lib/seo";
-import { site } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/json-ld";
+import { calculatorSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
-  title: "מחשבון משכנתה",
-  description:
-    "מחשבון משכנתה של Open Ways: הזינו סכום, ריבית ותקופה וקבלו הערכה של ההחזר החודשי, סך התשלומים וסך הריבית - לצורך המחשה בלבד.",
-  alternates: { canonical: "/calculators/mortgage" },
-  openGraph: pageOpenGraph(
-    "/calculators/mortgage",
-    `מחשבון משכנתה | ${site.name}`,
-    "מחשבון משכנתה של Open Ways: הזינו סכום, ריבית ותקופה וקבלו הערכה של ההחזר החודשי, סך התשלומים וסך הריבית - לצורך המחשה בלבד.",
-  ),
+  ...pageMetadata({
+    path: "/calculators/mortgage",
+    title: "מחשבון משכנתה - כמה תשלמו בחודש | Open Ways",
+    description:
+      "מחשבון משכנתה לחישוב החזר חודשי לפי סכום, ריבית ותקופה. כלי להמחשה בלבד, לפני פגישת ייעוץ.",
+  }),
 };
 
 export default function MortgageCalculatorPage() {
   return (
     <>
+      <JsonLd
+        data={calculatorSchema(
+          "מחשבון משכנתה",
+          "מחשבון משכנתה לחישוב החזר חודשי לפי סכום, ריבית ותקופה. כלי להמחשה בלבד, לפני פגישת ייעוץ.",
+          "/calculators/mortgage",
+        )}
+      />
       <section className="on-dark hero-navy relative isolate overflow-hidden text-white">
         <div
           aria-hidden="true"
@@ -62,6 +67,7 @@ export default function MortgageCalculatorPage() {
               defaultRate={4.5}
               defaultYears={25}
               maxYears={30}
+              calculatorName="mortgage"
             />
           </Reveal>
           <Reveal delay={0.1} className="mt-10 text-center">

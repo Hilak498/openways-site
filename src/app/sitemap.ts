@@ -1,24 +1,23 @@
 import type { MetadataRoute } from "next";
 import { getPosts, postUrl } from "@/lib/blog";
 import { services, showAdvisorsTrack, site } from "@/lib/site";
+import { nationalInsurance } from "@/lib/tax-2026";
 
+// Regenerated in the background at most once an hour, from the same feed as
+// the blog, so new Soro articles appear without a deploy.
 export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const now = new Date();
   const posts = await getPosts();
+  const newestPost = posts[0]?.date;
 
+  // Static pages carry no lastmod: a build time would claim every page
+  // changed on each deploy, which search engines learn to ignore.
   return [
-    { url: site.url, lastModified: now, changeFrequency: "monthly", priority: 1 },
-    {
-      url: `${site.url}/about`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
+    { url: site.url, changeFrequency: "monthly", priority: 1 },
+    { url: `${site.url}/about`, changeFrequency: "monthly", priority: 0.8 },
     ...services.map((s) => ({
       url: `${site.url}/services/${s.slug}`,
-      lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.9,
     })),
@@ -26,7 +25,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ? [
           {
             url: `${site.url}/services/mortgage-advisory/advisors`,
-            lastModified: now,
             changeFrequency: "monthly" as const,
             priority: 0.8,
           },
@@ -34,7 +32,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       : []),
     {
       url: `${site.url}/blog`,
-      lastModified: now,
+      ...(newestPost ? { lastModified: new Date(newestPost) } : {}),
       changeFrequency: "weekly",
       priority: 0.7,
     },
@@ -44,16 +42,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly" as const,
       priority: 0.7,
     })),
-    ...["/calculators/mortgage", "/calculators/salary", "/calculators/business-credit"].map((path) => ({
+    ...[
+      "/calculators/mortgage",
+      // The salary calculator is noindex until its rates are verified
+      ...(nationalInsurance.verified ? ["/calculators/salary"] : []),
+      "/calculators/business-credit",
+    ].map((path) => ({
       url: `${site.url}${path}`,
-      lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.6,
     })),
     ...["/privacy-policy", "/terms", "/cookies", "/accessibility-statement"].map(
       (path) => ({
         url: `${site.url}${path}`,
-        lastModified: now,
         changeFrequency: "yearly" as const,
         priority: 0.4,
       }),

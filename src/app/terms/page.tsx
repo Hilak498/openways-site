@@ -2,17 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { LegalPage } from "@/components/legal-page";
 import { site } from "@/lib/site";
-import { pageOpenGraph } from "@/lib/seo";
+import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "תנאי שימוש",
-  description: "תנאי השימוש באתר Open Ways.",
-  alternates: { canonical: "/terms" },
-  openGraph: pageOpenGraph(
-    "/terms",
-    `תנאי שימוש | ${site.name}`,
-    "תנאי השימוש באתר Open Ways.",
-  ),
+  ...pageMetadata({
+    path: "/terms",
+    title: "תנאי שימוש | Open Ways",
+    description:
+      "תנאי השימוש באתר Open Ways, כולל אחריות, קניין רוחני והשימוש במחשבונים ובתוכן המקצועי באתר.",
+  }),
 };
 
 /*

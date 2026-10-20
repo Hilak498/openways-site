@@ -1,6 +1,7 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useRef, useState } from "react";
+import { trackEvent } from "@/lib/analytics";
 import Link from "next/link";
 import { calculateSalary } from "@/lib/salary";
 import {
@@ -33,6 +34,12 @@ const SELF_EMPLOYED: InsuredType[] = [
 
 export function SalaryCalculator() {
   const id = useId();
+  const used = useRef(false);
+  const markUsed = () => {
+    if (used.current) return;
+    used.current = true;
+    trackEvent("calculator_use", { calculator_name: "salary" });
+  };
   const [type, setType] = useState<InsuredType>("employee");
   const [gross, setGross] = useState(15_000);
   const [creditPoints, setCreditPoints] = useState(2.25);
@@ -123,7 +130,10 @@ export function SalaryCalculator() {
         <select
           id={`${id}-type`}
           value={type}
-          onChange={(e) => setType(e.target.value as InsuredType)}
+          onChange={(e) => {
+            markUsed();
+            setType(e.target.value as InsuredType);
+          }}
           className="mt-3 w-full cursor-pointer rounded-xl border border-navy-800/15 bg-sand-100 px-4 py-3 text-sm font-bold text-navy-800 transition outline-none hover:border-gold-600 focus-visible:ring-2 focus-visible:ring-gold-600"
         >
           {GROUPS.map((g) => (
@@ -160,7 +170,10 @@ export function SalaryCalculator() {
                 max={f.max}
                 step={f.step}
                 value={f.value}
-                onChange={(e) => f.set(Number(e.target.value))}
+                onChange={(e) => {
+                  markUsed();
+                  f.set(Number(e.target.value));
+                }}
                 className="mt-3 w-full accent-gold-700"
               />
               {f.hint ? (

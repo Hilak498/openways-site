@@ -2,18 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { LegalPage } from "@/components/legal-page";
 import { CookiePreferencesButton } from "@/components/cookie-preferences-button";
-import { pageOpenGraph } from "@/lib/seo";
-import { site } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "מדיניות עוגיות",
-  description: "מדיניות העוגיות של אתר Open Ways וניהול העדפות מעקב.",
-  alternates: { canonical: "/cookies" },
-  openGraph: pageOpenGraph(
-    "/cookies",
-    `מדיניות עוגיות | ${site.name}`,
-    "מדיניות העוגיות של אתר Open Ways וניהול העדפות מעקב.",
-  ),
+  ...pageMetadata({
+    path: "/cookies",
+    title: "מדיניות עוגיות | Open Ways",
+    description:
+      "אילו עוגיות אתר Open Ways משתמש בהן, לאיזו מטרה, ואיך לנהל או לבטל את ההסכמה לעוגיות.",
+  }),
 };
 
 export default function CookiesPage() {

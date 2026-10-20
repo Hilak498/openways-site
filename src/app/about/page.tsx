@@ -8,18 +8,18 @@ import { Marquee } from "@/components/marquee";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
 import { LogoMark } from "@/components/logo";
-import { pageOpenGraph } from "@/lib/seo";
+import { pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/json-ld";
+import { founderSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
-  title: "נעים להכיר",
-  description:
-    "נעים להכיר את Open Ways Group: מי אנחנו, מי מוביל את החברה, ומה החזון והערכים שמנחים אותנו בייעוץ עסקי, ייעוץ משכנתאות וגיוס אשראי עסקי.",
-  alternates: { canonical: "/about" },
-  openGraph: pageOpenGraph(
-    "/about",
-    "נעים להכיר - Open Ways Group",
-    "מי אנחנו, מי מוביל את החברה ומה החזון והערכים שמנחים אותנו.",
-  ),
+  ...pageMetadata({
+    path: "/about",
+    title: "אושרי קירשנפלד - ייעוץ עסקי, משכנתאות ואשראי",
+    description:
+      "המייסד של Open Ways: עשור בבנקאות באשראי מסחרי ומשכנתאות, יועץ עסקי בשיטת 7Bricks, ליווי שקוף שמשולם רק על ידי הלקוח.",
+    image: { url: "/og/about.png", alt: "אושרי קירשנפלד | Open Ways Group" },
+  }),
 };
 
 // TODO: להשלים ביוגרפיה מלאה של המייסד (התמונה כבר ב-public/images/owner.jpg)
@@ -78,6 +78,7 @@ export default function AboutPage() {
 
   return (
     <>
+      <JsonLd data={founderSchema()} />
       {/* Hero */}
       <section className="on-dark hero-navy relative isolate overflow-hidden text-white">
         {heroBgExists ? (
