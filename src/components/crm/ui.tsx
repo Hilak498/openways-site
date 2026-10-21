@@ -149,6 +149,19 @@ export const IconTrash = svg(
     <path d="M6 7l1 13h10l1-13M9 7V4h6v3" />
   </>,
 );
+export const IconRepeat = svg(
+  <>
+    <path d="M4 9a5 5 0 0 1 5-5h9m0 0-3-3m3 3-3 3" />
+    <path d="M20 15a5 5 0 0 1-5 5H6m0 0 3 3m-3-3 3-3" />
+  </>,
+);
+export const IconMailOff = svg(
+  <>
+    <rect x="2.5" y="5" width="19" height="14" rx="2" />
+    <path d="m3 7 9 6 9-6" />
+    <path d="m3 21 18-18" />
+  </>,
+);
 export const IconArchive = svg(
   <>
     <rect x="3" y="4" width="18" height="5" rx="1" />
@@ -229,6 +242,46 @@ export function FollowUpChip({ value }: { value: string | null }) {
     <span className="crm-chip bg-danger-700/10 font-bold text-danger-700">
       <IconAlert className="h-3 w-3" />
       באיחור · {relativeDays(value)}
+    </span>
+  );
+}
+
+/** "3 פניות" — only once there is more than one. */
+export function RepeatChip({ count }: { count: number }) {
+  if (count < 2) return null;
+  return (
+    <span className="crm-chip bg-gold-300/35 text-gold-800">
+      <IconRepeat className="h-3 w-3" />
+      {count} פניות
+    </span>
+  );
+}
+
+/**
+ * Marketing consent, always visible — someone looking at the card has to be
+ * able to see whether they may send marketing to this person (§30A of the
+ * Communications Law). The value shown is the most recent one they gave.
+ */
+export function ConsentChip({
+  granted,
+  compact = false,
+}: {
+  granted: boolean;
+  compact?: boolean;
+}) {
+  if (granted) {
+    if (compact) return null; // On a card, only the restriction is worth space.
+    return (
+      <span className="crm-chip bg-ok-700/12 text-ok-700">
+        <IconMail className="h-3 w-3" />
+        אישר דיוור
+      </span>
+    );
+  }
+  return (
+    <span className="crm-chip bg-navy-900/8 text-navy-700" title="לא לשלוח דיוור שיווקי">
+      <IconMailOff className="h-3 w-3" />
+      ללא דיוור
     </span>
   );
 }

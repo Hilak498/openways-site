@@ -197,21 +197,30 @@ export async function moveLeadAction(input: {
   });
 }
 
+/**
+ * Archive and delete work on the card, and a card is a person — so they cover
+ * every enquiry that person sent, not just the row the board happens to edit.
+ */
 export async function archiveLeadAction(id: string, archived: boolean): Promise<ActionResult> {
   return guard(async () => {
     if (!id) return { ok: false, error: "חסר מזהה ליד." };
-    await db.updateLead(id, { isArchived: archived });
+    const ids = await db.leadIdsInContact(id);
+    await db.updateLeads(ids, { isArchived: archived });
     refresh();
-    return { ok: true, message: archived ? "הליד הועבר לארכיון" : "הליד הוחזר מהארכיון" };
+    return { ok: true, message: archived ? "הכרטיס הועבר לארכיון" : "הכרטיס הוחזר מהארכיון" };
   });
 }
 
 export async function deleteLeadAction(id: string): Promise<ActionResult> {
   return guard(async () => {
     if (!id) return { ok: false, error: "חסר מזהה ליד." };
-    await db.deleteLead(id);
+    const ids = await db.leadIdsInContact(id);
+    await db.deleteLeads(ids);
     refresh();
-    return { ok: true, message: "הליד נמחק" };
+    return {
+      ok: true,
+      message: ids.length > 1 ? `הכרטיס ו-${ids.length} הפניות שלו נמחקו` : "הכרטיס נמחק",
+    };
   });
 }
 

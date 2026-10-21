@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { isSignedIn } from "@/lib/crm/auth";
 import { crmConfigured, listActivities, listLeads, missingDbEnv, schemaReady } from "@/lib/crm/db";
 import { computeStats } from "@/lib/crm/stats";
+import { groupIntoContacts } from "@/lib/crm/contacts";
 import { Workspace } from "@/components/crm/workspace";
 import { CrmSetup } from "@/components/crm/setup";
 
@@ -36,11 +37,14 @@ export default async function CrmPage({
 
   const leads = await listLeads({ includeArchived: showArchived });
   const activities = await listActivities(leads.map((lead) => lead.id));
-  const stats = computeStats(leads);
+  // One card per person: repeat enquiries from the same phone or email fold
+  // into a single contact, while every row stays untouched in the table.
+  const contacts = groupIntoContacts(leads);
+  const stats = computeStats(contacts);
 
   return (
     <Workspace
-      leads={leads}
+      contacts={contacts}
       activities={activities}
       stats={stats}
       showArchived={showArchived}

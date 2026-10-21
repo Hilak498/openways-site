@@ -2,9 +2,18 @@
 
 import { useState } from "react";
 
-import { SOURCE_LABELS, serviceLabel, type Lead } from "@/lib/crm/types";
+import type { Contact } from "@/lib/crm/contacts";
+import { SOURCE_LABELS, serviceLabel } from "@/lib/crm/types";
 
-import { FollowUpChip, Money, PriorityChip, StageChip, formatDay } from "./ui";
+import {
+  ConsentChip,
+  FollowUpChip,
+  Money,
+  PriorityChip,
+  RepeatChip,
+  StageChip,
+  formatDay,
+} from "./ui";
 
 /**
  * Table view — the same leads the board shows, sortable, for scanning many
@@ -22,14 +31,15 @@ const COLUMNS: { key: SortKey | null; label: string; align?: "start" | "end" }[]
   { key: "nextFollowUpAt", label: "מעקב" },
   { key: null, label: "אחראי" },
   { key: null, label: "מקור" },
-  { key: "createdAt", label: "נכנס" },
+  { key: "createdAt", label: "פנייה אחרונה" },
+  { key: null, label: "דיוור" },
 ];
 
 export function LeadTable({
-  leads,
+  contacts,
   onOpen,
 }: {
-  leads: Lead[];
+  contacts: Contact[];
   onOpen: (leadId: string) => void;
 }) {
   const [sort, setSort] = useState<{ key: SortKey; dir: "asc" | "desc" }>({
@@ -37,22 +47,24 @@ export function LeadTable({
     dir: "desc",
   });
 
-  const sorted = [...leads].sort((a, b) => {
+  const sorted = [...contacts].sort((first, second) => {
     const dir = sort.dir === "asc" ? 1 : -1;
+    const a = first.lead;
+    const b = second.lead;
     switch (sort.key) {
       case "name":
         return a.name.localeCompare(b.name, "he") * dir;
       case "estimatedValue":
         return ((a.estimatedValue ?? 0) - (b.estimatedValue ?? 0)) * dir;
       case "nextFollowUpAt":
-        // Leads with no follow-up date sort last in both directions.
+        // Contacts with no follow-up date sort last in both directions.
         if (!a.nextFollowUpAt) return 1;
         if (!b.nextFollowUpAt) return -1;
         return a.nextFollowUpAt.localeCompare(b.nextFollowUpAt) * dir;
       case "stage":
         return a.stage.localeCompare(b.stage) * dir;
       default:
-        return a.createdAt.localeCompare(b.createdAt) * dir;
+        return first.latestEnquiryAt.localeCompare(second.latestEnquiryAt) * dir;
     }
   });
 
@@ -103,9 +115,11 @@ export function LeadTable({
             </tr>
           </thead>
           <tbody>
-            {sorted.map((lead) => (
+            {sorted.map((contact) => {
+              const lead = contact.lead;
+              return (
               <tr
-                key={lead.id}
+                key={contact.key}
                 className="border-t border-navy-900/5 transition hover:bg-sand-100/70"
               >
                 <td className="px-3 py-2.5">
@@ -116,8 +130,9 @@ export function LeadTable({
                   >
                     {lead.name}
                   </button>
-                  <div className="mt-0.5">
+                  <div className="mt-0.5 flex flex-wrap gap-1">
                     <PriorityChip priority={lead.priority} />
+                    <RepeatChip count={contact.enquiryCount} />
                   </div>
                 </td>
                 <td className="px-3 py-2.5">
@@ -138,7 +153,11 @@ export function LeadTable({
                     </a>
                   ) : null}
                 </td>
-                <td className="px-3 py-2.5 text-navy-700">{serviceLabel(lead.service)}</td>
+                <td className="px-3 py-2.5 text-navy-700">
+                  {contact.services.length > 0
+                    ? contact.services.map(serviceLabel).join(" · ")
+                    : serviceLabel(null)}
+                </td>
                 <td className="px-3 py-2.5">
                   <StageChip stage={lead.stage} />
                 </td>
@@ -154,15 +173,19 @@ export function LeadTable({
                   {SOURCE_LABELS[lead.source] ?? lead.source}
                 </td>
                 <td className="crm-num px-3 py-2.5 text-xs text-navy-600">
-                  {formatDay(lead.createdAt)}
+                  {formatDay(contact.latestEnquiryAt)}
+                </td>
+                <td className="px-3 py-2.5">
+                  <ConsentChip granted={contact.marketingConsent} />
                 </td>
               </tr>
-            ))}
+              );
+            })}
           </tbody>
         </table>
 
         {sorted.length === 0 ? (
-          <p className="px-4 py-10 text-center text-sm text-navy-600">אין לידים להצגה.</p>
+          <p className="px-4 py-10 text-center text-sm text-navy-600">אין אנשי קשר להצגה.</p>
         ) : null}
       </div>
     </div>

@@ -3,21 +3,23 @@
 import { useOptimistic, useRef, useState, useTransition } from "react";
 
 import { moveLeadAction } from "@/app/crm/actions";
+import type { Contact } from "@/lib/crm/contacts";
 import {
   OPEN_STAGES,
   STAGES,
   STAGE_META,
   serviceLabel,
-  type Lead,
   type Stage,
 } from "@/lib/crm/types";
 
 import {
+  ConsentChip,
   FollowUpChip,
   IconPhone,
   IconWhatsapp,
   Money,
   PriorityChip,
+  RepeatChip,
 } from "./ui";
 
 /**
@@ -32,53 +34,58 @@ import {
 type Move = { leadId: string; stage: Stage; boardOrder: number };
 
 export function Board({
-  leads,
+  contacts,
   onOpen,
   onError,
 }: {
-  leads: Lead[];
+  contacts: Contact[];
   onOpen: (leadId: string) => void;
   onError: (message: string) => void;
 }) {
-  const [optimisticLeads, applyMove] = useOptimistic(leads, (state: Lead[], move: Move) =>
-    state.map((lead) =>
-      lead.id === move.leadId
-        ? { ...lead, stage: move.stage, boardOrder: move.boardOrder }
-        : lead,
-    ),
+  // The move applies to the card's own row — the first enquiry, which is where
+  // the CRM state lives (see lib/crm/contacts.ts).
+  const [optimisticContacts, applyMove] = useOptimistic(
+    contacts,
+    (state: Contact[], move: Move) =>
+      state.map((contact) =>
+        contact.lead.id === move.leadId
+          ? { ...contact, lead: { ...contact.lead, stage: move.stage, boardOrder: move.boardOrder } }
+          : contact,
+      ),
   );
   const [, startTransition] = useTransition();
   const [dragging, setDragging] = useState<string | null>(null);
   const [overStage, setOverStage] = useState<Stage | null>(null);
   /** Cards are sorted newest-first, so "top of the column" is the largest order. */
-  const dragLead = useRef<Lead | null>(null);
+  const dragContact = useRef<Contact | null>(null);
 
   const byStage = (stage: Stage) =>
-    optimisticLeads
-      .filter((lead) => lead.stage === stage)
-      .sort((a, b) => (b.boardOrder ?? 0) - (a.boardOrder ?? 0));
+    optimisticContacts
+      .filter((contact) => contact.lead.stage === stage)
+      .sort((a, b) => (b.lead.boardOrder ?? 0) - (a.lead.boardOrder ?? 0));
 
   /** Moves a card to the top of the target column. */
-  function move(lead: Lead, stage: Stage) {
-    const column = byStage(stage).filter((item) => item.id !== lead.id);
-    const boardOrder = (column[0]?.boardOrder ?? 0) + 1000;
+  function move(contact: Contact, stage: Stage) {
+    const column = byStage(stage).filter((item) => item.key !== contact.key);
+    const boardOrder = (column[0]?.lead.boardOrder ?? 0) + 1000;
+    const leadId = contact.lead.id;
 
     startTransition(async () => {
-      applyMove({ leadId: lead.id, stage, boardOrder });
-      const result = await moveLeadAction({ leadId: lead.id, stage, boardOrder });
+      applyMove({ leadId, stage, boardOrder });
+      const result = await moveLeadAction({ leadId, stage, boardOrder });
       if (!result.ok) onError(result.error);
     });
   }
 
-  function onCardKeyDown(event: React.KeyboardEvent, lead: Lead) {
+  function onCardKeyDown(event: React.KeyboardEvent, contact: Contact) {
     if (!(event.ctrlKey || event.metaKey)) return;
     if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
     event.preventDefault();
-    const index = STAGES.indexOf(lead.stage);
+    const index = STAGES.indexOf(contact.lead.stage);
     // RTL board: ArrowLeft advances along the pipeline, ArrowRight goes back.
     const next = event.key === "ArrowLeft" ? index + 1 : index - 1;
     if (next < 0 || next >= STAGES.length) return;
-    move(lead, STAGES[next]);
+    move(contact, STAGES[next]);
   }
 
   return (
@@ -90,7 +97,10 @@ export function Board({
       <div className="flex min-h-[28rem] items-stretch gap-3" aria-describedby="crm-board-help">
         {STAGES.map((stage) => {
           const column = byStage(stage);
-          const total = column.reduce((sum, lead) => sum + (lead.estimatedValue ?? 0), 0);
+          const total = column.reduce(
+            (sum, contact) => sum + (contact.lead.estimatedValue ?? 0),
+            0,
+          );
           const meta = STAGE_META[stage];
 
           return (
@@ -112,10 +122,10 @@ export function Board({
               onDrop={(event) => {
                 event.preventDefault();
                 setOverStage(null);
-                const lead = dragLead.current;
-                dragLead.current = null;
+                const dragged = dragContact.current;
+                dragContact.current = null;
                 setDragging(null);
-                if (lead) move(lead, stage);
+                if (dragged) move(dragged, stage);
               }}
             >
               <header className="flex items-baseline justify-between px-2 pt-1 pb-2">
@@ -133,14 +143,16 @@ export function Board({
               </header>
 
               <div className="flex flex-1 flex-col gap-2 overflow-y-auto">
-                {column.map((lead) => (
+                {column.map((contact) => {
+                  const lead = contact.lead;
+                  return (
                   <article
-                    key={lead.id}
+                    key={contact.key}
                     className="crm-card cursor-grab active:cursor-grabbing"
                     draggable
                     data-dragging={dragging === lead.id ? "true" : "false"}
                     onDragStart={(event) => {
-                      dragLead.current = lead;
+                      dragContact.current = contact;
                       setDragging(lead.id);
                       event.dataTransfer.effectAllowed = "move";
                       // Firefox refuses to start a drag without payload.
@@ -150,7 +162,7 @@ export function Board({
                       setDragging(null);
                       setOverStage(null);
                     }}
-                    onKeyDown={(event) => onCardKeyDown(event, lead)}
+                    onKeyDown={(event) => onCardKeyDown(event, contact)}
                   >
                     <div className="flex items-start justify-between gap-2">
                       <button
@@ -163,7 +175,11 @@ export function Board({
                       <PriorityChip priority={lead.priority} />
                     </div>
 
-                    <p className="mt-1 text-xs text-navy-600">{serviceLabel(lead.service)}</p>
+                    <p className="mt-1 text-xs text-navy-600">
+                      {contact.services.length > 0
+                        ? contact.services.map(serviceLabel).join(" · ")
+                        : serviceLabel(null)}
+                    </p>
 
                     {lead.estimatedValue ? (
                       <p className="mt-1.5 text-sm font-bold text-navy-800">
@@ -173,6 +189,8 @@ export function Board({
 
                     <div className="mt-2 flex flex-wrap items-center gap-1">
                       <FollowUpChip value={lead.nextFollowUpAt} />
+                      <RepeatChip count={contact.enquiryCount} />
+                      <ConsentChip granted={contact.marketingConsent} compact />
                       {lead.owner ? (
                         <span className="crm-chip bg-navy-900/6 text-navy-600">{lead.owner}</span>
                       ) : null}
@@ -200,7 +218,8 @@ export function Board({
                       </span>
                     </div>
                   </article>
-                ))}
+                  );
+                })}
 
                 {column.length === 0 ? (
                   <p className="rounded-xl border border-dashed border-navy-900/15 px-3 py-6 text-center text-xs text-navy-600">

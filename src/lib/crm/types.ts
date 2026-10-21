@@ -126,6 +126,8 @@ export type Lead = {
   lostReason: string | null;
   boardOrder: number | null;
   isArchived: boolean;
+  /** Ties repeat enquiries from one person together. Set by a DB trigger. */
+  contactKey: string;
 };
 
 export type Activity = {

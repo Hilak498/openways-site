@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
 import { logoutAction } from "@/app/crm/actions";
+import type { Contact } from "@/lib/crm/contacts";
 import {
   OPEN_STAGES,
   SERVICE_LABELS,
@@ -11,7 +12,6 @@ import {
   STAGE_META,
   followUpState,
   type Activity,
-  type Lead,
   type Stage,
 } from "@/lib/crm/types";
 import type { CrmStats } from "@/lib/crm/stats";
@@ -41,12 +41,12 @@ import {
 type View = "board" | "table" | "dashboard";
 
 export function Workspace({
-  leads,
+  contacts,
   activities,
   stats,
   showArchived,
 }: {
-  leads: Lead[];
+  contacts: Contact[];
   activities: Activity[];
   stats: CrmStats;
   showArchived: boolean;
@@ -67,14 +67,20 @@ export function Workspace({
   }, [toast]);
 
   const owners = useMemo(
-    () => [...new Set(leads.map((lead) => lead.owner).filter((v): v is string => Boolean(v)))],
-    [leads],
+    () => [
+      ...new Set(
+        contacts.map((contact) => contact.lead.owner).filter((v): v is string => Boolean(v)),
+      ),
+    ],
+    [contacts],
   );
 
   const filtered = useMemo(() => {
     const needle = query.trim().toLowerCase();
-    return leads.filter((lead) => {
-      if (service !== "all" && (lead.service ?? "") !== service) return false;
+    return contacts.filter((contact) => {
+      const lead = contact.lead;
+      // A contact matches a service if any of their enquiries asked about it.
+      if (service !== "all" && !contact.services.includes(service)) return false;
       if (owner !== "all" && (lead.owner ?? "") !== owner) return false;
       if (onlyDue) {
         const state = followUpState(lead.nextFollowUpAt);
@@ -82,27 +88,35 @@ export function Workspace({
         if (!OPEN_STAGES.includes(lead.stage)) return false;
       }
       if (!needle) return true;
-      return [lead.name, lead.phone, lead.email, lead.notes, lead.message, lead.owner]
-        .filter(Boolean)
-        .some((field) => (field as string).toLowerCase().includes(needle));
+      // Search covers every enquiry's text, not just the card's own row.
+      return contact.enquiries.some((enquiry) =>
+        [enquiry.name, enquiry.phone, enquiry.email, enquiry.notes, enquiry.message, enquiry.owner]
+          .filter(Boolean)
+          .some((field) => (field as string).toLowerCase().includes(needle)),
+      );
     });
-  }, [leads, query, service, owner, onlyDue]);
+  }, [contacts, query, service, owner, onlyDue]);
 
-  // Derived, not stored: a lead that was deleted or archived resolves to null
-  // here and the drawer unmounts without any extra bookkeeping.
-  const openLead = openLeadId ? leads.find((lead) => lead.id === openLeadId) ?? null : null;
-  const openActivities = useMemo(
-    () => (openLead ? activities.filter((item) => item.leadId === openLead.id) : []),
-    [activities, openLead],
-  );
+  // Derived, not stored: a contact that was deleted or archived resolves to
+  // null here and the drawer unmounts without any extra bookkeeping.
+  const openContact = openLeadId
+    ? contacts.find((contact) => contact.lead.id === openLeadId) ?? null
+    : null;
+  const openActivities = useMemo(() => {
+    if (!openContact) return [];
+    const ids = new Set(openContact.enquiries.map((enquiry) => enquiry.id));
+    return activities.filter((item) => ids.has(item.leadId));
+  }, [activities, openContact]);
 
-  const dueLeads = filtered
-    .filter((lead) => OPEN_STAGES.includes(lead.stage))
-    .filter((lead) => {
-      const state = followUpState(lead.nextFollowUpAt);
+  const dueContacts = filtered
+    .filter((contact) => OPEN_STAGES.includes(contact.lead.stage))
+    .filter((contact) => {
+      const state = followUpState(contact.lead.nextFollowUpAt);
       return state === "overdue" || state === "today";
     })
-    .sort((a, b) => (a.nextFollowUpAt ?? "").localeCompare(b.nextFollowUpAt ?? ""));
+    .sort((a, b) =>
+      (a.lead.nextFollowUpAt ?? "").localeCompare(b.lead.nextFollowUpAt ?? ""),
+    );
 
   const filtersActive = query !== "" || service !== "all" || owner !== "all" || onlyDue;
 
@@ -236,7 +250,8 @@ export function Workspace({
           ) : null}
 
           <span className="crm-num mr-auto text-xs text-navy-600">
-            {filtered.length} מתוך {leads.length}
+            {filtered.length} מתוך {contacts.length} אנשי קשר
+            {stats.enquiryTotal > stats.total ? ` · ${stats.enquiryTotal} פניות` : ""}
           </span>
 
           <Link
@@ -248,7 +263,7 @@ export function Workspace({
         </div>
       </header>
 
-      {dueLeads.length > 0 && view !== "dashboard" ? (
+      {dueContacts.length > 0 && view !== "dashboard" ? (
         <section
           aria-label="מעקבים לטיפול"
           className="border-b border-navy-900/10 bg-white px-4 py-2.5"
@@ -259,21 +274,21 @@ export function Workspace({
               לטיפול עכשיו
             </h2>
             <ul className="flex flex-wrap gap-2">
-              {dueLeads.slice(0, 12).map((lead) => (
-                <li key={lead.id}>
+              {dueContacts.slice(0, 12).map((contact) => (
+                <li key={contact.key}>
                   <button
                     type="button"
-                    onClick={() => setOpenLeadId(lead.id)}
+                    onClick={() => setOpenLeadId(contact.lead.id)}
                     className="flex items-center gap-2 rounded-lg border border-navy-900/10 bg-sand-50 px-2.5 py-1.5 text-xs font-semibold text-navy-800 transition hover:border-gold-700 hover:bg-gold-300/10"
                   >
-                    {lead.name}
-                    <FollowUpChip value={lead.nextFollowUpAt} />
+                    {contact.lead.name}
+                    <FollowUpChip value={contact.lead.nextFollowUpAt} />
                   </button>
                 </li>
               ))}
-              {dueLeads.length > 12 ? (
+              {dueContacts.length > 12 ? (
                 <li className="self-center text-xs text-navy-600">
-                  ועוד {dueLeads.length - 12}
+                  ועוד {dueContacts.length - 12}
                 </li>
               ) : null}
             </ul>
@@ -283,15 +298,15 @@ export function Workspace({
 
       {view === "board" ? (
         <Board
-          leads={filtered}
+          contacts={filtered}
           onOpen={setOpenLeadId}
           onError={(text) => setToast({ kind: "error", text })}
         />
       ) : null}
-      {view === "table" ? <LeadTable leads={filtered} onOpen={setOpenLeadId} /> : null}
-      {view === "dashboard" ? <Dashboard stats={stats} leads={leads} /> : null}
+      {view === "table" ? <LeadTable contacts={filtered} onOpen={setOpenLeadId} /> : null}
+      {view === "dashboard" ? <Dashboard stats={stats} contacts={contacts} /> : null}
 
-      {leads.length === 0 ? (
+      {contacts.length === 0 ? (
         <div className="px-4 pb-10">
           <div className="card mx-auto max-w-lg p-6 text-center">
             <h2 className="text-base font-bold text-navy-900">הלוח ריק</h2>
@@ -314,9 +329,9 @@ export function Workspace({
         </div>
       ) : null}
 
-      {openLead ? (
+      {openContact ? (
         <LeadDrawer
-          lead={openLead}
+          contact={openContact}
           activities={openActivities}
           onClose={() => setOpenLeadId(null)}
           onError={(text) => setToast({ kind: "error", text })}

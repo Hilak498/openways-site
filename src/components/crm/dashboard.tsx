@@ -1,12 +1,7 @@
 "use client";
 
-import {
-  SERVICE_LABELS,
-  SOURCE_LABELS,
-  STAGES,
-  STAGE_META,
-  type Lead,
-} from "@/lib/crm/types";
+import type { Contact } from "@/lib/crm/contacts";
+import { SERVICE_LABELS, SOURCE_LABELS, STAGES, STAGE_META } from "@/lib/crm/types";
 import type { CrmStats } from "@/lib/crm/stats";
 
 import { IconAlert, IconCheck, IconClock, Money } from "./ui";
@@ -84,14 +79,16 @@ function BarRow({
   );
 }
 
-export function Dashboard({ stats, leads }: { stats: CrmStats; leads: Lead[] }) {
+export function Dashboard({ stats, contacts }: { stats: CrmStats; contacts: Contact[] }) {
   const stageMax = Math.max(...stats.byStage.map((bucket) => bucket.count), 1);
   const serviceMax = Math.max(...stats.byService.map((row) => row.count), 1);
   const sourceMax = Math.max(...stats.bySource.map((row) => row.count), 1);
 
   // Average days from arrival to a won deal — the only derived figure the
   // stats module doesn't carry, since it needs the won rows themselves.
-  const wonLeads = leads.filter((lead) => lead.stage === "won" && lead.updatedAt);
+  const wonLeads = contacts
+    .map((contact) => contact.lead)
+    .filter((lead) => lead.stage === "won" && lead.updatedAt);
   const avgDaysToWin =
     wonLeads.length === 0
       ? null
@@ -106,12 +103,16 @@ export function Dashboard({ stats, leads }: { stats: CrmStats; leads: Lead[] }) 
   return (
     <div className="flex-1 space-y-5 overflow-y-auto p-4">
       <section>
-        <h2 className="mb-3 text-sm font-bold text-navy-800">מצב הצינור</h2>
+        <h2 className="mb-3 text-sm font-bold text-navy-800">מצב הצינור (אנשי קשר)</h2>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <Tile
-            label="לידים פתוחים"
+            label="אנשי קשר פתוחים"
             value={stats.openCount}
-            hint={`מתוך ${stats.total} בסך הכול`}
+            hint={
+              stats.enquiryTotal > stats.total
+                ? `מתוך ${stats.total} אנשי קשר · ${stats.enquiryTotal} פניות`
+                : `מתוך ${stats.total} בסך הכול`
+            }
           />
           <Tile
             label="שווי פתוח משוער"
@@ -141,9 +142,9 @@ export function Dashboard({ stats, leads }: { stats: CrmStats; leads: Lead[] }) 
 
       <div className="grid gap-5 lg:grid-cols-2">
         <section className="card p-4">
-          <h2 className="text-sm font-bold text-navy-800">לידים לפי שלב</h2>
+          <h2 className="text-sm font-bold text-navy-800">אנשי קשר לפי שלב</h2>
           <p className="mt-0.5 mb-3 text-xs text-navy-600">
-            מספר הלידים בכל שלב, ולצידו השווי המשוער שנצבר בו.
+            מספר אנשי הקשר בכל שלב, ולצידו השווי המשוער שנצבר בו.
           </p>
           <div>
             {STAGES.map((stage) => {
@@ -164,9 +165,9 @@ export function Dashboard({ stats, leads }: { stats: CrmStats; leads: Lead[] }) 
         </section>
 
         <section className="card p-4">
-          <h2 className="text-sm font-bold text-navy-800">לידים לפי שירות</h2>
+          <h2 className="text-sm font-bold text-navy-800">פניות לפי שירות</h2>
           <p className="mt-0.5 mb-3 text-xs text-navy-600">
-            איזה שירות מביא את מרב הפניות.
+            כל פנייה נספרת בנפרד, גם פנייה חוזרת של אותו אדם.
           </p>
           <div>
             {stats.byService.map((row) => (
@@ -185,7 +186,7 @@ export function Dashboard({ stats, leads }: { stats: CrmStats; leads: Lead[] }) 
 
         <section className="card p-4">
           <h2 className="text-sm font-bold text-navy-800">מאיפה הם מגיעים</h2>
-          <p className="mt-0.5 mb-3 text-xs text-navy-600">מקור הליד, כולל טופס האתר.</p>
+          <p className="mt-0.5 mb-3 text-xs text-navy-600">מקור הפנייה, כולל טופס האתר.</p>
           <div>
             {stats.bySource.map((row) => (
               <BarRow
@@ -202,8 +203,9 @@ export function Dashboard({ stats, leads }: { stats: CrmStats; leads: Lead[] }) 
           <h2 className="mb-3 text-sm font-bold text-navy-800">קצב ועומס</h2>
           <dl className="space-y-2.5 text-sm">
             {[
-              { label: "נכנסו החודש", value: String(stats.newThisMonth) },
-              { label: "נכנסו ב-30 הימים האחרונים", value: String(stats.newLast30Days) },
+              { label: "פניות שנכנסו החודש", value: String(stats.newThisMonth) },
+              { label: "פניות ב-30 הימים האחרונים", value: String(stats.newLast30Days) },
+              { label: "אנשי קשר שפנו יותר מפעם אחת", value: String(stats.returningCount) },
               {
                 label: "נסגרו בהצלחה",
                 value: `${stats.wonCount}`,

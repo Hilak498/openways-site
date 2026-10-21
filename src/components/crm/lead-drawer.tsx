@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useRef, useState, useTransition } from "react";
+import { useActionState, useEffect, useMemo, useRef, useState, useTransition } from "react";
 
 import {
   addActivityAction,
@@ -11,6 +11,7 @@ import {
   updateLeadAction,
   type ActionResult,
 } from "@/app/crm/actions";
+import type { Contact } from "@/lib/crm/contacts";
 import {
   ACTIVITY_META,
   LOGGABLE_KINDS,
@@ -22,12 +23,14 @@ import {
   STAGES,
   STAGE_META,
   type Activity,
+  serviceLabel,
   type Lead,
 } from "@/lib/crm/types";
 
 import { waNumber } from "./board";
 import {
   ACTIVITY_ICONS,
+  ConsentChip,
   FollowUpChip,
   IconArchive,
   IconMail,
@@ -36,6 +39,7 @@ import {
   IconWhatsapp,
   IconX,
   Money,
+  RepeatChip,
   formatDay,
   formatFull,
 } from "./ui";
@@ -48,6 +52,10 @@ import {
  * the backdrop traps nothing — a plain, keyboard-friendly panel.
  */
 
+type TimelineEntry =
+  | { type: "enquiry"; at: string; enquiry: Lead }
+  | { type: "activity"; at: string; activity: Activity };
+
 const dayInput = (value: string | null): string => {
   if (!value) return "";
   const date = new Date(value);
@@ -57,16 +65,18 @@ const dayInput = (value: string | null): string => {
 };
 
 export function LeadDrawer({
-  lead,
+  contact,
   activities,
   onClose,
   onError,
 }: {
-  lead: Lead;
+  contact: Contact;
   activities: Activity[];
   onClose: () => void;
   onError: (message: string) => void;
 }) {
+  // The card's own row: the first enquiry, which carries the CRM state.
+  const lead = contact.lead;
   const [tab, setTab] = useState<"activity" | "edit">("activity");
   const panelRef = useRef<HTMLDivElement>(null);
   const [, startTransition] = useTransition();
@@ -106,9 +116,14 @@ export function LeadDrawer({
             <div>
               <h2 className="text-lg font-bold text-navy-900">{lead.name}</h2>
               <p className="mt-0.5 text-xs text-navy-600">
-                {STAGE_META[lead.stage].label} · נכנס {formatDay(lead.createdAt)} ·{" "}
+                {STAGE_META[lead.stage].label} · פנה לראשונה {formatDay(contact.firstEnquiryAt)}
+                {contact.isReturning ? ` · לאחרונה ${formatDay(contact.latestEnquiryAt)}` : ""} ·{" "}
                 {SOURCE_LABELS[lead.source] ?? lead.source}
               </p>
+              <div className="mt-1.5 flex flex-wrap gap-1">
+                <RepeatChip count={contact.enquiryCount} />
+                <ConsentChip granted={contact.marketingConsent} />
+              </div>
             </div>
             <button
               type="button"
@@ -215,7 +230,7 @@ export function LeadDrawer({
         <div className="flex-1 overflow-y-auto p-5">
           {tab === "activity" ? (
             <ActivityTab
-              lead={lead}
+              contact={contact}
               activities={activities}
               onError={onError}
               onDelete={(id) => run(() => deleteActivityAction(id))}
@@ -236,6 +251,7 @@ export function LeadDrawer({
           </button>
           <DeleteButton
             name={lead.name}
+            enquiryCount={contact.enquiryCount}
             onConfirm={() => run(() => deleteLeadAction(lead.id), onClose)}
           />
         </footer>
@@ -245,7 +261,15 @@ export function LeadDrawer({
 }
 
 /** Two-step delete: the row is gone for good, so one click is not enough. */
-function DeleteButton({ name, onConfirm }: { name: string; onConfirm: () => void }) {
+function DeleteButton({
+  name,
+  enquiryCount,
+  onConfirm,
+}: {
+  name: string;
+  enquiryCount: number;
+  onConfirm: () => void;
+}) {
   const [armed, setArmed] = useState(false);
 
   useEffect(() => {
@@ -274,7 +298,9 @@ function DeleteButton({ name, onConfirm }: { name: string; onConfirm: () => void
       className="inline-flex items-center gap-1.5 rounded-lg bg-danger-700 px-3 py-2 text-sm font-bold text-white transition hover:brightness-110"
     >
       <IconTrash />
-      למחוק את {name}? לחצו שוב
+      {enquiryCount > 1
+        ? `למחוק את ${name} ואת ${enquiryCount} הפניות? לחצו שוב`
+        : `למחוק את ${name}? לחצו שוב`}
     </button>
   );
 }
@@ -282,16 +308,17 @@ function DeleteButton({ name, onConfirm }: { name: string; onConfirm: () => void
 // -------------------------------------------------------------- activity ----
 
 function ActivityTab({
-  lead,
+  contact,
   activities,
   onError,
   onDelete,
 }: {
-  lead: Lead;
+  contact: Contact;
   activities: Activity[];
   onError: (message: string) => void;
   onDelete: (id: string) => void;
 }) {
+  const lead = contact.lead;
   const [state, action, pending] = useActionState<ActionResult | null, FormData>(
     addActivityAction,
     null,
@@ -302,6 +329,29 @@ function ActivityTab({
     if (state?.ok) formRef.current?.reset();
     else if (state && !state.ok) onError(state.error);
   }, [state, onError]);
+
+  /**
+   * One stream, newest first: every enquiry this person sent through the site,
+   * interleaved with what was logged about them. Seeing "פנייה מהאתר" land
+   * between two calls is the whole point of merging repeat enquiries.
+   */
+  const timeline = useMemo<TimelineEntry[]>(() => {
+    const entries: TimelineEntry[] = [
+      ...contact.enquiries
+        .filter((enquiry) => enquiry.message || enquiry.source === "website")
+        .map((enquiry) => ({
+          type: "enquiry" as const,
+          at: enquiry.createdAt,
+          enquiry,
+        })),
+      ...activities.map((activity) => ({
+        type: "activity" as const,
+        at: activity.happenedAt,
+        activity,
+      })),
+    ];
+    return entries.sort((a, b) => b.at.localeCompare(a.at));
+  }, [contact.enquiries, activities]);
 
   return (
     <div className="space-y-5">
@@ -368,20 +418,6 @@ function ActivityTab({
         </button>
       </form>
 
-      {lead.message ? (
-        <section>
-          <h3 className="mb-1.5 text-sm font-bold text-navy-800">מה הוא כתב בטופס</h3>
-          <p className="card p-3 text-sm leading-6 whitespace-pre-wrap text-navy-700">
-            {lead.message}
-          </p>
-          {lead.sourcePage ? (
-            <p className="mt-1 text-xs text-navy-600">
-              נשלח מהעמוד <span dir="ltr">{lead.sourcePage}</span>
-            </p>
-          ) : null}
-        </section>
-      ) : null}
-
       {lead.notes ? (
         <section>
           <h3 className="mb-1.5 text-sm font-bold text-navy-800">הערות</h3>
@@ -393,15 +429,44 @@ function ActivityTab({
 
       <section>
         <h3 className="mb-2 text-sm font-bold text-navy-800">
-          יומן ({activities.length})
+          יומן ({timeline.length})
         </h3>
-        {activities.length === 0 ? (
+        {timeline.length === 0 ? (
           <p className="card p-4 text-center text-xs text-navy-600">
             עוד לא תועדה אף אינטראקציה.
           </p>
         ) : (
           <ol className="space-y-2">
-            {activities.map((activity) => {
+            {timeline.map((entry) => {
+              if (entry.type === "enquiry") {
+                const enquiry = entry.enquiry;
+                return (
+                  <li
+                    key={`enquiry-${enquiry.id}`}
+                    className="card border-r-4 border-r-gold-700 p-3"
+                  >
+                    <div className="flex items-baseline justify-between gap-2">
+                      <span className="text-xs font-bold text-navy-800">
+                        פנייה מהאתר · {serviceLabel(enquiry.service)}
+                      </span>
+                      <span className="shrink-0 text-[11px] text-navy-600">
+                        {formatFull(enquiry.createdAt)}
+                      </span>
+                    </div>
+                    {enquiry.message ? (
+                      <p className="mt-1 text-sm leading-6 whitespace-pre-wrap text-navy-700">
+                        {enquiry.message}
+                      </p>
+                    ) : null}
+                    <p className="mt-1.5 flex flex-wrap items-center gap-2 text-[11px] text-navy-600">
+                      {enquiry.sourcePage ? <span dir="ltr">{enquiry.sourcePage}</span> : null}
+                      <ConsentChip granted={enquiry.marketingConsent} />
+                    </p>
+                  </li>
+                );
+              }
+
+              const activity = entry.activity;
               const meta = ACTIVITY_META[activity.kind];
               const Icon = ACTIVITY_ICONS[activity.kind];
               const manual = activity.kind !== "stage_change" && activity.kind !== "system";

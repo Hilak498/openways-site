@@ -85,6 +85,7 @@ const LEAD_COLUMNS = [
   "lost_reason",
   "board_order",
   "is_archived",
+  "contact_key",
 ].join(", ");
 
 type LeadRecord = Record<string, unknown>;
@@ -121,6 +122,7 @@ function toLead(row: LeadRecord): Lead {
     lostReason: str(row.lost_reason),
     boardOrder: num(row.board_order),
     isArchived: row.is_archived === true,
+    contactKey: str(row.contact_key) ?? String(row.id),
   };
 }
 
@@ -269,6 +271,36 @@ export async function updateLead(id: string, values: LeadWrite): Promise<Lead> {
     .single();
   if (error) fail("updateLead", error);
   return toLead(data as unknown as LeadRecord);
+}
+
+/**
+ * Every row that belongs to the same person as `id`. An archive or a delete
+ * acts on the card, and a card is all of that person's enquiries — resolved
+ * here on the server so the client never has to send a list of ids.
+ */
+export async function leadIdsInContact(id: string): Promise<string[]> {
+  const lead = await getLead(id);
+  if (!lead) return [];
+  if (!lead.contactKey) return [lead.id];
+  const { data, error } = await db()
+    .from("leads")
+    .select("id")
+    .eq("contact_key", lead.contactKey);
+  if (error) fail("leadIdsInContact", error);
+  const ids = (data ?? []).map((row) => String((row as LeadRecord).id));
+  return ids.length > 0 ? ids : [lead.id];
+}
+
+export async function updateLeads(ids: string[], values: LeadWrite): Promise<void> {
+  if (ids.length === 0) return;
+  const { error } = await db().from("leads").update(toRow(values)).in("id", ids);
+  if (error) fail("updateLeads", error);
+}
+
+export async function deleteLeads(ids: string[]): Promise<void> {
+  if (ids.length === 0) return;
+  const { error } = await db().from("leads").delete().in("id", ids);
+  if (error) fail("deleteLeads", error);
 }
 
 export async function deleteLead(id: string): Promise<void> {

@@ -1,14 +1,13 @@
-import {
-  OPEN_STAGES,
-  STAGES,
-  followUpState,
-  type Lead,
-  type Stage,
-} from "./types";
+import type { Contact } from "./contacts";
+import { OPEN_STAGES, STAGES, followUpState, type Lead, type Stage } from "./types";
 
 /**
- * Dashboard figures, derived from the lead list already loaded for the board —
- * no extra round trip, and the numbers always match what the board shows.
+ * Dashboard figures.
+ *
+ * Two different units, deliberately kept apart so no number is quietly wrong:
+ * pipeline figures count **contacts** (a person in "הצעה" is one opportunity,
+ * however many times they wrote in), while intake figures count **enquiries**
+ * (how much work came through the door). Every label says which.
  */
 
 export type StageBucket = {
@@ -18,20 +17,22 @@ export type StageBucket = {
 };
 
 export type CrmStats = {
+  /** Contacts. */
   total: number;
   byStage: StageBucket[];
-  /** Open opportunities: everything not won and not lost. */
   openCount: number;
   openValue: number;
   wonCount: number;
   wonValue: number;
   lostCount: number;
-  /** Won / (won + lost), as a percentage of decided leads. 0 when none decided. */
+  /** Won / (won + lost), as a percentage of decided contacts. */
   closeRate: number;
   overdueCount: number;
   todayCount: number;
-  /** Open leads with no follow-up date — the ones that quietly go cold. */
   noFollowUpCount: number;
+  returningCount: number;
+  /** Enquiries (rows), not contacts. */
+  enquiryTotal: number;
   newThisMonth: number;
   newLast30Days: number;
   byService: { service: string; count: number }[];
@@ -40,9 +41,12 @@ export type CrmStats = {
 
 const sum = (values: number[]) => values.reduce((a, b) => a + b, 0);
 
-export function computeStats(leads: Lead[], now = new Date()): CrmStats {
+export function computeStats(contacts: Contact[], now = new Date()): CrmStats {
+  const cards = contacts.map((contact) => contact.lead);
+  const enquiries: Lead[] = contacts.flatMap((contact) => contact.enquiries);
+
   const byStage: StageBucket[] = STAGES.map((stage) => {
-    const inStage = leads.filter((lead) => lead.stage === stage);
+    const inStage = cards.filter((lead) => lead.stage === stage);
     return {
       stage,
       count: inStage.length,
@@ -50,9 +54,9 @@ export function computeStats(leads: Lead[], now = new Date()): CrmStats {
     };
   });
 
-  const open = leads.filter((lead) => OPEN_STAGES.includes(lead.stage));
-  const won = leads.filter((lead) => lead.stage === "won");
-  const lost = leads.filter((lead) => lead.stage === "lost");
+  const open = cards.filter((lead) => OPEN_STAGES.includes(lead.stage));
+  const won = cards.filter((lead) => lead.stage === "won");
+  const lost = cards.filter((lead) => lead.stage === "lost");
   const decided = won.length + lost.length;
 
   const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
@@ -70,7 +74,7 @@ export function computeStats(leads: Lead[], now = new Date()): CrmStats {
   };
 
   return {
-    total: leads.length,
+    total: contacts.length,
     byStage,
     openCount: open.length,
     openValue: sum(open.map((lead) => lead.estimatedValue ?? 0)),
@@ -82,26 +86,30 @@ export function computeStats(leads: Lead[], now = new Date()): CrmStats {
       .length,
     todayCount: open.filter((lead) => followUpState(lead.nextFollowUpAt, now) === "today").length,
     noFollowUpCount: open.filter((lead) => !lead.nextFollowUpAt).length,
-    newThisMonth: leads.filter((lead) => new Date(lead.createdAt) >= monthStart).length,
-    newLast30Days: leads.filter((lead) => new Date(lead.createdAt) >= thirtyDaysAgo).length,
-    byService: counter(leads.map((lead) => lead.service)).map(({ key, count }) => ({
+    returningCount: contacts.filter((contact) => contact.isReturning).length,
+    enquiryTotal: enquiries.length,
+    newThisMonth: enquiries.filter((lead) => new Date(lead.createdAt) >= monthStart).length,
+    newLast30Days: enquiries.filter((lead) => new Date(lead.createdAt) >= thirtyDaysAgo).length,
+    byService: counter(enquiries.map((lead) => lead.service)).map(({ key, count }) => ({
       service: key,
       count,
     })),
-    bySource: counter(leads.map((lead) => lead.source)).map(({ key, count }) => ({
+    bySource: counter(enquiries.map((lead) => lead.source)).map(({ key, count }) => ({
       source: key,
       count,
     })),
   };
 }
 
-/** Open leads that need attention, soonest first; undated ones last. */
-export function followUpQueue(leads: Lead[], now = new Date()): Lead[] {
-  return leads
-    .filter((lead) => OPEN_STAGES.includes(lead.stage))
-    .filter((lead) => {
-      const state = followUpState(lead.nextFollowUpAt, now);
+/** Contacts that need attention, soonest first. */
+export function followUpQueue(contacts: Contact[], now = new Date()): Contact[] {
+  return contacts
+    .filter((contact) => OPEN_STAGES.includes(contact.lead.stage))
+    .filter((contact) => {
+      const state = followUpState(contact.lead.nextFollowUpAt, now);
       return state === "overdue" || state === "today";
     })
-    .sort((a, b) => (a.nextFollowUpAt ?? "").localeCompare(b.nextFollowUpAt ?? ""));
+    .sort((a, b) =>
+      (a.lead.nextFollowUpAt ?? "").localeCompare(b.lead.nextFollowUpAt ?? ""),
+    );
 }
