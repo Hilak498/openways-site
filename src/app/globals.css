@@ -26,19 +26,6 @@
   --color-sand-300: #e4e2e4; /* surface-container-highest */
 
   /*
-   * צבעי מצב ל-CRM (/crm) - הרחבה מתועדת לאינטרנט, לא מספר המותג.
-   * לספר אין ירוק/אדום, ול-CRM נדרשת הבחנה בין "נסגר בהצלחה" ל"באיחור".
-   * נבדקו: ok-700 6.53:1 ו-danger-700 6.54:1 על לבן, ok-300 11.36:1 ו-
-   * danger-300 10.37:1 על navy-900 - כולם עוברים WCAG AA לטקסט רגיל.
-   * ההפרדה ביניהם בעיוורון צבעים היא ΔE 8.6 (deutan), ובכל מקום הם מופיעים
-   * יחד עם אייקון וטקסט - הצבע לעולם לא האות היחיד. ראו docs/brand/README.md.
-   */
-  --color-ok-700: #0f6b47; /* רקע בהיר */
-  --color-ok-300: #7fe3b5; /* רקע כהה */
-  --color-danger-700: #b3261e; /* רקע בהיר */
-  --color-danger-300: #ffb4ab; /* רקע כהה */
-
-  /*
    * ערימת הפונטים: הלטיני של ספר המותג קודם, העברי אחריו. הדפדפן לוקח
    * מכל פונט רק את האותיות שיש לו, כך שאנגלית מקבלת את Poppins המקורית
    * ועברית נופלת ל-Rubik - בלי שהמשתמש רואה מעבר.
@@ -345,80 +332,5 @@ html.a11y-reduce-motion *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
-  }
-}
-
-/*
- * ----------------------------------------------------------------- CRM ----
- * /crm הוא כלי פנימי שחי בתוך אתר התדמית, ולכן הוא לא רוצה את מעטפת
- * האתר: סרגל עליון, פוטר, שני כפתורי ה-FAB הצפים, באנר העוגיות ורכיב
- * הנגישות (הם נדרשים בעמודים הציבוריים, לא בכלי פנימי מאחורי סיסמה).
- *
- * למה דווקא :has() ולא route group: ל-app יש layout שורש אחד שמחווט את
- * המעטפת לכל העמודים, ושני layout-ים שורשיים מחייבים להעביר את כל עמודי
- * האתר לתוך קבוצות - רפקטור גדול בסיכון מיותר בשביל תוספת. במקום זה עמוד
- * ה-CRM מסמן את עצמו ב-#crm-root, וה-CSS מסתיר את המעטפת כשהסימן קיים.
- * זה קורה בציור הראשון (אין הבהוב), ובדפדפן נדיר בלי :has() המעטפת פשוט
- * תוצג - לא שבירה.
- */
-body:has(#crm-root) > header,
-body:has(#crm-root) > footer,
-body:has(#crm-root) .site-fab,
-body:has(#crm-root) .site-chrome {
-  display: none;
-}
-
-body:has(#crm-root) > main {
-  /* ה-main של האתר מרכז תוכן; הלוח רוצה את כל הרוחב */
-  display: flex;
-  flex-direction: column;
-}
-
-@layer components {
-  /* כרטיס ליד בלוח הקנבן */
-  .crm-card {
-    @apply rounded-xl border border-navy-900/10 bg-white p-3 text-right shadow-[0_1px_2px_rgb(10_25_47/0.06)] transition;
-  }
-  .crm-card:hover {
-    @apply border-navy-900/20 shadow-card;
-  }
-  .crm-card[data-dragging="true"] {
-    @apply rotate-1 opacity-50;
-  }
-
-  /* עמודת שלב */
-  .crm-column {
-    @apply flex h-full min-w-[17rem] flex-1 flex-col rounded-2xl bg-sand-200/70 p-2;
-  }
-  .crm-column[data-over="true"] {
-    @apply bg-gold-300/25 ring-2 ring-gold-700/40;
-  }
-
-  /* תג קטן - תמיד אייקון + טקסט, הצבע לעולם לא האות היחיד */
-  .crm-chip {
-    @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold;
-  }
-
-  .crm-field {
-    @apply w-full rounded-lg border border-navy-900/15 bg-white px-3 py-2 text-sm text-navy-800 outline-none transition focus:border-gold-700 focus:ring-2 focus:ring-gold-700/30;
-  }
-
-  .crm-label {
-    @apply mb-1 block text-xs font-semibold text-navy-600;
-  }
-
-  .crm-btn {
-    @apply inline-flex items-center justify-center gap-1.5 rounded-lg border border-navy-900/15 bg-white px-3 py-2 text-sm font-semibold text-navy-800 transition hover:border-navy-900/30 hover:bg-sand-100 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
-  }
-
-  .crm-btn-primary {
-    @apply inline-flex items-center justify-center gap-1.5 rounded-lg bg-navy-900 px-4 py-2 text-sm font-bold text-white transition hover:bg-navy-700 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
-  }
-
-  /* עמודת "סך הכול" בטבלה - מספרים תמיד LTR כדי שלא יתהפכו */
-  .crm-num {
-    @apply tabular-nums;
-    direction: ltr;
-    unicode-bidi: isolate;
   }
 }
