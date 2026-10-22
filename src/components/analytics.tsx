@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Script from "next/script";
+import { trackEvent } from "@/lib/analytics";
 import { CONSENT_EVENT, readConsent } from "@/lib/consent";
 
 /**
@@ -18,6 +19,22 @@ export function Analytics() {
     sync();
     window.addEventListener(CONSENT_EVENT, sync);
     return () => window.removeEventListener(CONSENT_EVENT, sync);
+  }, []);
+
+  // One delegated listener covers every phone and WhatsApp link on the site
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      const link = (e.target as Element | null)?.closest?.("a[href]");
+      if (!link) return;
+      const href = link.getAttribute("href") ?? "";
+      if (href.startsWith("tel:")) {
+        trackEvent("phone_click", { number: href.slice(4), page: location.pathname });
+      } else if (href.includes("wa.me/")) {
+        trackEvent("whatsapp_click", { page: location.pathname });
+      }
+    };
+    document.addEventListener("click", onClick, { capture: true });
+    return () => document.removeEventListener("click", onClick, { capture: true });
   }, []);
 
   if (!gaId || !allowed) return null;

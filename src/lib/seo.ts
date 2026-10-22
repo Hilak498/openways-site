@@ -24,3 +24,35 @@ export function pageOpenGraph(
 ): OpenGraph {
   return { ...baseOpenGraph, url: path, title, description, ...overrides } as OpenGraph;
 }
+
+/**
+ * Full page metadata from one title/description pair: the exact <title>
+ * (no layout template), meta description, canonical, Open Graph and Twitter
+ * all stay in sync.
+ */
+export function pageMetadata({
+  path,
+  title,
+  description,
+  image,
+}: {
+  path: string;
+  title: string;
+  description: string;
+  /** Page-specific 1200x630 share image (defaults to /og.png). */
+  image?: { url: string; alt: string };
+}): Metadata {
+  const images = image ? [{ ...image, width: 1200, height: 630 }] : baseOpenGraph.images;
+  return {
+    title: { absolute: title },
+    description,
+    alternates: { canonical: path },
+    openGraph: pageOpenGraph(path, title, description, { images }),
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: images.map((i) => i.url),
+    },
+  };
+}

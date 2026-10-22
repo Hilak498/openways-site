@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { trackEvent } from "@/lib/analytics";
 import Link from "next/link";
 import { contactTopics } from "@/lib/site";
 import { contactSchema } from "@/lib/contact-schema";
@@ -101,6 +102,7 @@ export function ContactForm({ variant = "light" }: { variant?: "light" | "dark" 
       }
       form.reset();
       setStatus({ state: "success" });
+      trackEvent("generate_lead", { service: parsed.data.service ?? "unspecified" });
     } catch (err) {
       setStatus({
         state: "error",

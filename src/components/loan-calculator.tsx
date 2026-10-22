@@ -1,6 +1,7 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useRef, useState } from "react";
+import { trackEvent } from "@/lib/analytics";
 import Link from "next/link";
 
 /**
@@ -15,6 +16,8 @@ export interface LoanCalculatorProps {
   defaultRate: number;
   defaultYears: number;
   maxYears: number;
+  /** Name sent with the calculator_use analytics event */
+  calculatorName: string;
 }
 
 function monthlyPayment(amount: number, annualRatePct: number, years: number): number {
@@ -36,8 +39,15 @@ export function LoanCalculator({
   defaultRate,
   defaultYears,
   maxYears,
+  calculatorName,
 }: LoanCalculatorProps) {
   const id = useId();
+  const used = useRef(false);
+  const markUsed = () => {
+    if (used.current) return;
+    used.current = true;
+    trackEvent("calculator_use", { calculator_name: calculatorName });
+  };
   const [amount, setAmount] = useState(defaultAmount);
   const [rate, setRate] = useState(defaultRate);
   const [years, setYears] = useState(defaultYears);
@@ -107,7 +117,10 @@ export function LoanCalculator({
               max={f.max}
               step={f.step}
               value={f.value}
-              onChange={(e) => f.set(Number(e.target.value))}
+              onChange={(e) => {
+                markUsed();
+                f.set(Number(e.target.value));
+              }}
               className="mt-3 h-2 w-full cursor-pointer appearance-none rounded-full bg-sand-300 accent-gold-600"
             />
           </div>

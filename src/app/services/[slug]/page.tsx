@@ -25,6 +25,13 @@ export async function generateMetadata({
   const { slug } = await params;
   const service = getService(slug);
   if (!service) return {};
+  // Per-department share card, public/og/service-<slug>.png (1200x630)
+  const shareImage = {
+    url: `/og/service-${service.slug}.png`,
+    width: 1200,
+    height: 630,
+    alt: service.name,
+  };
   return {
     title: service.metaTitle,
     description: service.metaDescription,
@@ -33,7 +40,14 @@ export async function generateMetadata({
       `/services/${service.slug}`,
       service.metaTitle,
       service.metaDescription,
+      { images: [shareImage] },
     ),
+    twitter: {
+      card: "summary_large_image",
+      title: service.metaTitle,
+      description: service.metaDescription,
+      images: [shareImage.url],
+    },
   };
 }
 

@@ -3,19 +3,17 @@ import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { SalaryCalculator } from "@/components/salary-calculator";
 import { nationalInsurance } from "@/lib/tax-2026";
-import { pageOpenGraph } from "@/lib/seo";
-import { site } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/json-ld";
+import { calculatorSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
-  title: "מחשבון שכר נטו",
-  description:
-    "מחשבון שכר של Open Ways: מברוטו לנטו לשכירים, לעצמאים, לעובדי משק בית, למקבלי פנסיה מוקדמת ולבעלי הכנסה שלא מעבודה - לפי מדרגות המס ושיעורי הביטוח הלאומי של שנת 2026, לצורך המחשה בלבד.",
-  alternates: { canonical: "/calculators/salary" },
-  openGraph: pageOpenGraph(
-    "/calculators/salary",
-    `מחשבון שכר נטו | ${site.name}`,
-    "מחשבון שכר של Open Ways: מברוטו לנטו לשכירים, לעצמאים, לעובדי משק בית, למקבלי פנסיה מוקדמת ולבעלי הכנסה שלא מעבודה - לפי מדרגות המס ושיעורי הביטוח הלאומי של שנת 2026, לצורך המחשה בלבד.",
-  ),
+  ...pageMetadata({
+    path: "/calculators/salary",
+    title: "מחשבון שכר נטו 2026 | Open Ways",
+    description:
+      "חישוב שכר נטו מברוטו לשכירים ולעצמאים לפי מדרגות המס והביטוח הלאומי של 2026. להמחשה בלבד.",
+  }),
   // כל עוד שיעורי הביטוח הלאומי לא אומתו, העמוד לא נכנס לאינדוקס ולא מקושר
   // מהתפריט. לפרסום: לאמת את nationalInsurance ב-tax-2026.ts ולהסיר את זה.
   robots: nationalInsurance.verified ? undefined : { index: false, follow: false },
@@ -24,6 +22,13 @@ export const metadata: Metadata = {
 export default function SalaryCalculatorPage() {
   return (
     <>
+      <JsonLd
+        data={calculatorSchema(
+          "מחשבון שכר נטו 2026",
+          "חישוב שכר נטו מברוטו לשכירים ולעצמאים לפי מדרגות המס והביטוח הלאומי של 2026. להמחשה בלבד.",
+          "/calculators/salary",
+        )}
+      />
       <section className="on-dark hero-navy relative isolate overflow-hidden text-white">
         <div
           aria-hidden="true"

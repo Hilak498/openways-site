@@ -7,6 +7,8 @@ import { CookieConsent } from "@/components/cookie-consent";
 import { AccessibilityWidget } from "@/components/accessibility-widget";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import { Analytics } from "@/components/analytics";
+import { Analytics as VercelAnalytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { site } from "@/lib/site";
 import "./globals.css";
 import { pageOpenGraph } from "@/lib/seo";
@@ -122,6 +124,9 @@ export default function RootLayout({
           <CookieConsent />
         </div>
         <Analytics />
+        {/* Cookieless, so it loads regardless of the cookie banner */}
+        <VercelAnalytics />
+        <SpeedInsights />
       </body>
     </html>
   );
