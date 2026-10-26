@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
+import { RelatedLinks } from "@/components/related-links";
 import { LoanCalculator } from "@/components/loan-calculator";
 import { pageMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
@@ -75,6 +76,10 @@ export default function BusinessCreditCalculatorPage() {
               לשירות גיוס אשראי עסקי
             </Link>
           </Reveal>
+          <RelatedLinks
+            className="mt-16"
+            links={[{ href: "/services/business-credit", label: "גיוס אשראי עסקי", description: "ליווי מקצועי מקצה לקצה. שיחת היכרות ללא עלות." }]}
+          />
         </div>
       </section>
     </>

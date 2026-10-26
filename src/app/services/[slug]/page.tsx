@@ -11,9 +11,15 @@ import { Faq } from "@/components/faq";
 import { Marquee } from "@/components/marquee";
 import { BankCategoryIconSvg } from "@/components/bank-category-icon";
 import { JsonLd } from "@/components/json-ld";
+import { CheckList } from "@/components/check-list";
+import { RelatedLinks } from "@/components/related-links";
 import { faqSchema, serviceSchema } from "@/lib/schema";
 import { banks, getService, services, showAdvisorsTrack } from "@/lib/site";
+import { getPosts } from "@/lib/blog";
 import { pageOpenGraph } from "@/lib/seo";
+
+// "מאמרים שיעזרו לכם" reads article titles from the blog feed
+export const revalidate = 3600;
 
 export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
@@ -58,6 +64,20 @@ export default async function ServicePage({
   const service = getService(slug);
   if (!service) notFound();
 
+  const articleSlugs = service.articleSlugs ?? [];
+  const posts = articleSlugs.length
+    ? await getPosts().catch(() => [])
+    : [];
+  const articles = articleSlugs.flatMap((s) => {
+    const post = posts.find((p) => p.slug === s);
+    return post
+      ? [{ href: `/blog/${post.slug}`, label: post.title, description: post.excerpt, cta: "לקריאת המאמר" }]
+      : [];
+  });
+  const otherServices = services
+    .filter((s) => s.slug !== service.slug)
+    .map((s) => ({ href: `/services/${s.slug}`, label: s.name, description: s.tagline }));
+
   // Optional per-service hero photo: public/images/service-<slug>.jpg is
   // composited under a navy overlay when present (see README).
   const heroBg = `/images/service-${service.slug}.jpg`;
@@ -76,7 +96,7 @@ export default async function ServicePage({
   return (
     <>
       <JsonLd data={serviceSchema(service)} />
-      <JsonLd data={faqSchema(service)} />
+      <JsonLd data={faqSchema(service.faq)} />
 
       {/* Secondary hero */}
       <section className="on-dark hero-navy relative isolate overflow-hidden text-white">
@@ -167,21 +187,7 @@ export default async function ServicePage({
               <h2 className="text-xl font-bold text-navy-800">
                 {service.audience.title}
               </h2>
-              <ul className="mt-5 space-y-4">
-                {service.audience.items.map((item) => (
-                  <li key={item} className="flex items-start gap-3">
-                    <span
-                      aria-hidden="true"
-                      className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gold-500/20 text-gold-700"
-                    >
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M20 6 9 17l-5-5" />
-                      </svg>
-                    </span>
-                    <span className="leading-7 text-navy-700">{item}</span>
-                  </li>
-                ))}
-              </ul>
+              <CheckList items={service.audience.items} />
               <Link href="/#contact" className="btn-dark mt-7 w-full text-center">
                 נשמע מוכר? דברו איתנו
               </Link>
@@ -237,7 +243,7 @@ export default async function ServicePage({
                           {solution.description}
                         </p>
                         <Link
-                          href="/#contact"
+                          href={solution.href ?? "/#contact"}
                           className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-gold-700 transition-all after:absolute after:inset-0 after:content-[''] hover:gap-3"
                           aria-label={`לפרטים על ${solution.title}`}
                         >
@@ -284,7 +290,7 @@ export default async function ServicePage({
                           {solution.description}
                         </p>
                         <Link
-                          href="/#contact"
+                          href={solution.href ?? "/#contact"}
                           className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-gold-700 transition-all after:absolute after:inset-0 after:content-[''] hover:gap-3"
                           aria-label={`לפרטים על ${solution.title}`}
                         >
@@ -357,6 +363,7 @@ export default async function ServicePage({
                         fill
                         sizes="(min-width: 1024px) 28vw, 32vw"
                         className="object-cover"
+                        aria-hidden="true"
                       />
                     </div>
                   </div>
@@ -377,6 +384,13 @@ export default async function ServicePage({
               title={service.methodology.title}
               description={service.methodology.subtitle}
             />
+            {service.methodology.credit ? (
+              <Reveal delay={0.1}>
+                <p className="mx-auto mt-4 max-w-2xl text-center text-sm leading-7 text-navy-600">
+                  {service.methodology.credit}
+                </p>
+              </Reveal>
+            ) : null}
             <ol className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {service.methodology.items.map((item, i) => (
                 <Reveal key={item.title} as="li" delay={i * 0.06} className="h-full">
@@ -618,6 +632,40 @@ export default async function ServicePage({
         </section>
       ) : null}
 
+      {/* Field stories: where the client started, what we did, the result */}
+      {service.stories ? (
+        <section className="py-24">
+          <div className="container-site">
+            <SectionHeading title="סיפורים מהשטח" />
+            <ul className="mx-auto mt-14 grid max-w-5xl gap-6 md:grid-cols-2">
+              {service.stories.map((story, i) => (
+                <Reveal key={story.title} as="li" delay={i * 0.08} className="h-full">
+                  <article className="card h-full p-8">
+                    <h3 className="text-xl font-bold text-navy-800">{story.title}</h3>
+                    <p className="mt-3 leading-8 text-navy-600">{story.text}</p>
+                  </article>
+                </Reveal>
+              ))}
+            </ul>
+          </div>
+        </section>
+      ) : null}
+
+      {/* Helpful articles and calculators */}
+      {articles.length || service.calculators ? (
+        <section className="bg-sand-50 py-24">
+          <div className="container-site max-w-5xl space-y-14">
+            <RelatedLinks title="מאמרים שיעזרו לכם" links={articles} />
+            {service.calculators ? (
+              <RelatedLinks
+                title="מחשבונים שיעזרו לכם"
+                links={service.calculators.map((c) => ({ ...c, cta: "למחשבון" }))}
+              />
+            ) : null}
+          </div>
+        </section>
+      ) : null}
+
       {/* FAQ */}
       <section className="bg-sand-100 py-24">
         <div className="container-site">
@@ -652,6 +700,12 @@ export default async function ServicePage({
               </div>
             </div>
           </Reveal>
+        </div>
+      </section>
+
+      <section className="pb-24">
+        <div className="container-site max-w-5xl">
+          <RelatedLinks title="שירותים נוספים" links={otherServices} />
         </div>
       </section>
     </>

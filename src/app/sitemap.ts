@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getPosts, postUrl } from "@/lib/blog";
-import { services, showAdvisorsTrack, site } from "@/lib/site";
+import { mortgageSubpages, services, showAdvisorsTrack, site } from "@/lib/site";
 import { nationalInsurance } from "@/lib/tax-2026";
 
 // Regenerated in the background at most once an hour, from the same feed as
@@ -20,6 +20,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${site.url}/services/${s.slug}`,
       changeFrequency: "monthly" as const,
       priority: 0.9,
+    })),
+    ...mortgageSubpages.map((p) => ({
+      url: `${site.url}/services/mortgage-advisory/${p.slug}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
     })),
     ...(showAdvisorsTrack
       ? [

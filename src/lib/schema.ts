@@ -87,15 +87,28 @@ export function serviceSchema(service: Service) {
   };
 }
 
-export function faqSchema(service: Service) {
+export function faqSchema(faq: { question: string; answer: string }[]) {
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: service.faq.map((f) => ({
+    mainEntity: faq.map((f) => ({
       "@type": "Question",
       name: f.question,
       acceptedAnswer: { "@type": "Answer", text: f.answer },
     })),
+  };
+}
+
+/** Schema.org Service for a page under a service (e.g. self-build mortgage). */
+export function subServiceSchema(name: string, description: string, path: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name,
+    description,
+    url: `${site.url}${path}`,
+    provider: { "@id": organizationId },
+    areaServed: { "@type": "Country", name: "Israel" },
   };
 }
 

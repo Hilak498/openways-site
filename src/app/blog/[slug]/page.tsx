@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/json-ld";
 import { StarDialButton } from "@/components/star-dial-button";
+import { RelatedLinks, type RelatedLink } from "@/components/related-links";
 import { formatPostDate, getPost, getPosts, postUrl } from "@/lib/blog";
 import { site } from "@/lib/site";
 import { pageOpenGraph } from "@/lib/seo";
@@ -42,6 +43,19 @@ export async function generateMetadata({
       images: post.image ? [post.image] : undefined,
     },
   };
+}
+
+// כל המאמרים קשורים לאשראי עסקי, חוץ ממה שממופה כאן לשירות אחר
+const advisoryArticles = new Set(["improve-business-profitability"]);
+
+function relatedFor(slug: string): RelatedLink[] {
+  if (advisoryArticles.has(slug)) {
+    return [{ href: "/services/business-advisory", label: "ייעוץ עסקי", description: "אבחון, תוכנית עבודה וליווי ביישום." }];
+  }
+  return [
+    { href: "/services/business-credit", label: "גיוס אשראי עסקי", description: "המימון הנכון לעסק, בתנאים הנכונים." },
+    { href: "/calculators/business-credit", label: "מחשבון גיוס אשראי", description: "החזר חודשי ועלות כוללת של הלוואה לעסק.", cta: "למחשבון" },
+  ];
 }
 
 const author = {
@@ -145,6 +159,8 @@ export default async function BlogPostPage({
             // Sanitized with an allow-list in lib/blog.ts before it gets here
             dangerouslySetInnerHTML={{ __html: post.html }}
           />
+
+          <RelatedLinks links={relatedFor(post.slug)} className="mt-16" />
 
           {/* About the author */}
           <aside
