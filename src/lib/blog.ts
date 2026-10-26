@@ -2,6 +2,7 @@ import { cache } from "react";
 import { XMLParser } from "fast-xml-parser";
 import sanitizeHtml from "sanitize-html";
 import { site } from "@/lib/site";
+import { looksUntranslated, slugOverrides } from "@/lib/blog-redirects";
 
 /**
  * Blog posts come from the Soro RSS feed. Pages are prerendered as static
@@ -209,7 +210,9 @@ async function fetchPosts(): Promise<Post[]> {
       const { link, ...post } = parseItem(item);
       if (!post.title || !post.html) continue;
 
-      let slug = slugFromLink(link) || slugify(post.title) || text(item.guid);
+      const feedSlug = slugFromLink(link) || slugify(post.title) || text(item.guid);
+      let slug = slugOverrides[feedSlug] ?? feedSlug;
+      if (slug === feedSlug) warnUntranslatedSlug(slug);
       while (seen.has(slug)) slug = `${slug}-2`;
       seen.add(slug);
       posts.push({ slug, ...post });
@@ -226,6 +229,17 @@ async function fetchPosts(): Promise<Post[]> {
     console.warn(`[blog] RSS feed unavailable, building without posts: ${String(error)}`);
     return [];
   }
+}
+
+const warnedSlugs = new Set<string>();
+
+/** Build-log hint that a feed slug needs an English entry in slugOverrides. */
+function warnUntranslatedSlug(slug: string) {
+  if (warnedSlugs.has(slug) || !looksUntranslated(slug)) return;
+  warnedSlugs.add(slug);
+  console.warn(
+    `[blog] slug not in English: "${slug}" - add it to slugOverrides in src/lib/blog-redirects.ts`,
+  );
 }
 
 /** Deduplicated per render; the fetch itself is cached by Next.js. */

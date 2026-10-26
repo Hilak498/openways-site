@@ -111,7 +111,24 @@ export function founderSchema() {
     image: `${site.url}/images/owner.jpg`,
     worksFor: { "@id": organizationId },
     alumniOf: { "@type": "CollegeOrUniversity", name: "University of Haifa" },
-    sameAs: [site.linkedin],
+    sameAs: [
+      site.linkedin,
+      // פרופיל היועץ באיגוד (hfca), הנתיב העברי מקודד
+      encodeURI("https://hfca.org.il/advisors/אושרי-קירשנפלד-dc4c57"),
+    ],
+  };
+}
+
+/** Schema.org WebSite (home page). */
+export function websiteSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${site.url}/#website`,
+    name: "Open Ways Group",
+    url: site.url,
+    inLanguage: "he-IL",
+    publisher: { "@id": organizationId },
   };
 }
 
