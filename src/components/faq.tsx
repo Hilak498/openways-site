@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 
 /**
@@ -7,7 +8,7 @@ import { Reveal } from "@/components/reveal";
 export function Faq({
   items,
 }: {
-  items: { question: string; answer: string }[];
+  items: { question: string; answer: string; link?: { href: string; label: string } }[];
 }) {
   return (
     <div className="mx-auto max-w-3xl space-y-4">
@@ -33,7 +34,20 @@ export function Faq({
                 </svg>
               </span>
             </summary>
-            <p className="leading-7 text-navy-600">{item.answer}</p>
+            <p className="leading-7 text-navy-600">
+              {item.answer}
+              {item.link ? (
+                <>
+                  {" "}
+                  <Link
+                    href={item.link.href}
+                    className="font-bold text-gold-700 underline underline-offset-4"
+                  >
+                    {item.link.label}
+                  </Link>
+                </>
+              ) : null}
+            </p>
           </details>
         </Reveal>
       ))}

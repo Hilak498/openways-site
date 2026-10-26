@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
+import { RelatedLinks } from "@/components/related-links";
 import { LoanCalculator } from "@/components/loan-calculator";
 import { pageMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/json-ld";
@@ -75,6 +76,10 @@ export default function MortgageCalculatorPage() {
               לייעוץ משכנתאות מקצועי
             </Link>
           </Reveal>
+          <RelatedLinks
+            className="mt-16"
+            links={[{ href: "/services/mortgage-advisory", label: "ייעוץ משכנתאות", description: "ליווי מקצועי מקצה לקצה. שיחת היכרות ללא עלות." }]}
+          />
         </div>
       </section>
     </>

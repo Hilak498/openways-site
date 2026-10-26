@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
+import { RelatedLinks } from "@/components/related-links";
 import { SalaryCalculator } from "@/components/salary-calculator";
 import { nationalInsurance } from "@/lib/tax-2026";
 import { pageMetadata } from "@/lib/seo";
@@ -68,6 +69,15 @@ export default function SalaryCalculatorPage() {
           <Reveal>
             <SalaryCalculator />
           </Reveal>
+          <Reveal delay={0.1} className="mt-10 text-center">
+            <Link href="/#contact" className="btn-dark !px-8 !py-4">
+              לתיאום שיחת ייעוץ
+            </Link>
+          </Reveal>
+          <RelatedLinks
+            className="mx-auto mt-16 max-w-3xl"
+            links={[{ href: "/services/mortgage-advisory", label: "ייעוץ משכנתאות", description: "ליווי מקצועי מקצה לקצה. שיחת היכרות ללא עלות." }]}
+          />
         </div>
       </section>
     </>
