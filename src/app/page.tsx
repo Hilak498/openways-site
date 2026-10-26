@@ -6,13 +6,14 @@ import { ServiceIcon } from "@/components/service-icon";
 import { ContactForm } from "@/components/contact-form";
 import { StarDialButton } from "@/components/star-dial-button";
 import { JsonLd } from "@/components/json-ld";
-import { organizationSchema } from "@/lib/schema";
+import { organizationSchema, websiteSchema } from "@/lib/schema";
 import { services, showTestimonials, site, testimonials, whyUs } from "@/lib/site";
 
 export default function HomePage() {
   return (
     <>
       <JsonLd data={organizationSchema()} />
+      <JsonLd data={websiteSchema()} />
 
       <Hero />
 
