@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/json-ld";
 import { StarDialButton } from "@/components/star-dial-button";
 import { RelatedLinks, type RelatedLink } from "@/components/related-links";
-import { formatPostDate, getPost, getPosts, postUrl } from "@/lib/blog";
+import { formatPostDate, getPost, getPosts, postUrl, type Post } from "@/lib/blog";
 import { site } from "@/lib/site";
 import { pageOpenGraph } from "@/lib/seo";
 
@@ -48,9 +48,29 @@ export async function generateMetadata({
 // כל המאמרים קשורים לאשראי עסקי, חוץ ממה שממופה כאן לשירות אחר
 const advisoryArticles = new Set(["improve-business-profitability"]);
 
-function relatedFor(slug: string): RelatedLink[] {
-  if (advisoryArticles.has(slug)) {
-    return [{ href: "/services/business-advisory", label: "ייעוץ עסקי", description: "אבחון, תוכנית עבודה וליווי ביישום." }];
+const CASH_FLOW_SLUG = "improve-business-cash-flow";
+
+/**
+ * מאמר ייעוץ עסקי מקבל קודם את הקישור לייעוץ עסקי. אם הוא עוסק בתזרים או
+ * באשראי, נוספים קישור משני לגיוס אשראי עסקי ולמאמר התזרים (בכותרת מהפיד).
+ */
+async function relatedFor(post: Post): Promise<RelatedLink[]> {
+  if (advisoryArticles.has(post.slug)) {
+    const links: RelatedLink[] = [
+      { href: "/services/business-advisory", label: "ייעוץ עסקי", description: "אבחון, תוכנית עבודה וליווי ביישום." },
+    ];
+    if (/תזרים|אשראי/.test(post.html)) {
+      links.push({ href: "/services/business-credit", label: "גיוס אשראי עסקי", description: "המימון הנכון לעסק, בתנאים הנכונים." });
+      if (post.slug !== CASH_FLOW_SLUG) {
+        const cashFlow = await getPost(CASH_FLOW_SLUG);
+        links.push({
+          href: `/blog/${CASH_FLOW_SLUG}`,
+          label: cashFlow?.title ?? "איך לשפר תזרים מזומנים בעסק",
+          cta: "לקריאת המאמר",
+        });
+      }
+    }
+    return links;
   }
   return [
     { href: "/services/business-credit", label: "גיוס אשראי עסקי", description: "המימון הנכון לעסק, בתנאים הנכונים." },
@@ -160,7 +180,7 @@ export default async function BlogPostPage({
             dangerouslySetInnerHTML={{ __html: post.html }}
           />
 
-          <RelatedLinks links={relatedFor(post.slug)} className="mt-16" />
+          <RelatedLinks links={await relatedFor(post)} className="mt-16" />
 
           {/* About the author */}
           <aside

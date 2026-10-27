@@ -129,6 +129,39 @@ export default async function MortgageSubpage({
                 </p>
               ))}
               {section.items ? <CheckList items={section.items} /> : null}
+              {section.steps ? (
+                <ol className="mt-8 space-y-8">
+                  {section.steps.map((step, n) => (
+                    <li key={step.title} className="flex items-start gap-5">
+                      <span
+                        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-navy-900 font-display text-lg font-bold text-white"
+                        aria-hidden="true"
+                      >
+                        {n + 1}
+                      </span>
+                      <div>
+                        <h3 className="text-xl font-bold text-navy-800">{step.title}</h3>
+                        <p className="mt-1 text-lg leading-8 text-navy-600">{step.description}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              ) : null}
+              {section.bullets ? (
+                <ul className="mt-5 list-disc space-y-3 pr-6 text-lg leading-8 text-navy-600 marker:text-gold-700">
+                  {section.bullets.map((b) => (
+                    <li key={b}>{b}</li>
+                  ))}
+                </ul>
+              ) : null}
+              {section.cta ? (
+                <div className="mt-8 flex flex-col items-start gap-4 rounded-2xl bg-sand-100 p-6 sm:flex-row sm:items-center sm:justify-between">
+                  <p className="text-lg font-bold text-navy-800">{section.cta}</p>
+                  <Link href="/#contact" className="btn-primary shrink-0 !px-6 !py-3">
+                    לתיאום שיחה
+                  </Link>
+                </div>
+              ) : null}
             </Reveal>
           ))}
         </div>
