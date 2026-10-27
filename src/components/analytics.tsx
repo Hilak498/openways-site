@@ -8,10 +8,13 @@ import { CONSENT_EVENT, readConsent } from "@/lib/consent";
 /**
  * Consent-gated analytics loader.
  * Nothing is injected until the visitor explicitly approved analytics cookies
- * in the cookie banner, and only when NEXT_PUBLIC_GA_MEASUREMENT_ID is set.
+ * in the cookie banner. NEXT_PUBLIC_GA_MEASUREMENT_ID overrides the default
+ * GA4 property (the ID is public, it ships in the page anyway).
  */
+const DEFAULT_GA_ID = "G-F1X4Y44BWX";
+
 export function Analytics() {
-  const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+  const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || DEFAULT_GA_ID;
   const [allowed, setAllowed] = useState(false);
 
   useEffect(() => {
