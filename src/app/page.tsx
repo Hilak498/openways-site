@@ -175,7 +175,7 @@ export default function HomePage() {
 
           <Reveal delay={0.1}>
             <div className="glass-dark mx-auto mt-14 max-w-3xl !rounded-[2.5rem] border-white/25 p-8 shadow-lift md:p-12">
-              <ContactForm variant="dark" />
+              <ContactForm variant="dark" formLocation="home_contact" />
               <div className="mt-8 flex flex-wrap items-center justify-center gap-x-4 gap-y-3 border-t border-white/15 pt-8 text-white/85">
                 <span>מעדיפים לדבר?</span>
                 <StarDialButton className="btn-ghost-dark !px-6 !py-3" />
