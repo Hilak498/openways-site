@@ -44,7 +44,14 @@ const styles = {
   },
 } as const;
 
-export function ContactForm({ variant = "light" }: { variant?: "light" | "dark" }) {
+export function ContactForm({
+  variant = "light",
+  formLocation,
+}: {
+  variant?: "light" | "dark";
+  /** Where the form sits on the page, sent to GA (e.g. home_contact). */
+  formLocation: string;
+}) {
   const s = styles[variant];
   const [status, setStatus] = useState<Status>({ state: "idle" });
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
@@ -100,9 +107,17 @@ export function ContactForm({ variant = "light" }: { variant?: "light" | "dark" 
         } | null;
         throw new Error(body?.error ?? "אירעה שגיאה בשליחה. נסו שוב מאוחר יותר.");
       }
+      const result = (await res.json().catch(() => null)) as { stored?: boolean } | null;
       form.reset();
       setStatus({ state: "success" });
-      trackEvent("generate_lead", { service: parsed.data.service ?? "unspecified" });
+      // Only once the lead is saved in Supabase. No personal details here.
+      if (result?.stored) {
+        trackEvent("generate_lead", {
+          page: window.location.pathname,
+          form_location: formLocation,
+          service: parsed.data.service ?? "unspecified",
+        });
+      }
     } catch (err) {
       setStatus({
         state: "error",

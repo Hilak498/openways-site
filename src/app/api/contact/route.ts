@@ -155,7 +155,8 @@ export async function POST(request: Request) {
     );
   }
 
-  return NextResponse.json({ ok: true });
+  // `stored` tells the client the lead reached Supabase (drives the GA lead event)
+  return NextResponse.json({ ok: true, stored });
 }
 
 type Submission = {
